@@ -98,7 +98,6 @@ button {
     left: 7%;
     top: 8%;
 
-    /* Titre légèrement plus grand */
     font-size: clamp(54px, 5.6vw, 88px);
 
     font-weight: 800;
@@ -107,7 +106,6 @@ button {
 
     letter-spacing: -3px;
 
-    /* Le titre reste toujours sur une seule ligne */
     white-space: nowrap;
 
     z-index: 4;
@@ -132,10 +130,6 @@ button {
     left: 7%;
     top: calc(8% + 105px);
 
-    /*
-       Largeur permettant de centrer
-       le slogan sous le titre
-    */
     width: min(600px, 45vw);
 
     text-align: center;
@@ -152,6 +146,102 @@ button {
 
     text-shadow:
         0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+
+/* =========================
+   ANIMATION DU VOLANT
+========================= */
+
+/*
+   La ligne représente une ligne de terrain.
+   Elle démarre sous le "h" de The
+   et se termine vers le deuxième "l" de Rally.
+*/
+
+.home-visual::before {
+    content: "";
+
+    position: absolute;
+
+    left: 10.5%;
+    top: calc(8% + 157px);
+
+    width: 0;
+    height: 2px;
+
+    background: rgba(255, 255, 255, 0.92);
+
+    border-radius: 2px;
+
+    z-index: 5;
+
+    box-shadow:
+        0 0 5px rgba(255, 255, 255, 0.18);
+
+    animation:
+        rally-line 1.35s cubic-bezier(0.25, 0.8, 0.25, 1)
+        0.15s forwards;
+}
+
+
+/*
+   Volant stylisé horizontal.
+   Le dessin est intégré directement dans le CSS,
+   donc aucun nouveau fichier n'est nécessaire.
+*/
+
+.home-visual::after {
+    content: "";
+
+    position: absolute;
+
+    left: 10.5%;
+    top: calc(8% + 146px);
+
+    width: 42px;
+    height: 26px;
+
+    z-index: 6;
+
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 70'%3E%3Cg transform='rotate(-3 60 35)'%3E%3Cpath d='M16 35 C24 16 42 9 68 12 L103 20 C110 22 110 29 103 32 L70 38 C45 43 27 45 16 35Z' fill='%23ffffff' stroke='%23d9e2ec' stroke-width='2'/%3E%3Cpath d='M18 35 C28 32 39 29 51 27' fill='none' stroke='%23b8c4d0' stroke-width='2'/%3E%3Cpath d='M18 35 C30 38 41 39 53 39' fill='none' stroke='%23b8c4d0' stroke-width='2'/%3E%3Cpath d='M30 22 L30 48 M42 17 L42 50 M54 14 L54 48 M66 13 L66 44 M78 15 L78 40' stroke='%23c4ced8' stroke-width='1.5' fill='none'/%3E%3Cpath d='M9 35 C9 29 13 25 18 25 L27 25 L27 45 L18 45 C13 45 9 41 9 35Z' fill='%23ffffff' stroke='%23d9e2ec' stroke-width='2'/%3E%3Cpath d='M5 35 L14 35' stroke='%234b5563' stroke-width='5' stroke-linecap='round'/%3E%3C/g%3E%3C/svg%3E");
+
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+
+    filter:
+        drop-shadow(0 2px 3px rgba(0, 0, 0, 0.3));
+
+    animation:
+        rally-shuttle 1.35s cubic-bezier(0.25, 0.8, 0.25, 1)
+        0.15s forwards;
+}
+
+
+/* Ligne */
+
+@keyframes rally-line {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 29%;
+    }
+}
+
+
+/* Volant */
+
+@keyframes rally-shuttle {
+    from {
+        transform: translateX(0) rotate(-3deg);
+    }
+
+    to {
+        transform: translateX(29vw) rotate(-3deg);
+    }
 }
 
 
@@ -708,6 +798,39 @@ button {
         font-size: 17px;
     }
 
+    .home-visual::before {
+        left: 8%;
+        top: calc(12% + 117px);
+    }
+
+    .home-visual::after {
+        left: 8%;
+        top: calc(12% + 106px);
+
+        width: 34px;
+        height: 22px;
+    }
+
+    @keyframes rally-line {
+        from {
+            width: 0;
+        }
+
+        to {
+            width: 72%;
+        }
+    }
+
+    @keyframes rally-shuttle {
+        from {
+            transform: translateX(0) rotate(-3deg);
+        }
+
+        to {
+            transform: translateX(72vw) rotate(-3deg);
+        }
+    }
+
     .home-menu {
         left: 6%;
 
@@ -777,6 +900,39 @@ button {
         text-align: center;
 
         font-size: 15px;
+    }
+
+    .home-visual::before {
+        left: 9%;
+        top: calc(10% + 105px);
+    }
+
+    .home-visual::after {
+        left: 9%;
+        top: calc(10% + 94px);
+
+        width: 30px;
+        height: 19px;
+    }
+
+    @keyframes rally-line {
+        from {
+            width: 0;
+        }
+
+        to {
+            width: 76%;
+        }
+    }
+
+    @keyframes rally-shuttle {
+        from {
+            transform: translateX(0) rotate(-3deg);
+        }
+
+        to {
+            transform: translateX(76vw) rotate(-3deg);
+        }
     }
 
     .home-menu {
