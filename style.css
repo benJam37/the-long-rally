@@ -132,7 +132,7 @@ button {
 .home-tagline {
     position: absolute;
     left: 7%;
-    top: calc(12% + 155px);
+    top: calc(12% + 185px);
 
     font-size: clamp(18px, 1.5vw, 24px);
     opacity: 0.88;
