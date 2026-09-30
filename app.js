@@ -22,6 +22,7 @@ const firstNames = [
     "Zoé"
 ];
 
+
 const cities = [
     "Tours",
     "Poitiers",
@@ -34,6 +35,7 @@ const cities = [
     "La Rochelle",
     "Le Mans"
 ];
+
 
 const familyTypes = [
     {
@@ -54,6 +56,7 @@ const familyTypes = [
     }
 ];
 
+
 const siblingNames = [
     "Camille",
     "Louis",
@@ -65,6 +68,7 @@ const siblingNames = [
     "Sarah"
 ];
 
+
 const schoolTypes = [
     "École élémentaire du centre",
     "École Jean-Moulin",
@@ -74,6 +78,7 @@ const schoolTypes = [
     "École Notre-Dame"
 ];
 
+
 const clubPrefixes = [
     "AS",
     "US",
@@ -81,6 +86,7 @@ const clubPrefixes = [
     "Club",
     "Badminton"
 ];
+
 
 const clubNames = [
     "de la Vallée",
@@ -93,6 +99,7 @@ const clubNames = [
     "de la Plaine"
 ];
 
+
 const coachFirstNames = [
     "Thomas",
     "Julien",
@@ -103,6 +110,7 @@ const coachFirstNames = [
     "Antoine",
     "Élodie"
 ];
+
 
 const coachLastNames = [
     "Martin",
@@ -734,23 +742,18 @@ function createPlayer(
             Date.now(),
 
         firstName:
-
             firstName,
 
         city:
-
             city,
 
         birthDate:
-
             birthDate,
 
         currentDate:
-
             currentDate,
 
         orientation:
-
             orientation,
 
 
@@ -765,8 +768,6 @@ function createPlayer(
 
 
         family:
-
-
             family,
 
 
@@ -846,24 +847,6 @@ function showGame() {
         );
 
 
-    const familyMembers =
-        player.family.members
-            .map(member => `
-                <div class="profile-item">
-
-                    <strong>
-                        ${member.role}
-                    </strong>
-
-                    <span>
-                        ${member.name}
-                    </span>
-
-                </div>
-            `)
-            .join("");
-
-
     app.innerHTML = `
 
         <div class="game">
@@ -893,99 +876,99 @@ function showGame() {
             <div class="game-content">
 
 
-   <!-- PROFIL -->
+                <!-- PROFIL -->
 
-<aside class="profile-card">
+                <aside class="profile-card">
 
-    <div class="avatar">
-        🧒
-    </div>
-
-
-    <h2 class="profile-name">
-        ${player.firstName}
-    </h2>
+                    <div class="avatar">
+                        🧒
+                    </div>
 
 
-    <div class="profile-age">
-        ${age} ans
-    </div>
+                    <h2 class="profile-name">
+                        ${player.firstName}
+                    </h2>
 
 
-    <div class="profile-item">
-
-        <strong>
-            📍 ${player.city}
-        </strong>
-
-        <span>
-            France
-        </span>
-
-    </div>
+                    <div class="profile-age">
+                        ${age} ans
+                    </div>
 
 
-    <div class="profile-item">
+                    <div class="profile-item">
 
-        <strong>
-            🏫 ${player.school.name}
-        </strong>
+                        <strong>
+                            📍 ${player.city}
+                        </strong>
 
-        <span>
-            ${player.school.level}
-        </span>
+                        <span>
+                            France
+                        </span>
 
-    </div>
-
-
-    <div class="profile-item">
-
-        <strong>
-            🏸 ${player.badminton.club.name}
-        </strong>
-
-        <span>
-            ${player.badminton.club.reputation}
-        </span>
-
-    </div>
+                    </div>
 
 
-    ${player.family.members.map(member => {
+                    <div class="profile-item">
 
-        let icon = "👤";
+                        <strong>
+                            🏫 ${player.school.name}
+                        </strong>
 
-        if (member.role === "Mère") {
-            icon = "👩";
-        }
+                        <span>
+                            ${player.school.level}
+                        </span>
 
-        if (member.role === "Père") {
-            icon = "👨";
-        }
+                    </div>
 
-        if (member.role === "Frère / sœur") {
-            icon = "🧒";
-        }
 
-        return `
+                    <div class="profile-item">
 
-            <div class="profile-item">
+                        <strong>
+                            🏸 ${player.badminton.club.name}
+                        </strong>
 
-                <strong>
-                    ${icon} ${member.role}
-                </strong>
+                        <span>
+                            ${player.badminton.club.reputation}
+                        </span>
 
-                <span>
-                    ${member.name}
-                </span>
+                    </div>
 
-            </div>
 
-        `;
+                    ${player.family.members.map(member => {
 
-    }).join("")}
+                        let icon = "👤";
 
-</aside>
+                        if (member.role === "Mère") {
+                            icon = "👩";
+                        }
+
+                        if (member.role === "Père") {
+                            icon = "👨";
+                        }
+
+                        if (member.role === "Frère / sœur") {
+                            icon = "🧒";
+                        }
+
+                        return `
+
+                            <div class="profile-item">
+
+                                <strong>
+                                    ${icon} ${member.role}
+                                </strong>
+
+                                <span>
+                                    ${member.name}
+                                </span>
+
+                            </div>
+
+                        `;
+
+                    }).join("")}
+
+                </aside>
 
 
                 <!-- COLONNE PRINCIPALE -->
@@ -1002,152 +985,205 @@ function showGame() {
 
                         <div class="event-content">
 
-${player.history.length <= 2 ? `
+                            ${
+                                player.history.length <= 2
+                                    ? `
 
-    <span class="event-label">
-        PREMIÈRE JOURNÉE
-    </span>
+                                        <span class="event-label">
+                                            PREMIÈRE JOURNÉE
+                                        </span>
 
-    <h1 class="event-title">
-        Une nouvelle vie commence
-    </h1>
+                                        <h1 class="event-title">
+                                            Une nouvelle vie commence
+                                        </h1>
 
-    <p class="event-text">
+                                        <p class="event-text">
 
-        ${player.firstName} a
-        ${age} ans.
+                                            ${player.firstName} a
+                                            ${age} ans.
 
-        À ${player.city},
-        la rentrée vient de commencer.
+                                            À ${player.city},
+                                            la rentrée vient de commencer.
 
-        ${player.family.description}
+                                            ${player.family.description}
 
-        Pour l'instant,
-        le badminton n'est encore
-        qu'une possibilité parmi
-        tant d'autres.
+                                            Pour l'instant,
+                                            le badminton n'est encore
+                                            qu'une possibilité parmi
+                                            tant d'autres.
 
-    </p>
+                                        </p>
 
-    <div class="choices">
+                                        <div class="choices">
 
-        <button
-            class="choice blue"
-            onclick="chooseFirstEvent('explorer')">
+                                            <button
+                                                class="choice blue"
+                                                onclick="chooseFirstEvent('explorer')">
 
-            <strong>
-                👀 Observer autour de moi
-            </strong>
+                                                <strong>
+                                                    👀 Observer autour de moi
+                                                </strong>
 
-            <span>
-                Prendre le temps de découvrir
-                ce nouvel environnement.
-            </span>
+                                                <span>
+                                                    Prendre le temps de découvrir
+                                                    ce nouvel environnement.
+                                                </span>
 
-        </button>
+                                            </button>
 
-        <button
-            class="choice green"
-            onclick="chooseFirstEvent('agir')">
 
-            <strong>
-                🚀 Me lancer
-            </strong>
+                                            <button
+                                                class="choice green"
+                                                onclick="chooseFirstEvent('agir')">
 
-            <span>
-                J'ai envie de voir ce que
-                cette nouvelle vie me réserve.
-            </span>
+                                                <strong>
+                                                    🚀 Me lancer
+                                                </strong>
 
-        </button>
+                                                <span>
+                                                    J'ai envie de voir ce que
+                                                    cette nouvelle vie me réserve.
+                                                </span>
 
-        <button
-            class="choice orange"
-            onclick="chooseFirstEvent('calme')">
+                                            </button>
 
-            <strong>
-                😌 Rester tranquille
-            </strong>
 
-            <span>
-                Pas besoin de se précipiter.
-                Chaque chose en son temps.
-            </span>
+                                            <button
+                                                class="choice orange"
+                                                onclick="chooseFirstEvent('calme')">
 
-        </button>
+                                                <strong>
+                                                    😌 Rester tranquille
+                                                </strong>
 
-    </div>
+                                                <span>
+                                                    Pas besoin de se précipiter.
+                                                    Chaque chose en son temps.
+                                                </span>
 
-` : `
+                                            </button>
 
-    <span class="event-label">
-        QUELQUES JOURS PLUS TARD
-    </span>
+                                        </div>
 
-    <h1 class="event-title">
-        Une activité attire ton attention
-    </h1>
+                                    `
+                                    : `
 
-    <p class="event-text">
+                                        <span class="event-label">
+                                            QUELQUES JOURS PLUS TARD
+                                        </span>
 
-        Depuis quelques jours, ${player.firstName}
-        commence à prendre ses marques.
+                                        <h1 class="event-title">
+                                            Une activité attire ton attention
+                                        </h1>
 
-        Après l'école, une activité sportive
-        proposée près de chez toi attire ton attention.
+                                        <p class="event-text">
 
-        À travers la porte du gymnase,
-        tu entends des échanges de volant.
+                                            Depuis quelques jours,
+                                            ${player.firstName}
+                                            commence à prendre ses marques.
 
-    </p>
+                                            Après l'école, une activité sportive
+                                            proposée près de chez toi attire ton attention.
 
-    <div class="choices">
+                                            À travers la porte du gymnase,
+                                            tu entends des échanges de volant.
 
-        <button
-            class="choice blue"
-            onclick="chooseSecondEvent('watch')">
+                                        </p>
 
-            <strong>
-                🏸 Aller voir
-            </strong>
+                                        <div class="choices">
 
-            <span>
-                Juste pour regarder ce qui se passe.
-            </span>
+                                            <button
+                                                class="choice blue"
+                                                onclick="chooseSecondEvent('watch')">
 
-        </button>
+                                                <strong>
+                                                    🏸 Aller voir
+                                                </strong>
 
-        <button
-            class="choice green"
-            onclick="chooseSecondEvent('try')">
+                                                <span>
+                                                    Juste pour regarder ce qui se passe.
+                                                </span>
 
-            <strong>
-                🎯 Essayer
-            </strong>
+                                            </button>
 
-            <span>
-                Pourquoi pas ? Ça a l'air amusant.
-            </span>
 
-        </button>
+                                            <button
+                                                class="choice green"
+                                                onclick="chooseSecondEvent('try')">
 
-        <button
-            class="choice orange"
-            onclick="chooseSecondEvent('ignore')">
+                                                <strong>
+                                                    🎯 Essayer
+                                                </strong>
 
-            <strong>
-                🏠 Rentrer à la maison
-            </strong>
+                                                <span>
+                                                    Pourquoi pas ? Ça a l'air amusant.
+                                                </span>
 
-            <span>
-                Ce n'est peut-être pas pour moi.
-            </span>
+                                            </button>
 
-        </button>
 
-    </div>
+                                            <button
+                                                class="choice orange"
+                                                onclick="chooseSecondEvent('ignore')">
 
-`}
+                                                <strong>
+                                                    🏠 Rentrer à la maison
+                                                </strong>
+
+                                                <span>
+                                                    Ce n'est peut-être pas pour moi.
+                                                </span>
+
+                                            </button>
+
+                                        </div>
+
+                                    `
+                            }
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- HISTORIQUE -->
+
+                    <div class="history-card">
+
+                        <div class="history-title">
+                            Ce qui s'est passé récemment
+                        </div>
+
+
+                        ${player.history
+                            .slice()
+                            .reverse()
+                            .map(item => `
+
+                                <div class="history-item">
+
+                                    <div class="history-date">
+                                        ${item.date}
+                                    </div>
+
+                                    <div class="history-text">
+                                        ${item.text}
+                                    </div>
+
+                                </div>
+
+                            `)
+                            .join("")}
+
+                    </div>
+
+                </main>
+
+            </div>
+
+        </div>
+    `;
+}
 
 
 /* =========================================================
@@ -1155,69 +1191,119 @@ ${player.history.length <= 2 ? `
 ========================================================= */
 
 function chooseFirstEvent(choice) {
+
     let text = "";
 
+
     if (choice === "explorer") {
+
         text =
             `${player.firstName} prend le temps d'observer ce qui l'entoure. ` +
             `La rentrée est encore récente et tout semble nouveau.`;
     }
 
+
     if (choice === "agir") {
+
         text =
             `${player.firstName} a envie de découvrir quelque chose. ` +
             `Après l'école, une affiche attire son attention : plusieurs activités ` +
             `sportives sont proposées dans le quartier.`;
     }
 
+
     if (choice === "calme") {
+
         text =
             `${player.firstName} préfère prendre son temps. ` +
             `Après l'école, il rentre tranquillement à la maison.`;
     }
 
-    const date = new Date(player.currentDate + "T12:00:00");
-    date.setDate(date.getDate() + 3);
-    player.currentDate = date.toISOString().split("T")[0];
+
+    const date =
+        new Date(
+            player.currentDate + "T12:00:00"
+        );
+
+    date.setDate(
+        date.getDate() + 3
+    );
+
+    player.currentDate =
+        date.toISOString().split("T")[0];
+
 
     player.history.unshift({
-        date: formatDate(player.currentDate),
-        text: text
+
+        date:
+            formatDate(player.currentDate),
+
+        text:
+            text
     });
+
 
     showGame();
 }
+
+
+/* =========================================================
+   DEUXIÈME ÉVÉNEMENT
+========================================================= */
+
 function chooseSecondEvent(choice) {
+
     let text = "";
 
+
     if (choice === "watch") {
+
         text =
             `${player.firstName} s'approche du gymnase et regarde quelques échanges. ` +
             `Le volant fuse d'un côté à l'autre. ` +
             `Tu ne sais pas encore si ce sport est fait pour toi, mais quelque chose t'intrigue.`;
     }
 
+
     if (choice === "try") {
+
         text =
             `${player.firstName} entre dans le gymnase et prend une raquette. ` +
             `Le premier contact avec le volant est... particulier. ` +
             `Mais après quelques minutes, tu commences à comprendre pourquoi certains enfants aiment ça.`;
     }
 
+
     if (choice === "ignore") {
+
         text =
             `${player.firstName} décide de rentrer à la maison. ` +
             `Le badminton attendra. Il y aura sûrement d'autres occasions.`;
     }
 
-    const date = new Date(player.currentDate + "T12:00:00");
-    date.setDate(date.getDate() + 2);
-    player.currentDate = date.toISOString().split("T")[0];
+
+    const date =
+        new Date(
+            player.currentDate + "T12:00:00"
+        );
+
+    date.setDate(
+        date.getDate() + 2
+    );
+
+    player.currentDate =
+        date.toISOString().split("T")[0];
+
 
     player.history.unshift({
-        date: formatDate(player.currentDate),
-        text: text
+
+        date:
+            formatDate(player.currentDate),
+
+        text:
+            text
     });
+
 
     showGame();
 }
