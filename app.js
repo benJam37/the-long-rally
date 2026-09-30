@@ -1157,6 +1157,11 @@ function chooseFirstEvent(choice) {
             `Pour l'instant, rien ne presse.`;
     }
 
+    // Quelques jours passent
+    const date = new Date(player.currentDate + "T12:00:00");
+    date.setDate(date.getDate() + 3);
+    player.currentDate = date.toISOString().split("T")[0];
+
     player.history.unshift({
         date: formatDate(player.currentDate),
         text: text
