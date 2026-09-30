@@ -111,7 +111,10 @@ button {
 
     z-index: 2;
 }
-
+.home-visual .home-logo,
+.home-visual .home-tagline {
+    display: none;
+}
 .home-logo span {
     color: #4f9cff;
 }
