@@ -84,29 +84,35 @@ button {
 
     color: white;
 
-    /* L'image est maintenant sur .home-card */
     background: transparent;
 }
 
 
 /* =========================
-   TITRE
+   TITRE ET SLOGAN
 ========================= */
 
 .home-visual .home-logo {
     position: absolute;
+
     left: 7%;
     top: 9%;
 
-    font-size: clamp(52px, 6vw, 92px);
+    font-size: clamp(48px, 5vw, 78px);
+
     font-weight: 800;
-    line-height: 0.92;
+
+    line-height: 1;
+
     letter-spacing: -3px;
 
-    max-width: 600px;
+    /* Le titre reste toujours sur une seule ligne */
+    white-space: nowrap;
+
     z-index: 4;
 
     color: #ffffff;
+
     text-shadow:
         0 3px 18px rgba(0, 0, 0, 0.45),
         0 0 35px rgba(255, 255, 255, 0.08);
@@ -116,14 +122,19 @@ button {
     color: #5da3ff;
 }
 
+
 /* Slogan */
+
 .home-tagline {
     position: absolute;
-    left: 7%;
-    top: calc(9% + 105px);
 
-    font-size: clamp(18px, 1.5vw, 24px);
+    left: 7%;
+    top: calc(9% + 95px);
+
+    font-size: clamp(17px, 1.4vw, 23px);
+
     font-weight: 400;
+
     letter-spacing: 0.3px;
 
     color: rgba(255, 255, 255, 0.9);
@@ -133,6 +144,7 @@ button {
     text-shadow:
         0 2px 10px rgba(0, 0, 0, 0.5);
 }
+
 
 /* On n'utilise plus la raquette CSS */
 
@@ -671,12 +683,14 @@ button {
         top: 12%;
 
         font-size: 48px;
+
+        white-space: nowrap;
     }
 
     .home-tagline {
         left: 6%;
 
-        top: calc(12% + 70px);
+        top: calc(12% + 65px);
 
         font-size: 17px;
     }
@@ -736,12 +750,14 @@ button {
         font-size: 39px;
 
         letter-spacing: -2px;
+
+        white-space: nowrap;
     }
 
     .home-tagline {
         left: 6%;
 
-        top: calc(10% + 58px);
+        top: calc(10% + 52px);
 
         font-size: 15px;
     }
