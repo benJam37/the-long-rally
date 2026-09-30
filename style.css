@@ -101,6 +101,7 @@ button {
     font-size: clamp(54px, 5.6vw, 88px);
 
     font-weight: 800;
+    font-style: italic;
 
     line-height: 1;
 
