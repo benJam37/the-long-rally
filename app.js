@@ -4,7 +4,7 @@ let player = null;
 
 
 /* =========================================================
-   DONNÉES DE BASE
+   DONNÉES
 ========================================================= */
 
 const firstNames = [
@@ -35,6 +35,86 @@ const cities = [
     "Le Mans"
 ];
 
+const familyTypes = [
+    {
+        type: "Famille classique",
+        description: "Deux parents et un frère ou une sœur."
+    },
+    {
+        type: "Famille classique",
+        description: "Deux parents et une vie de famille plutôt tranquille."
+    },
+    {
+        type: "Famille nombreuse",
+        description: "Deux parents et plusieurs frères et sœurs."
+    },
+    {
+        type: "Famille monoparentale",
+        description: "Un seul parent au quotidien."
+    }
+];
+
+const siblingNames = [
+    "Camille",
+    "Louis",
+    "Arthur",
+    "Manon",
+    "Gabriel",
+    "Inès",
+    "Paul",
+    "Sarah"
+];
+
+const schoolTypes = [
+    "École élémentaire du centre",
+    "École Jean-Moulin",
+    "École Jules-Ferry",
+    "École des Tilleuls",
+    "École du Parc",
+    "École Notre-Dame"
+];
+
+const clubPrefixes = [
+    "AS",
+    "US",
+    "BC",
+    "Club",
+    "Badminton"
+];
+
+const clubNames = [
+    "de la Vallée",
+    "des Rives",
+    "du Centre",
+    "de l'Avenir",
+    "des Tilleuls",
+    "de la Loire",
+    "du Parc",
+    "de la Plaine"
+];
+
+const coachFirstNames = [
+    "Thomas",
+    "Julien",
+    "Sophie",
+    "Claire",
+    "Nicolas",
+    "Marion",
+    "Antoine",
+    "Élodie"
+];
+
+const coachLastNames = [
+    "Martin",
+    "Bernard",
+    "Leroy",
+    "Moreau",
+    "Petit",
+    "Robert",
+    "Durand",
+    "Simon"
+];
+
 
 /* =========================================================
    UTILITAIRES
@@ -45,8 +125,17 @@ function randomItem(array) {
 }
 
 
+function randomNumber(min, max) {
+    return Math.floor(
+        Math.random() * (max - min + 1)
+    ) + min;
+}
+
+
 function formatDate(dateString) {
-    const date = new Date(dateString + "T00:00:00");
+
+    const date =
+        new Date(dateString + "T00:00:00");
 
     return date.toLocaleDateString("fr-FR", {
         day: "numeric",
@@ -56,24 +145,187 @@ function formatDate(dateString) {
 }
 
 
-function calculateAge(birthDateString, currentDateString) {
+function calculateAge(
+    birthDateString,
+    currentDateString
+) {
 
-    const birthDate = new Date(birthDateString + "T00:00:00");
-    const currentDate = new Date(currentDateString + "T00:00:00");
+    const birthDate =
+        new Date(birthDateString + "T00:00:00");
 
-    let age = currentDate.getFullYear() - birthDate.getFullYear();
+    const currentDate =
+        new Date(currentDateString + "T00:00:00");
 
-    const birthdayThisYear = new Date(
-        currentDate.getFullYear(),
-        birthDate.getMonth(),
-        birthDate.getDate()
-    );
+    let age =
+        currentDate.getFullYear()
+        - birthDate.getFullYear();
+
+    const birthdayThisYear =
+        new Date(
+            currentDate.getFullYear(),
+            birthDate.getMonth(),
+            birthDate.getDate()
+        );
 
     if (currentDate < birthdayThisYear) {
         age--;
     }
 
     return age;
+}
+
+
+/* =========================================================
+   GÉNÉRATION DE LA FAMILLE
+========================================================= */
+
+function generateFamily(firstName) {
+
+    const family =
+        randomItem(familyTypes);
+
+    let members = [];
+
+    if (family.type === "Famille monoparentale") {
+
+        const parentGender =
+            Math.random() < 0.5
+                ? "Mère"
+                : "Père";
+
+        members.push({
+            role: parentGender,
+            name: randomItem([
+                "Sophie",
+                "Julie",
+                "Thomas",
+                "Nicolas",
+                "Claire",
+                "Julien"
+            ])
+        });
+
+    } else {
+
+        members.push({
+            role: "Mère",
+            name: randomItem([
+                "Sophie",
+                "Julie",
+                "Claire",
+                "Marion",
+                "Émilie"
+            ])
+        });
+
+        members.push({
+            role: "Père",
+            name: randomItem([
+                "Thomas",
+                "Nicolas",
+                "Julien",
+                "Antoine",
+                "David"
+            ])
+        });
+    }
+
+
+    if (
+        family.type === "Famille classique"
+        ||
+        family.type === "Famille nombreuse"
+    ) {
+
+        const siblingCount =
+            family.type === "Famille nombreuse"
+                ? randomNumber(2, 3)
+                : 1;
+
+        for (let i = 0; i < siblingCount; i++) {
+
+            let siblingName =
+                randomItem(siblingNames);
+
+            while (
+                members.some(
+                    member => member.name === siblingName
+                )
+            ) {
+                siblingName =
+                    randomItem(siblingNames);
+            }
+
+            members.push({
+                role: "Frère / sœur",
+                name: siblingName
+            });
+        }
+    }
+
+
+    return {
+        type: family.type,
+        description: family.description,
+        members: members
+    };
+}
+
+
+/* =========================================================
+   GÉNÉRATION DU CLUB
+========================================================= */
+
+function generateClub(city) {
+
+    const prefix =
+        randomItem(clubPrefixes);
+
+    const suffix =
+        randomItem(clubNames);
+
+    const coachFirstName =
+        randomItem(coachFirstNames);
+
+    const coachLastName =
+        randomItem(coachLastNames);
+
+
+    return {
+
+        name: `${prefix} ${suffix}`,
+
+        city: city,
+
+        reputation:
+            randomItem([
+                "Petite structure locale",
+                "Club familial",
+                "Club bien implanté localement",
+                "Club reconnu dans le secteur"
+            ]),
+
+        youthQuality:
+            randomItem([
+                "Débutante",
+                "Correcte",
+                "Bonne",
+                "Très bonne"
+            ]),
+
+        coach: {
+            firstName: coachFirstName,
+            lastName: coachLastName,
+
+            experience:
+                randomItem([
+                    "Jeune entraîneur",
+                    "Entraîneur expérimenté",
+                    "Ancien joueur régional",
+                    "Passionné de formation des jeunes"
+                ])
+        }
+    };
 }
 
 
@@ -85,6 +337,7 @@ function showHome() {
 
     app.innerHTML = `
         <div class="home">
+
             <div class="home-card">
 
                 <div class="home-visual">
@@ -99,8 +352,9 @@ function showHome() {
 
                     <div class="home-menu">
 
-                        <button class="menu-button primary"
-                                onclick="showNewLife()">
+                        <button
+                            class="menu-button primary"
+                            onclick="showNewLife()">
 
                             <span class="menu-icon">▶</span>
 
@@ -115,8 +369,9 @@ function showHome() {
                         </button>
 
 
-                        <button class="menu-button"
-                                onclick="alert('Le chargement des parties sera ajouté plus tard.')">
+                        <button
+                            class="menu-button"
+                            onclick="alert('Le chargement des parties sera ajouté plus tard.')">
 
                             <span class="menu-icon">📁</span>
 
@@ -131,8 +386,9 @@ function showHome() {
                         </button>
 
 
-                        <button class="menu-button"
-                                onclick="alert('Les paramètres arriveront plus tard.')">
+                        <button
+                            class="menu-button"
+                            onclick="alert('Les paramètres arriveront plus tard.')">
 
                             <span class="menu-icon">⚙</span>
 
@@ -147,8 +403,9 @@ function showHome() {
                         </button>
 
 
-                        <button class="menu-button"
-                                onclick="alert('The Long Rally\\nOne life. Thousands of choices.')">
+                        <button
+                            class="menu-button"
+                            onclick="alert('The Long Rally\\nOne life. Thousands of choices.')">
 
                             <span class="menu-icon">📖</span>
 
@@ -167,6 +424,7 @@ function showHome() {
                 </div>
 
             </div>
+
         </div>
     `;
 }
@@ -186,8 +444,9 @@ function showNewLife() {
 
                 <div class="page-header">
 
-                    <button class="back-button"
-                            onclick="showHome()">
+                    <button
+                        class="back-button"
+                        onclick="showHome()">
 
                         ← Retour
 
@@ -208,8 +467,6 @@ function showNewLife() {
                 <div class="life-choice-grid">
 
 
-                    <!-- VIE ALÉATOIRE -->
-
                     <div class="life-choice">
 
                         <div class="life-choice-icon">
@@ -227,8 +484,9 @@ function showNewLife() {
                             seront générés.
                         </p>
 
-                        <button class="primary-button"
-                                onclick="generateRandomLife()">
+                        <button
+                            class="primary-button"
+                            onclick="generateRandomLife()">
 
                             🎲 Laisser la vie décider
 
@@ -236,8 +494,6 @@ function showNewLife() {
 
                     </div>
 
-
-                    <!-- VIE ORIENTÉE -->
 
                     <div class="life-choice">
 
@@ -255,8 +511,9 @@ function showNewLife() {
                             sans tout contrôler.
                         </p>
 
-                        <button class="secondary-button"
-                                onclick="showOrientation()">
+                        <button
+                            class="secondary-button"
+                            onclick="showOrientation()">
 
                             Commencer mes choix
 
@@ -287,8 +544,9 @@ function showOrientation() {
 
                 <div class="page-header">
 
-                    <button class="back-button"
-                            onclick="showNewLife()">
+                    <button
+                        class="back-button"
+                        onclick="showNewLife()">
 
                         ← Retour
 
@@ -306,8 +564,14 @@ function showOrientation() {
                 </div>
 
 
-                <div class="life-choice"
-                     style="text-align:left; max-width:750px; margin:auto;">
+                <div
+                    class="life-choice"
+                    style="
+                        text-align:left;
+                        max-width:750px;
+                        margin:auto;
+                    "
+                >
 
                     <h2>
                         Ton prénom
@@ -353,8 +617,9 @@ function showOrientation() {
                     </select>
 
 
-                    <button class="primary-button"
-                            onclick="generateOrientedLife()">
+                    <button
+                        class="primary-button"
+                        onclick="generateOrientedLife()">
 
                         Commencer cette vie
 
@@ -370,20 +635,27 @@ function showOrientation() {
 
 
 /* =========================================================
-   CRÉATION D'UNE VIE ALÉATOIRE
+   VIE ALÉATOIRE
 ========================================================= */
 
 function generateRandomLife() {
 
-    const firstName = randomItem(firstNames);
-    const city = randomItem(cities);
+    const firstName =
+        randomItem(firstNames);
 
-    createPlayer(firstName, city, "aléatoire");
+    const city =
+        randomItem(cities);
+
+    createPlayer(
+        firstName,
+        city,
+        "aléatoire"
+    );
 }
 
 
 /* =========================================================
-   CRÉATION D'UNE VIE ORIENTÉE
+   VIE ORIENTÉE
 ========================================================= */
 
 function generateOrientedLife() {
@@ -394,13 +666,24 @@ function generateOrientedLife() {
     const cityInput =
         document.getElementById("cityInput");
 
+
     const firstName =
-        firstNameInput.value.trim() || randomItem(firstNames);
+        firstNameInput.value.trim()
+        ||
+        randomItem(firstNames);
+
 
     const city =
-        cityInput.value || randomItem(cities);
+        cityInput.value
+        ||
+        randomItem(cities);
 
-    createPlayer(firstName, city, "orientée");
+
+    createPlayer(
+        firstName,
+        city,
+        "orientée"
+    );
 }
 
 
@@ -408,66 +691,141 @@ function generateOrientedLife() {
    CRÉATION DU PERSONNAGE
 ========================================================= */
 
-function createPlayer(firstName, city, orientation) {
+function createPlayer(
+    firstName,
+    city,
+    orientation
+) {
 
     /*
-        Date de naissance :
+        IMPORTANT :
 
-        Le personnage commence à 8 ans.
+        Le personnage possède une vraie date
+        de naissance.
 
-        On utilise une vraie date de naissance.
-        L'âge sera TOUJOURS recalculé à partir
-        de birthDate + currentDate.
+        L'âge est toujours calculé à partir
+        de la date de naissance et de la date
+        simulée.
 
-        Rien dans le jeu ne modifiera directement l'âge.
+        Les événements ne modifient jamais
+        directement l'âge.
     */
 
-    const birthDate = "2018-04-15";
-    const currentDate = "2026-09-12";
+    const birthDate =
+        "2018-04-15";
+
+    const currentDate =
+        "2026-09-12";
+
+
+    const family =
+        generateFamily(firstName);
+
+    const school =
+        randomItem(schoolTypes);
+
+    const club =
+        generateClub(city);
+
 
     player = {
 
-        firstName: firstName,
+        id:
+            Date.now(),
 
-        city: city,
+        firstName:
 
-        birthDate: birthDate,
+            firstName,
 
-        currentDate: currentDate,
+        city:
 
-        orientation: orientation,
+            city,
 
-        school: "CE2",
+        birthDate:
 
-        family: {
-            type: "À découvrir",
-            members: []
+            birthDate,
+
+        currentDate:
+
+            currentDate,
+
+        orientation:
+
+            orientation,
+
+
+        school: {
+
+            name:
+                school,
+
+            level:
+                "CE2"
         },
+
+
+        family:
+
+
+            family,
+
 
         badminton: {
 
-            level: "Débutant",
+            level:
+                "Débutant",
 
-            experience: "Aucune expérience",
+            experience:
+                "Aucune expérience",
 
-            club: null
-
+            club:
+                club
         },
+
+
+        /*
+            Ces éléments restent cachés
+            pour le moment.
+
+            Ils pourront progressivement
+            être découverts pendant la vie.
+        */
+
+        hidden: {
+
+            potential:
+                randomNumber(1, 100),
+
+            motivation:
+                randomNumber(1, 100),
+
+            learningSpeed:
+                randomNumber(1, 100),
+
+            injuryRisk:
+                randomNumber(1, 100)
+        },
+
 
         history: [
 
             {
-                date: "1 septembre 2026",
-                text: "Rentrée des classes."
+                date:
+                    "1 septembre 2026",
+
+                text:
+                    "Rentrée des classes."
             },
 
             {
-                date: "12 septembre 2026",
-                text: `Tu commences une nouvelle vie à ${city}.`
+                date:
+                    "12 septembre 2026",
+
+                text:
+                    `Une nouvelle vie commence à ${city}.`
             }
 
         ]
-
     };
 
 
@@ -487,12 +845,29 @@ function showGame() {
             player.currentDate
         );
 
+
+    const familyMembers =
+        player.family.members
+            .map(member => `
+                <div class="profile-item">
+
+                    <strong>
+                        ${member.role}
+                    </strong>
+
+                    <span>
+                        ${member.name}
+                    </span>
+
+                </div>
+            `)
+            .join("");
+
+
     app.innerHTML = `
 
         <div class="game">
 
-
-            <!-- HEADER -->
 
             <div class="game-header">
 
@@ -515,8 +890,6 @@ function showGame() {
             </div>
 
 
-            <!-- CONTENU -->
-
             <div class="game-content">
 
 
@@ -528,9 +901,11 @@ function showGame() {
                         🧒
                     </div>
 
+
                     <h2 class="profile-name">
                         ${player.firstName}
                     </h2>
+
 
                     <div class="profile-age">
                         ${age} ans
@@ -553,11 +928,11 @@ function showGame() {
                     <div class="profile-item">
 
                         <strong>
-                            🏫 École
+                            🏫 ${player.school.name}
                         </strong>
 
                         <span>
-                            ${player.school}
+                            ${player.school.level}
                         </span>
 
                     </div>
@@ -566,14 +941,30 @@ function showGame() {
                     <div class="profile-item">
 
                         <strong>
-                            🏸 Badminton
+                            👨‍👩‍👧‍👦 Famille
                         </strong>
 
                         <span>
-                            ${player.badminton.experience}
+                            ${player.family.type}
                         </span>
 
                     </div>
+
+
+                    <div class="profile-item">
+
+                        <strong>
+                            🏸 ${player.badminton.club.name}
+                        </strong>
+
+                        <span>
+                            ${player.badminton.club.reputation}
+                        </span>
+
+                    </div>
+
+
+                    ${familyMembers}
 
                 </aside>
 
@@ -582,11 +973,13 @@ function showGame() {
 
                 <main class="main-column">
 
+
                     <div class="event-card">
 
                         <div class="event-image">
                             🏸
                         </div>
+
 
                         <div class="event-content">
 
@@ -594,27 +987,36 @@ function showGame() {
                                 PREMIÈRE JOURNÉE
                             </span>
 
+
                             <h1 class="event-title">
                                 Une nouvelle vie commence
                             </h1>
 
+
                             <p class="event-text">
 
-                                ${player.firstName} a 8 ans.
+                                ${player.firstName} a
+                                ${age} ans.
 
-                                Une nouvelle année scolaire
-                                commence à ${player.city}.
+                                À ${player.city},
+                                la rentrée vient de commencer.
 
-                                Pour l'instant, rien ne dit encore
-                                où cette histoire va mener...
+                                ${player.family.description}
+
+                                Pour l'instant,
+                                le badminton n'est encore
+                                qu'une possibilité parmi
+                                tant d'autres.
 
                             </p>
 
 
                             <div class="choices">
 
-                                <button class="choice blue"
-                                        onclick="chooseFirstEvent('explorer')">
+
+                                <button
+                                    class="choice blue"
+                                    onclick="chooseFirstEvent('explorer')">
 
                                     <strong>
                                         👀 Observer autour de moi
@@ -628,8 +1030,9 @@ function showGame() {
                                 </button>
 
 
-                                <button class="choice green"
-                                        onclick="chooseFirstEvent('agir')">
+                                <button
+                                    class="choice green"
+                                    onclick="chooseFirstEvent('agir')">
 
                                     <strong>
                                         🚀 Me lancer
@@ -643,8 +1046,9 @@ function showGame() {
                                 </button>
 
 
-                                <button class="choice orange"
-                                        onclick="chooseFirstEvent('calme')">
+                                <button
+                                    class="choice orange"
+                                    onclick="chooseFirstEvent('calme')">
 
                                     <strong>
                                         😌 Rester tranquille
@@ -656,6 +1060,7 @@ function showGame() {
                                     </span>
 
                                 </button>
+
 
                             </div>
 
@@ -671,6 +1076,7 @@ function showGame() {
                         <div class="history-title">
                             Ce qui s'est passé récemment
                         </div>
+
 
                         ${player.history
                             .slice()
@@ -711,38 +1117,49 @@ function chooseFirstEvent(choice) {
 
     let text = "";
 
+
     if (choice === "explorer") {
 
         text =
-            `${player.firstName} prend le temps d'observer ` +
-            `ce qui l'entoure. Certaines choses attirent ` +
-            `déjà son attention.`;
-
+            `${player.firstName} prend le temps `
+            +
+            `d'observer ce qui l'entoure. `
+            +
+            `Certaines choses attirent déjà `
+            +
+            `son attention.`;
     }
+
 
     if (choice === "agir") {
 
         text =
-            `${player.firstName} décide de ne pas rester ` +
-            `dans son coin. Une nouvelle aventure commence.`;
-
+            `${player.firstName} décide de ne pas `
+            +
+            `rester dans son coin. `
+            +
+            `Une nouvelle aventure commence.`;
     }
+
 
     if (choice === "calme") {
 
         text =
-            `${player.firstName} préfère prendre son temps. ` +
-            `Après tout, la journée ne fait que commencer.`;
-
+            `${player.firstName} préfère prendre `
+            +
+            `son temps. Après tout, la journée `
+            +
+            `ne fait que commencer.`;
     }
 
 
     player.history.push({
 
-        date: formatDate(player.currentDate),
+        date:
+            formatDate(player.currentDate),
 
-        text: text
-
+        text:
+            text
     });
 
 
