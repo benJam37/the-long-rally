@@ -197,15 +197,14 @@ button {
     position: absolute;
 
     left: 10.5%;
-    top: calc(8% + 142px);
+    top: calc(8% + 140px);
 
     width: 44px;
-    height: 30px;
+    height: 28px;
 
     z-index: 6;
 
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 90'%3E%3Cg transform='rotate(-2 70 45)'%3E%3C!-- Plumes --%3E%3Cpath d='M38 45 L112 17 C119 14 124 18 119 24 L52 45 Z' fill='%23ffffff' stroke='%23d5dde6' stroke-width='2'/%3E%3Cpath d='M38 45 L119 29 C125 28 128 33 121 37 L52 47 Z' fill='%23ffffff' stroke='%23d5dde6' stroke-width='2'/%3E%3Cpath d='M38 45 L122 42 C128 42 129 47 122 49 L52 49 Z' fill='%23ffffff' stroke='%23d5dde6' stroke-width='2'/%3E%3Cpath d='M38 45 L119 58 C125 59 125 64 119 65 L52 52 Z' fill='%23ffffff' stroke='%23d5dde6' stroke-width='2'/%3E%3Cpath d='M38 45 L112 73 C119 76 122 71 117 67 L52 48 Z' fill='%23ffffff' stroke='%23d5dde6' stroke-width='2'/%3E%3C!-- Armature --%3E%3Cpath d='M43 45 L116 21 M43 45 L122 33 M43 45 L123 45 M43 45 L120 59 M43 45 L115 71' stroke='%23b9c5d1' stroke-width='1.5' fill='none'/%3E%3C!-- Bouchon --%3E%3Cpath d='M14 45 C14 36 21 30 30 30 L43 35 L43 55 L30 60 C21 60 14 54 14 45Z' fill='%23ffffff' stroke='%23cbd5df' stroke-width='2'/%3E%3Cpath d='M12 45 C12 40 15 36 20 36 L26 36 L26 54 L20 54 C15 54 12 50 12 45Z' fill='%23f3f4f6'/%3E%3C/g%3E%3C/svg%3E");
-
+    background-image: url("shuttlecock-logo.png");
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
