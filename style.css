@@ -114,7 +114,7 @@ button {
 .home-visual .home-logo {
     position: absolute;
     left: 7%;
-    top: 18%;
+    top: 12%;
 
     font-size: clamp(48px, 5.5vw, 86px);
     font-weight: 800;
@@ -132,7 +132,7 @@ button {
 .home-tagline {
     position: absolute;
     left: 7%;
-    top: calc(18% + 125px);
+    top: calc(12% + 155px);
 
     font-size: clamp(18px, 1.5vw, 24px);
     opacity: 0.88;
