@@ -32,6 +32,7 @@ button {
     min-height: 100vh;
 }
 
+
 /* =========================
    ACCUEIL
 ========================= */
@@ -52,76 +53,62 @@ button {
     overflow: hidden;
     display: flex;
     align-items: stretch;
-    background:
+
+    background-image:
         linear-gradient(
             90deg,
-            rgba(5, 20, 45, 0.96) 0%,
-            rgba(5, 20, 45, 0.88) 28%,
-            rgba(5, 20, 45, 0.48) 55%,
-            rgba(5, 20, 45, 0.12) 100%
+            rgba(5, 20, 45, 0.72) 0%,
+            rgba(5, 20, 45, 0.45) 35%,
+            rgba(5, 20, 45, 0.08) 75%,
+            rgba(5, 20, 45, 0.02) 100%
         ),
-        linear-gradient(
-            135deg,
-            #0c2852 0%,
-            #174b8c 45%,
-            #9db9d0 100%
-        );
+        url("home-bg.png");
+
+    background-size: cover;
+    background-position: center;
 }
 
+
 /* Zone visuelle */
+
 .home-visual {
     position: absolute;
     inset: 0;
     z-index: 1;
 
     padding: 0;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
 
     color: white;
-    background:
-        radial-gradient(
-            circle at 78% 25%,
-            rgba(255, 255, 255, 0.16),
-            transparent 24%
-        ),
-        linear-gradient(
-            90deg,
-            rgba(7, 26, 56, 0.98) 0%,
-            rgba(7, 26, 56, 0.88) 30%,
-            rgba(7, 26, 56, 0.35) 62%,
-            rgba(7, 26, 56, 0.05) 100%
-        );
+
+    /* L'image est maintenant sur .home-card */
+    background: transparent;
 }
 
-/*
-   Illustration de fond provisoire.
-   On créera ensuite une vraie illustration dédiée
-   à l'accueil.
-*/
-.home-visual::after {
-    content: "🏸";
-    position: absolute;
-    right: 10%;
-    bottom: 8%;
-    font-size: clamp(160px, 18vw, 300px);
-    opacity: 0.18;
-    transform: rotate(-12deg);
-}
 
-/* Titre */
+/* =========================
+   TITRE
+========================= */
+
 .home-visual .home-logo {
     position: absolute;
-    left: 7%;
-    top: 12%;
 
-    font-size: clamp(48px, 5.5vw, 86px);
+    left: 7%;
+    top: 18%;
+
+    font-size: clamp(42px, 5vw, 76px);
     font-weight: 800;
-    line-height: 0.95;
+
+    line-height: 1;
     letter-spacing: -3px;
 
-    max-width: 600px;
+    white-space: nowrap;
+
+    max-width: none;
+
     z-index: 2;
 }
 
@@ -129,22 +116,34 @@ button {
     color: #4f9cff;
 }
 
+
+/* Slogan */
+
 .home-tagline {
     position: absolute;
-    left: 7%;
-    top: calc(12% + 185px);
 
-    font-size: clamp(18px, 1.5vw, 24px);
-    opacity: 0.88;
+    left: 7%;
+    top: calc(18% + 95px);
+
+    font-size: clamp(16px, 1.5vw, 22px);
+
+    opacity: 0.9;
 
     z-index: 2;
 }
+
+
+/* On n'utilise plus la raquette CSS */
 
 .home-badminton {
     display: none;
 }
 
-/* Menu */
+
+/* =========================
+   MENU
+========================= */
+
 .home-menu {
     position: absolute;
     z-index: 3;
@@ -158,22 +157,26 @@ button {
 
     display: flex;
     flex-direction: column;
+
     gap: 10px;
 }
 
+
 /* Boutons */
+
 .menu-button {
     width: 100%;
 
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.22);
     border-radius: 12px;
 
     padding: 15px 18px;
 
     text-align: left;
 
-    background: rgba(8, 30, 62, 0.72);
-    backdrop-filter: blur(8px);
+    background: rgba(8, 30, 62, 0.68);
+
+    backdrop-filter: blur(7px);
 
     color: white;
 
@@ -185,30 +188,44 @@ button {
 
 .menu-button:hover {
     transform: translateX(5px);
-    background: rgba(30, 80, 145, 0.85);
+
+    background: rgba(30, 80, 145, 0.82);
+
     border-color: rgba(255, 255, 255, 0.4);
 }
 
+
+/* Bouton principal */
+
 .menu-button.primary {
     background: #2878f0;
+
     border-color: #2878f0;
-    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
+
+    box-shadow:
+        0 8px 25px rgba(37, 99, 235, 0.3);
 }
 
 .menu-button.primary:hover {
     background: #3986f5;
 }
 
+
 /* Icônes */
+
 .menu-icon {
     display: inline-block;
+
     width: 30px;
 
     font-size: 21px;
+
     vertical-align: middle;
 }
 
+
 /* Texte */
+
 .menu-title {
     font-size: 17px;
     font-weight: 700;
@@ -231,30 +248,6 @@ button {
 
 
 /* =========================
-   ACCUEIL RESPONSIVE
-========================= */
-
-@media (max-width: 800px) {
-
-    .home-visual .home-logo {
-        left: 6%;
-        top: 12%;
-        font-size: 48px;
-    }
-
-    .home-tagline {
-        left: 6%;
-        top: calc(12% + 100px);
-    }
-
-    .home-menu {
-        left: 6%;
-        top: 38%;
-        width: 88%;
-    }
-}
-
-/* =========================
    NOUVELLE VIE
 ========================= */
 
@@ -275,7 +268,9 @@ button {
 .back-button {
     border: none;
     background: transparent;
+
     color: var(--muted);
+
     padding: 8px 0;
     margin-bottom: 20px;
 }
@@ -290,18 +285,27 @@ button {
     font-size: 18px;
 }
 
+
+/* Choix de vie */
+
 .life-choice-grid {
     display: grid;
+
     grid-template-columns: 1fr 1fr;
+
     gap: 25px;
 }
 
 .life-choice {
     background: white;
+
     border: 2px solid var(--border);
     border-radius: 22px;
+
     padding: 35px;
+
     text-align: center;
+
     box-shadow: var(--shadow);
 }
 
@@ -320,26 +324,41 @@ button {
 
 .life-choice p {
     color: var(--muted);
+
     line-height: 1.6;
 }
 
+
+/* Boutons */
+
 .primary-button {
     border: none;
+
     background: var(--blue);
+
     color: white;
+
     border-radius: 12px;
+
     padding: 14px 24px;
+
     font-weight: 700;
 }
 
 .secondary-button {
     border: 1px solid var(--border);
+
     background: white;
+
     color: var(--text);
+
     border-radius: 12px;
+
     padding: 14px 24px;
+
     font-weight: 700;
 }
+
 
 /* =========================
    JEU
@@ -351,10 +370,15 @@ button {
 
 .game-header {
     background: white;
+
     border-bottom: 1px solid var(--border);
+
     padding: 18px 35px;
+
     display: flex;
+
     justify-content: space-between;
+
     align-items: center;
 }
 
@@ -369,30 +393,48 @@ button {
 
 .game-date strong {
     display: block;
+
     font-size: 16px;
 }
 
 .game-date span {
     color: var(--muted);
+
     font-size: 14px;
 }
 
+
+/* Contenu */
+
 .game-content {
     max-width: 1400px;
+
     margin: auto;
+
     padding: 25px;
+
     display: grid;
+
     grid-template-columns: 270px 1fr;
+
     gap: 25px;
 }
+
+
+/* Cartes */
 
 .profile-card,
 .event-card,
 .history-card {
     background: white;
+
     border-radius: 20px;
+
     box-shadow: var(--shadow);
 }
+
+
+/* Profil */
 
 .profile-card {
     padding: 25px;
@@ -401,47 +443,68 @@ button {
 .avatar {
     width: 115px;
     height: 115px;
+
     margin: 0 auto 15px;
+
     border-radius: 50%;
+
     background: var(--blue-light);
+
     display: flex;
+
     align-items: center;
     justify-content: center;
+
     font-size: 65px;
 }
 
 .profile-name {
     text-align: center;
+
     font-size: 27px;
+
     margin: 5px 0;
 }
 
 .profile-age {
     text-align: center;
+
     color: var(--muted);
+
     margin-bottom: 25px;
 }
 
 .profile-item {
     padding: 15px 0;
+
     border-top: 1px solid var(--border);
 }
 
 .profile-item strong {
     display: block;
+
     margin-bottom: 4px;
 }
 
 .profile-item span {
     color: var(--muted);
+
     font-size: 14px;
 }
 
+
+/* Colonne principale */
+
 .main-column {
     display: flex;
+
     flex-direction: column;
+
     gap: 20px;
 }
+
+
+/* Événement */
 
 .event-card {
     overflow: hidden;
@@ -449,11 +512,20 @@ button {
 
 .event-image {
     min-height: 190px;
+
     display: flex;
+
     align-items: center;
     justify-content: center;
+
     font-size: 100px;
-    background: linear-gradient(135deg, #dbeafe, #f0fdf4);
+
+    background:
+        linear-gradient(
+            135deg,
+            #dbeafe,
+            #f0fdf4
+        );
 }
 
 .event-content {
@@ -462,44 +534,66 @@ button {
 
 .event-label {
     display: inline-block;
+
     background: var(--blue-light);
+
     color: #1d4ed8;
+
     padding: 7px 12px;
+
     border-radius: 20px;
+
     font-size: 12px;
+
     font-weight: 700;
+
     margin-bottom: 15px;
 }
 
 .event-title {
     font-size: 34px;
+
     margin: 0 0 15px;
 }
 
 .event-text {
     color: #475467;
+
     line-height: 1.7;
+
     font-size: 17px;
 }
 
+
+/* Choix */
+
 .choices {
     display: grid;
+
     grid-template-columns: repeat(3, 1fr);
+
     gap: 15px;
+
     margin-top: 25px;
 }
 
 .choice {
     border: 1px solid var(--border);
+
     border-radius: 16px;
+
     padding: 20px;
+
     text-align: left;
+
     background: white;
+
     transition: 0.2s;
 }
 
 .choice:hover {
     transform: translateY(-3px);
+
     box-shadow: var(--shadow);
 }
 
@@ -517,14 +611,20 @@ button {
 
 .choice strong {
     display: block;
+
     margin-bottom: 8px;
 }
 
 .choice span {
     color: #475467;
+
     font-size: 14px;
+
     line-height: 1.4;
 }
+
+
+/* Historique */
 
 .history-card {
     padding: 22px 28px;
@@ -532,19 +632,25 @@ button {
 
 .history-title {
     font-size: 20px;
+
     margin-bottom: 18px;
 }
 
 .history-item {
     padding: 10px 0;
+
     border-bottom: 1px solid var(--border);
+
     display: flex;
+
     gap: 20px;
 }
 
 .history-date {
     min-width: 120px;
+
     color: #2563eb;
+
     font-size: 14px;
 }
 
@@ -552,22 +658,34 @@ button {
     color: #475467;
 }
 
+
 /* =========================
    RESPONSIVE
 ========================= */
 
 @media (max-width: 900px) {
-    .home-card {
-        grid-template-columns: 1fr;
+
+    .home-visual .home-logo {
+        left: 6%;
+        top: 12%;
+
+        font-size: 48px;
     }
 
-    .home-visual {
-        min-height: 350px;
-        padding: 40px;
+    .home-tagline {
+        left: 6%;
+
+        top: calc(12% + 70px);
+
+        font-size: 17px;
     }
 
-    .home-logo {
-        font-size: 42px;
+    .home-menu {
+        left: 6%;
+
+        top: 38%;
+
+        width: 88%;
     }
 
     .life-choice-grid {
@@ -583,7 +701,13 @@ button {
     }
 }
 
+
+/* =========================
+   MOBILE
+========================= */
+
 @media (max-width: 600px) {
+
     .page {
         padding: 20px;
     }
@@ -601,10 +725,42 @@ button {
     }
 
     .home {
-        padding: 15px;
+        padding: 0;
+    }
+
+    .home-visual .home-logo {
+        left: 6%;
+        top: 10%;
+
+        font-size: 39px;
+
+        letter-spacing: -2px;
+    }
+
+    .home-tagline {
+        left: 6%;
+
+        top: calc(10% + 58px);
+
+        font-size: 15px;
     }
 
     .home-menu {
-        padding: 35px 25px;
+        left: 6%;
+        top: 35%;
+
+        width: 88%;
+    }
+
+    .menu-button {
+        padding: 13px 15px;
+    }
+
+    .menu-title {
+        font-size: 15px;
+    }
+
+    .menu-subtitle {
+        font-size: 11px;
     }
 }
