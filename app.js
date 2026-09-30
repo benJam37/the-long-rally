@@ -1133,54 +1133,34 @@ function showGame() {
 ========================================================= */
 
 function chooseFirstEvent(choice) {
-
     let text = "";
 
-
     if (choice === "explorer") {
-
         text =
-            `${player.firstName} prend le temps `
-            +
-            `d'observer ce qui l'entoure. `
-            +
-            `Certaines choses attirent déjà `
-            +
-            `son attention.`;
+            `${player.firstName} prend le temps d'observer ce qui l'entoure. ` +
+            `La rentrée est encore récente et tout semble nouveau. ` +
+            `Il y a les cours, les autres enfants, les activités proposées... ` +
+            `et toutes sortes de choses à découvrir.`;
     }
-
 
     if (choice === "agir") {
-
         text =
-            `${player.firstName} décide de ne pas `
-            +
-            `rester dans son coin. `
-            +
-            `Une nouvelle aventure commence.`;
+            `${player.firstName} a envie de découvrir quelque chose. ` +
+            `Après l'école, une affiche attire son attention : plusieurs activités ` +
+            `sportives sont proposées dans le quartier.`;
     }
-
 
     if (choice === "calme") {
-
         text =
-            `${player.firstName} préfère prendre `
-            +
-            `son temps. Après tout, la journée `
-            +
-            `ne fait que commencer.`;
+            `${player.firstName} préfère prendre son temps. ` +
+            `Après l'école, il rentre tranquillement à la maison. ` +
+            `Pour l'instant, rien ne presse.`;
     }
 
-
-    player.history.push({
-
-        date:
-            formatDate(player.currentDate),
-
-        text:
-            text
+    player.history.unshift({
+        date: formatDate(player.currentDate),
+        text: text
     });
-
 
     showGame();
 }
