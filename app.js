@@ -1,45 +1,94 @@
 const app = document.getElementById("app");
 
-const names = [
-    "Nathan",
+let player = null;
+
+
+/* =========================================================
+   DONNÉES DE BASE
+========================================================= */
+
+const firstNames = [
     "Emma",
     "Lucas",
-    "Hugo",
-    "Camille",
+    "Jules",
     "Léa",
-    "Arthur",
-    "Jules"
+    "Hugo",
+    "Chloé",
+    "Noah",
+    "Alice",
+    "Tom",
+    "Lina",
+    "Nathan",
+    "Zoé"
 ];
 
 const cities = [
     "Tours",
-    "Angers",
-    "Rennes",
     "Poitiers",
+    "Angers",
+    "Nantes",
+    "Bordeaux",
+    "Rennes",
+    "Orléans",
     "Limoges",
-    "Bordeaux"
+    "La Rochelle",
+    "Le Mans"
 ];
 
-let player = null;
 
-showHome();
-
+/* =========================================================
+   UTILITAIRES
+========================================================= */
 
 function randomItem(array) {
     return array[Math.floor(Math.random() * array.length)];
 }
 
 
-/* =========================
+function formatDate(dateString) {
+    const date = new Date(dateString + "T00:00:00");
+
+    return date.toLocaleDateString("fr-FR", {
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+    });
+}
+
+
+function calculateAge(birthDateString, currentDateString) {
+
+    const birthDate = new Date(birthDateString + "T00:00:00");
+    const currentDate = new Date(currentDateString + "T00:00:00");
+
+    let age = currentDate.getFullYear() - birthDate.getFullYear();
+
+    const birthdayThisYear = new Date(
+        currentDate.getFullYear(),
+        birthDate.getMonth(),
+        birthDate.getDate()
+    );
+
+    if (currentDate < birthdayThisYear) {
+        age--;
+    }
+
+    return age;
+}
+
+
+/* =========================================================
    ACCUEIL
-========================= */
+========================================================= */
 
 function showHome() {
+
     app.innerHTML = `
-        <div class="app-shell home">
+        <div class="home">
             <div class="home-card">
 
-                <section class="home-visual">
+                <div class="home-visual">
+
                     <div class="home-logo">
                         The Long <span>Rally</span>
                     </div>
@@ -48,47 +97,74 @@ function showHome() {
                         One life. Thousands of choices.
                     </div>
 
-                    <div class="home-badminton">
-                        🏸
+                    <div class="home-menu">
+
+                        <button class="menu-button primary"
+                                onclick="showNewLife()">
+
+                            <span class="menu-icon">▶</span>
+
+                            <span class="menu-title">
+                                Nouvelle partie
+                            </span>
+
+                            <span class="menu-subtitle">
+                                Commencer une nouvelle vie
+                            </span>
+
+                        </button>
+
+
+                        <button class="menu-button"
+                                onclick="alert('Le chargement des parties sera ajouté plus tard.')">
+
+                            <span class="menu-icon">📁</span>
+
+                            <span class="menu-title">
+                                Charger une partie
+                            </span>
+
+                            <span class="menu-subtitle">
+                                Reprendre une partie existante
+                            </span>
+
+                        </button>
+
+
+                        <button class="menu-button"
+                                onclick="alert('Les paramètres arriveront plus tard.')">
+
+                            <span class="menu-icon">⚙</span>
+
+                            <span class="menu-title">
+                                Paramètres
+                            </span>
+
+                            <span class="menu-subtitle">
+                                Son, affichage, etc.
+                            </span>
+
+                        </button>
+
+
+                        <button class="menu-button"
+                                onclick="alert('The Long Rally\\nOne life. Thousands of choices.')">
+
+                            <span class="menu-icon">📖</span>
+
+                            <span class="menu-title">
+                                À propos
+                            </span>
+
+                            <span class="menu-subtitle">
+                                Le projet The Long Rally
+                            </span>
+
+                        </button>
+
                     </div>
-                </section>
 
-                <section class="home-menu">
-
-                    <button class="menu-button primary"
-                            onclick="showNewLife()">
-                        <span class="menu-icon">▶</span>
-                        <span class="menu-title">Nouvelle partie</span>
-                        <span class="menu-subtitle">
-                            Commencer une nouvelle vie
-                        </span>
-                    </button>
-
-                    <button class="menu-button">
-                        <span class="menu-icon">📁</span>
-                        <span class="menu-title">Charger une partie</span>
-                        <span class="menu-subtitle">
-                            Reprendre une partie existante
-                        </span>
-                    </button>
-
-                    <button class="menu-button">
-                        <span class="menu-icon">⚙️</span>
-                        <span class="menu-title">Paramètres</span>
-                        <span class="menu-subtitle">
-                            Son, affichage, etc.
-                        </span>
-                    </button>
-
-                    <button class="menu-button">
-                        <span class="menu-icon">📖</span>
-                        <span class="menu-title">À propos</span>
-                        <span class="menu-subtitle">
-                            Le projet The Long Rally
-                        </span>
-                    </button>
-
-                </section>
+                </div>
 
             </div>
         </div>
@@ -96,20 +172,25 @@ function showHome() {
 }
 
 
-/* =========================
+/* =========================================================
    NOUVELLE VIE
-========================= */
+========================================================= */
 
 function showNewLife() {
+
     app.innerHTML = `
+
         <div class="page">
+
             <div class="page-inner">
 
                 <div class="page-header">
 
                     <button class="back-button"
                             onclick="showHome()">
+
                         ← Retour
+
                     </button>
 
                     <h1 class="page-title">
@@ -118,45 +199,67 @@ function showNewLife() {
 
                     <p class="page-subtitle">
                         Tu peux laisser la vie décider pour toi,
-                        ou lui donner quelques indications.
+                        ou orienter certains éléments de ton histoire.
                     </p>
 
                 </div>
 
+
                 <div class="life-choice-grid">
+
+
+                    <!-- VIE ALÉATOIRE -->
 
                     <div class="life-choice">
 
-                        <div class="life-choice-icon">🎲</div>
+                        <div class="life-choice-icon">
+                            🎲
+                        </div>
 
-                        <h2>Vie aléatoire</h2>
+                        <h2>
+                            Vie aléatoire
+                        </h2>
 
                         <p>
-                            Laisse le hasard décider de ton prénom,
-                            de ta ville, de ta famille et de ton parcours.
+                            La vie te fait une surprise.<br>
+                            Ton prénom, ta ville, ta famille,
+                            ton environnement et ton début d'histoire
+                            seront générés.
                         </p>
 
                         <button class="primary-button"
                                 onclick="generateRandomLife()">
+
                             🎲 Laisser la vie décider
+
                         </button>
 
                     </div>
 
+
+                    <!-- VIE ORIENTÉE -->
+
                     <div class="life-choice">
 
-                        <div class="life-choice-icon">🧭</div>
+                        <div class="life-choice-icon">
+                            ✏️
+                        </div>
 
-                        <h2>Orienter ma vie</h2>
+                        <h2>
+                            Orienter ma vie
+                        </h2>
 
                         <p>
-                            Donne quelques indications à ton futur
-                            personnage sans décider de son destin.
+                            Tu peux choisir quelques éléments
+                            avant de commencer ton histoire,
+                            sans tout contrôler.
                         </p>
 
                         <button class="secondary-button"
                                 onclick="showOrientation()">
-                            Commencer avec des choix
+
+                            Commencer mes choix
+
                         </button>
 
                     </div>
@@ -164,190 +267,265 @@ function showNewLife() {
                 </div>
 
             </div>
+
         </div>
     `;
 }
 
 
-/* =========================
-   ORIENTATION
-========================= */
+/* =========================================================
+   VIE ORIENTÉE
+========================================================= */
 
 function showOrientation() {
+
     app.innerHTML = `
+
         <div class="page">
+
             <div class="page-inner">
 
                 <div class="page-header">
 
                     <button class="back-button"
                             onclick="showNewLife()">
+
                         ← Retour
+
                     </button>
 
                     <h1 class="page-title">
-                        🧭 Orienter ma vie
+                        Orienter ma vie
                     </h1>
 
                     <p class="page-subtitle">
-                        Tu influences les probabilités.
-                        Tu ne choisis pas le destin.
+                        Quelques choix pour donner une direction
+                        à ton histoire.
                     </p>
 
                 </div>
 
-                <div class="life-choice">
 
-                    <h2>Quel environnement veux-tu privilégier ?</h2>
+                <div class="life-choice"
+                     style="text-align:left; max-width:750px; margin:auto;">
 
-                    <p>
-                        Ces choix influenceront la génération de la vie,
-                        sans garantir le résultat.
-                    </p>
+                    <h2>
+                        Ton prénom
+                    </h2>
 
-                    <div class="choices">
+                    <input
+                        id="firstNameInput"
+                        type="text"
+                        placeholder="Ex : Emma"
+                        style="
+                            width:100%;
+                            padding:14px;
+                            border:1px solid var(--border);
+                            border-radius:10px;
+                            font-size:16px;
+                            margin-bottom:25px;
+                        "
+                    >
 
-                        <button class="choice blue"
-                                onclick="generateOrientedLife('family')">
-                            <strong>👨‍👩‍👧 Famille</strong>
-                            <span>
-                                Une vie familiale plutôt stable et présente.
-                            </span>
-                        </button>
 
-                        <button class="choice green"
-                                onclick="generateOrientedLife('sport')">
-                            <strong>🏸 Sport</strong>
-                            <span>
-                                Un environnement où le sport pourrait
-                                prendre davantage de place.
-                            </span>
-                        </button>
+                    <h2>
+                        Ta ville de départ
+                    </h2>
 
-                        <button class="choice orange"
-                                onclick="generateOrientedLife('surprise')">
-                            <strong>🎲 Surprise</strong>
-                            <span>
-                                Laisse encore une fois la vie décider.
-                            </span>
-                        </button>
+                    <select
+                        id="cityInput"
+                        style="
+                            width:100%;
+                            padding:14px;
+                            border:1px solid var(--border);
+                            border-radius:10px;
+                            font-size:16px;
+                            margin-bottom:30px;
+                        "
+                    >
 
-                    </div>
+                        ${cities.map(city => `
+                            <option value="${city}">
+                                ${city}
+                            </option>
+                        `).join("")}
+
+                    </select>
+
+
+                    <button class="primary-button"
+                            onclick="generateOrientedLife()">
+
+                        Commencer cette vie
+
+                    </button>
 
                 </div>
 
             </div>
+
         </div>
     `;
 }
 
 
-/* =========================
-   GÉNÉRATION
-========================= */
+/* =========================================================
+   CRÉATION D'UNE VIE ALÉATOIRE
+========================================================= */
 
 function generateRandomLife() {
-    createPlayer();
-    showGame();
+
+    const firstName = randomItem(firstNames);
+    const city = randomItem(cities);
+
+    createPlayer(firstName, city, "aléatoire");
 }
 
-function generateOrientedLife(type) {
-    createPlayer(type);
-    showGame();
+
+/* =========================================================
+   CRÉATION D'UNE VIE ORIENTÉE
+========================================================= */
+
+function generateOrientedLife() {
+
+    const firstNameInput =
+        document.getElementById("firstNameInput");
+
+    const cityInput =
+        document.getElementById("cityInput");
+
+    const firstName =
+        firstNameInput.value.trim() || randomItem(firstNames);
+
+    const city =
+        cityInput.value || randomItem(cities);
+
+    createPlayer(firstName, city, "orientée");
 }
 
-function createPlayer(orientation = "random") {
+
+/* =========================================================
+   CRÉATION DU PERSONNAGE
+========================================================= */
+
+function createPlayer(firstName, city, orientation) {
+
+    /*
+        Date de naissance :
+
+        Le personnage commence à 8 ans.
+
+        On utilise une vraie date de naissance.
+        L'âge sera TOUJOURS recalculé à partir
+        de birthDate + currentDate.
+
+        Rien dans le jeu ne modifiera directement l'âge.
+    */
+
+    const birthDate = "2018-04-15";
+    const currentDate = "2026-09-12";
 
     player = {
-        firstName: randomItem(names),
-        city: randomItem(cities),
 
-        birthDate: "2018-04-15",
-        currentDate: "2026-09-12",
+        firstName: firstName,
 
-        school: "CE2",
+        city: city,
 
-        badminton: {
-            level: "Débutant",
-            experience: "Aucune expérience"
-        },
+        birthDate: birthDate,
+
+        currentDate: currentDate,
 
         orientation: orientation,
 
+        school: "CE2",
+
+        family: {
+            type: "À découvrir",
+            members: []
+        },
+
+        badminton: {
+
+            level: "Débutant",
+
+            experience: "Aucune expérience",
+
+            club: null
+
+        },
+
         history: [
+
             {
                 date: "1 septembre 2026",
                 text: "Rentrée des classes."
+            },
+
+            {
+                date: "12 septembre 2026",
+                text: `Tu commences une nouvelle vie à ${city}.`
             }
+
         ]
+
     };
+
+
+    showGame();
 }
 
 
-/* =========================
-   ÂGE
-========================= */
-
-function calculateAge(birthDate, currentDate) {
-
-    const birth = new Date(birthDate);
-    const current = new Date(currentDate);
-
-    let age = current.getFullYear() - birth.getFullYear();
-
-    const birthdayNotPassed =
-        current.getMonth() < birth.getMonth() ||
-        (
-            current.getMonth() === birth.getMonth() &&
-            current.getDate() < birth.getDate()
-        );
-
-    if (birthdayNotPassed) {
-        age--;
-    }
-
-    return age;
-}
-
-
-/* =========================
-   JEU
-========================= */
+/* =========================================================
+   ÉCRAN DE JEU
+========================================================= */
 
 function showGame() {
 
-    const age = calculateAge(
-        player.birthDate,
-        player.currentDate
-    );
+    const age =
+        calculateAge(
+            player.birthDate,
+            player.currentDate
+        );
 
     app.innerHTML = `
+
         <div class="game">
 
-            <header class="game-header">
+
+            <!-- HEADER -->
+
+            <div class="game-header">
 
                 <div class="game-logo">
-                    🏸 The Long Rally
+                    The Long Rally
                 </div>
 
                 <div class="game-date">
+
                     <strong>
-                        Samedi 12 septembre 2026
+                        ${formatDate(player.currentDate)}
                     </strong>
 
                     <span>
                         Saison 1 · Âge : ${age} ans
                     </span>
+
                 </div>
 
-            </header>
+            </div>
 
-            <main class="game-content">
+
+            <!-- CONTENU -->
+
+            <div class="game-content">
+
+
+                <!-- PROFIL -->
 
                 <aside class="profile-card">
 
                     <div class="avatar">
-                        👤
+                        🧒
                     </div>
 
                     <h2 class="profile-name">
@@ -358,35 +536,53 @@ function showGame() {
                         ${age} ans
                     </div>
 
-                    <div class="profile-item">
-                        <strong>📍 Ville</strong>
-                        <span>${player.city}</span>
-                    </div>
 
                     <div class="profile-item">
-                        <strong>🏫 École</strong>
-                        <span>${player.school}</span>
+
+                        <strong>
+                            📍 ${player.city}
+                        </strong>
+
+                        <span>
+                            France
+                        </span>
+
                     </div>
 
+
                     <div class="profile-item">
-                        <strong>🏸 Badminton</strong>
+
+                        <strong>
+                            🏫 École
+                        </strong>
+
+                        <span>
+                            ${player.school}
+                        </span>
+
+                    </div>
+
+
+                    <div class="profile-item">
+
+                        <strong>
+                            🏸 Badminton
+                        </strong>
+
                         <span>
                             ${player.badminton.experience}
                         </span>
-                    </div>
 
-                    <div class="profile-item">
-                        <strong>Niveau</strong>
-                        <span>
-                            ${player.badminton.level}
-                        </span>
                     </div>
 
                 </aside>
 
-                <section class="main-column">
 
-                    <article class="event-card">
+                <!-- COLONNE PRINCIPALE -->
+
+                <main class="main-column">
+
+                    <div class="event-card">
 
                         <div class="event-image">
                             🏸
@@ -394,126 +590,168 @@ function showGame() {
 
                         <div class="event-content">
 
-                            <div class="event-label">
-                                ÉVÉNEMENT
-                            </div>
+                            <span class="event-label">
+                                PREMIÈRE JOURNÉE
+                            </span>
 
                             <h1 class="event-title">
-                                Une première rencontre
+                                Une nouvelle vie commence
                             </h1>
 
                             <p class="event-text">
-                                Aujourd'hui, quelqu'un te propose
-                                d'essayer le badminton.
+
+                                ${player.firstName} a 8 ans.
+
+                                Une nouvelle année scolaire
+                                commence à ${player.city}.
+
+                                Pour l'instant, rien ne dit encore
+                                où cette histoire va mener...
+
                             </p>
 
-                            <p class="event-text">
-                                Tu ne connais presque rien à ce sport,
-                                mais quelque chose te donne envie
-                                d'en savoir plus.
-                            </p>
-
-                            <h3>
-                                Que veux-tu faire ?
-                            </h3>
 
                             <div class="choices">
 
-                                <button class="choice green"
-                                        onclick="chooseFirstEvent(1)">
-                                    <strong>
-                                        🏸 Je veux essayer !
-                                    </strong>
-
-                                    <span>
-                                        Ça a l'air sympa,
-                                        je me lance.
-                                    </span>
-                                </button>
-
                                 <button class="choice blue"
-                                        onclick="chooseFirstEvent(2)">
+                                        onclick="chooseFirstEvent('explorer')">
+
                                     <strong>
-                                        👁️ Je veux juste regarder.
+                                        👀 Observer autour de moi
                                     </strong>
 
                                     <span>
-                                        Je préfère d'abord voir
-                                        de quoi il s'agit.
+                                        Prendre le temps de découvrir
+                                        ce nouvel environnement.
                                     </span>
+
                                 </button>
+
+
+                                <button class="choice green"
+                                        onclick="chooseFirstEvent('agir')">
+
+                                    <strong>
+                                        🚀 Me lancer
+                                    </strong>
+
+                                    <span>
+                                        J'ai envie de voir ce que
+                                        cette nouvelle vie me réserve.
+                                    </span>
+
+                                </button>
+
 
                                 <button class="choice orange"
-                                        onclick="chooseFirstEvent(3)">
+                                        onclick="chooseFirstEvent('calme')">
+
                                     <strong>
-                                        🏃 Je veux continuer mes autres activités aussi.
+                                        😌 Rester tranquille
                                     </strong>
 
                                     <span>
-                                        Je suis curieux, mais je veux
-                                        garder du temps pour le reste.
+                                        Pas besoin de se précipiter.
+                                        Chaque chose en son temps.
                                     </span>
+
                                 </button>
 
                             </div>
 
                         </div>
 
-                    </article>
+                    </div>
 
-                    <article class="history-card">
+
+                    <!-- HISTORIQUE -->
+
+                    <div class="history-card">
 
                         <div class="history-title">
-                            📖 Ce qui s'est passé récemment
+                            Ce qui s'est passé récemment
                         </div>
 
-                        ${player.history.map(event => `
-                            <div class="history-item">
-                                <div class="history-date">
-                                    ${event.date}
+                        ${player.history
+                            .slice()
+                            .reverse()
+                            .map(item => `
+
+                                <div class="history-item">
+
+                                    <div class="history-date">
+                                        ${item.date}
+                                    </div>
+
+                                    <div class="history-text">
+                                        ${item.text}
+                                    </div>
+
                                 </div>
 
-                                <div class="history-text">
-                                    ${event.text}
-                                </div>
-                            </div>
-                        `).join("")}
+                            `)
+                            .join("")}
 
-                    </article>
+                    </div>
 
-                </section>
+                </main>
 
-            </main>
+            </div>
 
         </div>
     `;
 }
 
 
-/* =========================
-   PREMIER CHOIX
-========================= */
+/* =========================================================
+   PREMIER ÉVÉNEMENT
+========================================================= */
 
 function chooseFirstEvent(choice) {
 
-    let message = "";
+    let text = "";
 
-    if (choice === 1) {
-        message = "Tu décides d'essayer le badminton.";
+    if (choice === "explorer") {
+
+        text =
+            `${player.firstName} prend le temps d'observer ` +
+            `ce qui l'entoure. Certaines choses attirent ` +
+            `déjà son attention.`;
+
     }
 
-    if (choice === 2) {
-        message = "Tu préfères observer avant de te lancer.";
+    if (choice === "agir") {
+
+        text =
+            `${player.firstName} décide de ne pas rester ` +
+            `dans son coin. Une nouvelle aventure commence.`;
+
     }
 
-    if (choice === 3) {
-        message = "Tu veux découvrir le badminton sans abandonner tes autres activités.";
+    if (choice === "calme") {
+
+        text =
+            `${player.firstName} préfère prendre son temps. ` +
+            `Après tout, la journée ne fait que commencer.`;
+
     }
 
-    player.history.unshift({
-        date: "12 septembre 2026",
-        text: message
+
+    player.history.push({
+
+        date: formatDate(player.currentDate),
+
+        text: text
+
     });
 
-    alert(message);
+
+    showGame();
 }
+
+
+/* =========================================================
+   LANCEMENT
+========================================================= */
+
+showHome();
