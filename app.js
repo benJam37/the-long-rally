@@ -893,80 +893,99 @@ function showGame() {
             <div class="game-content">
 
 
-                <!-- PROFIL -->
+   <!-- PROFIL -->
 
-                <aside class="profile-card">
+<aside class="profile-card">
 
-                    <div class="avatar">
-                        🧒
-                    </div>
-
-
-                    <h2 class="profile-name">
-                        ${player.firstName}
-                    </h2>
+    <div class="avatar">
+        🧒
+    </div>
 
 
-                    <div class="profile-age">
-                        ${age} ans
-                    </div>
+    <h2 class="profile-name">
+        ${player.firstName}
+    </h2>
 
 
-                    <div class="profile-item">
-
-                        <strong>
-                            📍 ${player.city}
-                        </strong>
-
-                        <span>
-                            France
-                        </span>
-
-                    </div>
+    <div class="profile-age">
+        ${age} ans
+    </div>
 
 
-                    <div class="profile-item">
+    <div class="profile-item">
 
-                        <strong>
-                            🏫 ${player.school.name}
-                        </strong>
+        <strong>
+            📍 ${player.city}
+        </strong>
 
-                        <span>
-                            ${player.school.level}
-                        </span>
+        <span>
+            France
+        </span>
 
-                    </div>
-
-
-                    <div class="profile-item">
-
-                        <strong>
-                            👨‍👩‍👧‍👦 Famille
-                        </strong>
-
-                        <span>
-                            ${player.family.type}
-                        </span>
-
-                    </div>
+    </div>
 
 
-                    <div class="profile-item">
+    <div class="profile-item">
 
-                        <strong>
-                            🏸 ${player.badminton.club.name}
-                        </strong>
+        <strong>
+            🏫 ${player.school.name}
+        </strong>
 
-                        <span>
-                            ${player.badminton.club.reputation}
-                        </span>
+        <span>
+            ${player.school.level}
+        </span>
 
-                    </div>
+    </div>
 
 
-                    ${familyMembers}
+    <div class="profile-item">
 
-                </aside>
+        <strong>
+            🏸 ${player.badminton.club.name}
+        </strong>
+
+        <span>
+            ${player.badminton.club.reputation}
+        </span>
+
+    </div>
+
+
+    ${player.family.members.map(member => {
+
+        let icon = "👤";
+
+        if (member.role === "Mère") {
+            icon = "👩";
+        }
+
+        if (member.role === "Père") {
+            icon = "👨";
+        }
+
+        if (member.role === "Frère / sœur") {
+            icon = "🧒";
+        }
+
+        return `
+
+            <div class="profile-item">
+
+                <strong>
+                    ${icon} ${member.role}
+                </strong>
+
+                <span>
+                    ${member.name}
+                </span>
+
+            </div>
+
+        `;
+
+    }).join("")}
+
+</aside>
 
 
                 <!-- COLONNE PRINCIPALE -->
