@@ -1,32 +1,498 @@
+:root {
+    --blue: #2563eb;
+    --blue-dark: #172554;
+    --blue-light: #dbeafe;
+    --green-light: #dcfce7;
+    --orange-light: #ffedd5;
+    --background: #f5f3ee;
+    --card: #ffffff;
+    --text: #172033;
+    --muted: #667085;
+    --border: #e5e7eb;
+    --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f4f1ea;
-    color: #222;
-}
-
-#app {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 60px 20px;
-    text-align: center;
-}
-
-h1 {
-    font-size: 48px;
-    margin-bottom: 10px;
-}
-
-.tagline {
-    font-size: 20px;
-    color: #666;
-    margin-bottom: 40px;
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--background);
+    color: var(--text);
 }
 
 button {
-    padding: 14px 28px;
-    font-size: 18px;
-    border: none;
-    border-radius: 8px;
+    font: inherit;
     cursor: pointer;
+}
+
+.app-shell {
+    min-height: 100vh;
+}
+
+/* =========================
+   ACCUEIL
+========================= */
+
+.home {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    background:
+        linear-gradient(rgba(10, 25, 55, 0.72), rgba(10, 25, 55, 0.82)),
+        linear-gradient(135deg, #193b70, #0f172a);
+}
+
+.home-card {
+    width: min(1050px, 100%);
+    min-height: 620px;
+    border-radius: 28px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    background: #ffffff;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+}
+
+.home-visual {
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: white;
+    background:
+        radial-gradient(circle at 80% 20%, rgba(96, 165, 250, 0.5), transparent 30%),
+        linear-gradient(145deg, #102a56, #173f78);
+}
+
+.home-logo {
+    font-size: 58px;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 18px;
+}
+
+.home-logo span {
+    color: #60a5fa;
+}
+
+.home-tagline {
+    font-size: 21px;
+    opacity: 0.85;
+    margin-bottom: 50px;
+}
+
+.home-badminton {
+    font-size: 100px;
+    opacity: 0.9;
+}
+
+.home-menu {
+    padding: 60px 45px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 16px;
+}
+
+.menu-button {
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px 24px;
+    text-align: left;
+    background: white;
+    transition: 0.2s;
+}
+
+.menu-button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+    border-color: #bfdbfe;
+}
+
+.menu-button.primary {
+    background: var(--blue);
+    color: white;
+    border-color: var(--blue);
+}
+
+.menu-icon {
+    font-size: 25px;
+    margin-right: 10px;
+}
+
+.menu-title {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.menu-subtitle {
+    display: block;
+    margin-top: 5px;
+    margin-left: 38px;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.menu-button.primary .menu-subtitle {
+    color: #dbeafe;
+}
+
+/* =========================
+   NOUVELLE VIE
+========================= */
+
+.page {
+    min-height: 100vh;
+    padding: 35px;
+}
+
+.page-inner {
+    max-width: 1150px;
+    margin: auto;
+}
+
+.page-header {
+    margin-bottom: 30px;
+}
+
+.back-button {
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    padding: 8px 0;
+    margin-bottom: 20px;
+}
+
+.page-title {
+    font-size: 42px;
+    margin: 0 0 8px;
+}
+
+.page-subtitle {
+    color: var(--muted);
+    font-size: 18px;
+}
+
+.life-choice-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+}
+
+.life-choice {
+    background: white;
+    border: 2px solid var(--border);
+    border-radius: 22px;
+    padding: 35px;
+    text-align: center;
+    box-shadow: var(--shadow);
+}
+
+.life-choice:hover {
+    border-color: #93c5fd;
+}
+
+.life-choice-icon {
+    font-size: 55px;
+    margin-bottom: 15px;
+}
+
+.life-choice h2 {
+    margin: 10px 0;
+}
+
+.life-choice p {
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+.primary-button {
+    border: none;
+    background: var(--blue);
+    color: white;
+    border-radius: 12px;
+    padding: 14px 24px;
+    font-weight: 700;
+}
+
+.secondary-button {
+    border: 1px solid var(--border);
+    background: white;
+    color: var(--text);
+    border-radius: 12px;
+    padding: 14px 24px;
+    font-weight: 700;
+}
+
+/* =========================
+   JEU
+========================= */
+
+.game {
+    min-height: 100vh;
+}
+
+.game-header {
+    background: white;
+    border-bottom: 1px solid var(--border);
+    padding: 18px 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.game-logo {
+    font-size: 25px;
+    font-weight: 800;
+}
+
+.game-date {
+    text-align: right;
+}
+
+.game-date strong {
+    display: block;
+    font-size: 16px;
+}
+
+.game-date span {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.game-content {
+    max-width: 1400px;
+    margin: auto;
+    padding: 25px;
+    display: grid;
+    grid-template-columns: 270px 1fr;
+    gap: 25px;
+}
+
+.profile-card,
+.event-card,
+.history-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+}
+
+.profile-card {
+    padding: 25px;
+}
+
+.avatar {
+    width: 115px;
+    height: 115px;
+    margin: 0 auto 15px;
+    border-radius: 50%;
+    background: var(--blue-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 65px;
+}
+
+.profile-name {
+    text-align: center;
+    font-size: 27px;
+    margin: 5px 0;
+}
+
+.profile-age {
+    text-align: center;
+    color: var(--muted);
+    margin-bottom: 25px;
+}
+
+.profile-item {
+    padding: 15px 0;
+    border-top: 1px solid var(--border);
+}
+
+.profile-item strong {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.profile-item span {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.main-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.event-card {
+    overflow: hidden;
+}
+
+.event-image {
+    min-height: 190px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 100px;
+    background: linear-gradient(135deg, #dbeafe, #f0fdf4);
+}
+
+.event-content {
+    padding: 30px;
+}
+
+.event-label {
+    display: inline-block;
+    background: var(--blue-light);
+    color: #1d4ed8;
+    padding: 7px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.event-title {
+    font-size: 34px;
+    margin: 0 0 15px;
+}
+
+.event-text {
+    color: #475467;
+    line-height: 1.7;
+    font-size: 17px;
+}
+
+.choices {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.choice {
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    text-align: left;
+    background: white;
+    transition: 0.2s;
+}
+
+.choice:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+}
+
+.choice.green {
+    background: var(--green-light);
+}
+
+.choice.blue {
+    background: var(--blue-light);
+}
+
+.choice.orange {
+    background: var(--orange-light);
+}
+
+.choice strong {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.choice span {
+    color: #475467;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.history-card {
+    padding: 22px 28px;
+}
+
+.history-title {
+    font-size: 20px;
+    margin-bottom: 18px;
+}
+
+.history-item {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 20px;
+}
+
+.history-date {
+    min-width: 120px;
+    color: #2563eb;
+    font-size: 14px;
+}
+
+.history-text {
+    color: #475467;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+    .home-card {
+        grid-template-columns: 1fr;
+    }
+
+    .home-visual {
+        min-height: 350px;
+        padding: 40px;
+    }
+
+    .home-logo {
+        font-size: 42px;
+    }
+
+    .life-choice-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .game-content {
+        grid-template-columns: 1fr;
+    }
+
+    .choices {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .page {
+        padding: 20px;
+    }
+
+    .game-header {
+        padding: 15px 20px;
+    }
+
+    .game-content {
+        padding: 15px;
+    }
+
+    .event-title {
+        font-size: 27px;
+    }
+
+    .home {
+        padding: 15px;
+    }
+
+    .home-menu {
+        padding: 35px 25px;
+    }
 }
