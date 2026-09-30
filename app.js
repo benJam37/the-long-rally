@@ -1002,130 +1002,152 @@ function showGame() {
 
                         <div class="event-content">
 
-                            <span class="event-label">
-                                PREMIÈRE JOURNÉE
-                            </span>
+${player.history.length <= 2 ? `
 
+    <span class="event-label">
+        PREMIÈRE JOURNÉE
+    </span>
 
-                            <h1 class="event-title">
-                                Une nouvelle vie commence
-                            </h1>
+    <h1 class="event-title">
+        Une nouvelle vie commence
+    </h1>
 
+    <p class="event-text">
 
-                            <p class="event-text">
+        ${player.firstName} a
+        ${age} ans.
 
-                                ${player.firstName} a
-                                ${age} ans.
+        À ${player.city},
+        la rentrée vient de commencer.
 
-                                À ${player.city},
-                                la rentrée vient de commencer.
+        ${player.family.description}
 
-                                ${player.family.description}
+        Pour l'instant,
+        le badminton n'est encore
+        qu'une possibilité parmi
+        tant d'autres.
 
-                                Pour l'instant,
-                                le badminton n'est encore
-                                qu'une possibilité parmi
-                                tant d'autres.
+    </p>
 
-                            </p>
+    <div class="choices">
 
+        <button
+            class="choice blue"
+            onclick="chooseFirstEvent('explorer')">
 
-                            <div class="choices">
+            <strong>
+                👀 Observer autour de moi
+            </strong>
 
+            <span>
+                Prendre le temps de découvrir
+                ce nouvel environnement.
+            </span>
 
-                                <button
-                                    class="choice blue"
-                                    onclick="chooseFirstEvent('explorer')">
+        </button>
 
-                                    <strong>
-                                        👀 Observer autour de moi
-                                    </strong>
+        <button
+            class="choice green"
+            onclick="chooseFirstEvent('agir')">
 
-                                    <span>
-                                        Prendre le temps de découvrir
-                                        ce nouvel environnement.
-                                    </span>
+            <strong>
+                🚀 Me lancer
+            </strong>
 
-                                </button>
+            <span>
+                J'ai envie de voir ce que
+                cette nouvelle vie me réserve.
+            </span>
 
+        </button>
 
-                                <button
-                                    class="choice green"
-                                    onclick="chooseFirstEvent('agir')">
+        <button
+            class="choice orange"
+            onclick="chooseFirstEvent('calme')">
 
-                                    <strong>
-                                        🚀 Me lancer
-                                    </strong>
+            <strong>
+                😌 Rester tranquille
+            </strong>
 
-                                    <span>
-                                        J'ai envie de voir ce que
-                                        cette nouvelle vie me réserve.
-                                    </span>
+            <span>
+                Pas besoin de se précipiter.
+                Chaque chose en son temps.
+            </span>
 
-                                </button>
+        </button>
 
+    </div>
 
-                                <button
-                                    class="choice orange"
-                                    onclick="chooseFirstEvent('calme')">
+` : `
 
-                                    <strong>
-                                        😌 Rester tranquille
-                                    </strong>
+    <span class="event-label">
+        QUELQUES JOURS PLUS TARD
+    </span>
 
-                                    <span>
-                                        Pas besoin de se précipiter.
-                                        Chaque chose en son temps.
-                                    </span>
+    <h1 class="event-title">
+        Une activité attire ton attention
+    </h1>
 
-                                </button>
+    <p class="event-text">
 
+        Depuis quelques jours, ${player.firstName}
+        commence à prendre ses marques.
 
-                            </div>
+        Après l'école, une activité sportive
+        proposée près de chez toi attire ton attention.
 
-                        </div>
+        À travers la porte du gymnase,
+        tu entends des échanges de volant.
 
-                    </div>
+    </p>
 
+    <div class="choices">
 
-                    <!-- HISTORIQUE -->
+        <button
+            class="choice blue"
+            onclick="chooseSecondEvent('watch')">
 
-                    <div class="history-card">
+            <strong>
+                🏸 Aller voir
+            </strong>
 
-                        <div class="history-title">
-                            Ce qui s'est passé récemment
-                        </div>
+            <span>
+                Juste pour regarder ce qui se passe.
+            </span>
 
+        </button>
 
-                        ${player.history
-                            .slice()
-                            .reverse()
-                            .map(item => `
+        <button
+            class="choice green"
+            onclick="chooseSecondEvent('try')">
 
-                                <div class="history-item">
+            <strong>
+                🎯 Essayer
+            </strong>
 
-                                    <div class="history-date">
-                                        ${item.date}
-                                    </div>
+            <span>
+                Pourquoi pas ? Ça a l'air amusant.
+            </span>
 
-                                    <div class="history-text">
-                                        ${item.text}
-                                    </div>
+        </button>
 
-                                </div>
+        <button
+            class="choice orange"
+            onclick="chooseSecondEvent('ignore')">
 
-                            `)
-                            .join("")}
+            <strong>
+                🏠 Rentrer à la maison
+            </strong>
 
-                    </div>
+            <span>
+                Ce n'est peut-être pas pour moi.
+            </span>
 
-                </main>
+        </button>
 
-            </div>
+    </div>
 
-        </div>
-    `;
-}
+`}
 
 
 /* =========================================================
@@ -1138,9 +1160,7 @@ function chooseFirstEvent(choice) {
     if (choice === "explorer") {
         text =
             `${player.firstName} prend le temps d'observer ce qui l'entoure. ` +
-            `La rentrée est encore récente et tout semble nouveau. ` +
-            `Il y a les cours, les autres enfants, les activités proposées... ` +
-            `et toutes sortes de choses à découvrir.`;
+            `La rentrée est encore récente et tout semble nouveau.`;
     }
 
     if (choice === "agir") {
@@ -1153,13 +1173,45 @@ function chooseFirstEvent(choice) {
     if (choice === "calme") {
         text =
             `${player.firstName} préfère prendre son temps. ` +
-            `Après l'école, il rentre tranquillement à la maison. ` +
-            `Pour l'instant, rien ne presse.`;
+            `Après l'école, il rentre tranquillement à la maison.`;
     }
 
-    // Quelques jours passent
     const date = new Date(player.currentDate + "T12:00:00");
     date.setDate(date.getDate() + 3);
+    player.currentDate = date.toISOString().split("T")[0];
+
+    player.history.unshift({
+        date: formatDate(player.currentDate),
+        text: text
+    });
+
+    showGame();
+}
+function chooseSecondEvent(choice) {
+    let text = "";
+
+    if (choice === "watch") {
+        text =
+            `${player.firstName} s'approche du gymnase et regarde quelques échanges. ` +
+            `Le volant fuse d'un côté à l'autre. ` +
+            `Tu ne sais pas encore si ce sport est fait pour toi, mais quelque chose t'intrigue.`;
+    }
+
+    if (choice === "try") {
+        text =
+            `${player.firstName} entre dans le gymnase et prend une raquette. ` +
+            `Le premier contact avec le volant est... particulier. ` +
+            `Mais après quelques minutes, tu commences à comprendre pourquoi certains enfants aiment ça.`;
+    }
+
+    if (choice === "ignore") {
+        text =
+            `${player.firstName} décide de rentrer à la maison. ` +
+            `Le badminton attendra. Il y aura sûrement d'autres occasions.`;
+    }
+
+    const date = new Date(player.currentDate + "T12:00:00");
+    date.setDate(date.getDate() + 2);
     player.currentDate = date.toISOString().split("T")[0];
 
     player.history.unshift({
