@@ -1257,6 +1257,42 @@ function chooseFirstEvent(choice) {
     showGame();
 }
 
+/* =========================================================
+   MOTEUR D'ÉVÉNEMENTS
+========================================================= */
+
+function getNextEvent() {
+
+    const events = [];
+
+    /*
+        Pour l'instant, on teste simplement
+        les conditions du personnage.
+    */
+
+    if (player.traits.badmintonInterest >= 5) {
+        events.push("badminton");
+    }
+
+    if (player.traits.curiosity >= 55) {
+        events.push("curiosity");
+    }
+
+    if (player.traits.initiative >= 55) {
+        events.push("initiative");
+    }
+
+    /*
+        Si plusieurs événements sont possibles,
+        le moteur en choisit un.
+    */
+
+    if (events.length === 0) {
+        return "neutral";
+    }
+
+    return randomItem(events);
+}
 
 /* =========================================================
    DEUXIÈME ÉVÉNEMENT
