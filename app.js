@@ -806,7 +806,18 @@ function createPlayer(
             injuryRisk:
                 randomNumber(1, 100)
         },
+       
+        traits: {
 
+            curiosity:
+                randomNumber(40, 60),
+
+            initiative:
+                randomNumber(40, 60),
+
+            badmintonInterest:
+                randomNumber(0, 10)
+        },
 
         history: [
 
@@ -1258,6 +1269,9 @@ function chooseSecondEvent(choice) {
 
     if (choice === "watch") {
 
+      player.traits.curiosity += 5;
+      player.traits.badmintonInterest += 3;
+
         text =
             `${player.firstName} s'approche du gymnase et regarde quelques échanges. ` +
             `Le volant fuse d'un côté à l'autre. ` +
@@ -1267,6 +1281,9 @@ function chooseSecondEvent(choice) {
 
     if (choice === "try") {
 
+      player.traits.initiative += 5;
+      player.traits.badmintonInterest += 8;
+       
         text =
             `${player.firstName} entre dans le gymnase et prend une raquette. ` +
             `Le premier contact avec le volant est... particulier. ` +
@@ -1275,6 +1292,8 @@ function chooseSecondEvent(choice) {
 
 
     if (choice === "ignore") {
+
+       player.traits.badmintonInterest -= 2;
 
         text =
             `${player.firstName} décide de rentrer à la maison. ` +
