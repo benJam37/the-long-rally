@@ -1233,7 +1233,7 @@ function chooseFirstEvent(choice) {
         date.toISOString().split("T")[0];
 
 
-    player.history.unshift({
+    player.history.push({
 
         date:
             formatDate(player.currentDate),
@@ -1295,7 +1295,7 @@ function chooseSecondEvent(choice) {
         date.toISOString().split("T")[0];
 
 
-    player.history.unshift({
+    player.history.push({
 
         date:
             formatDate(player.currentDate),
