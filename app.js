@@ -1315,22 +1315,25 @@ function getNextEvent() {
 
     const events = [];
 
+    const previousEvent = player.currentEvent;
+   
     /*
         Le moteur regarde les caractéristiques
         actuelles du personnage.
     */
 
-    if (player.traits.badmintonInterest >= 5) {
-        events.push("badminton");
-    }
+   if (previousEvent !== "badminton" && player.traits.badmintonInterest >= 5) {
+    events.push("badminton");
+}
 
-    if (player.traits.curiosity >= 55) {
-        events.push("curiosity");
-    }
+if (previousEvent !== "curiosity" && player.traits.curiosity >= 55) {
+    events.push("curiosity");
+}
 
-    if (player.traits.initiative >= 55) {
-        events.push("initiative");
-    }
+if (previousEvent !== "initiative" && player.traits.initiative >= 55) {
+    events.push("initiative");
+}
+
 
     /*
         Évite de proposer deux fois de suite
