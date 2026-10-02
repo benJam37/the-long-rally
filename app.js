@@ -1341,7 +1341,23 @@ function showGame() {
             player.currentDate
         );
 
-
+const debugStats = `
+    <div style="
+        margin-top:20px;
+        padding:12px;
+        background:#fff3cd;
+        border:1px solid #ffe69c;
+        border-radius:10px;
+        font-size:13px;
+    ">
+        <strong>🧪 MODE DEBUG</strong><br>
+        🧠 Curiosité : ${player.traits.curiosity}<br>
+        ⚡ Initiative : ${player.traits.initiative}<br>
+        🏸 Intérêt badminton : ${player.traits.badmintonInterest}<br>
+        💪 Motivation : ${player.hidden.motivation}
+    </div>
+`;
+   
     app.innerHTML = `
 
         <div class="game">
@@ -1465,6 +1481,7 @@ function showGame() {
 
                 </aside>
 
+                ${debugStats}
 
                 <!-- COLONNE PRINCIPALE -->
 
