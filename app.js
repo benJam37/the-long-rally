@@ -1036,7 +1036,69 @@ if (player.currentEvent === "activity") {
             </div>
         `;
     }
+if (player.currentEvent === "childhood") {
+    return `
+        <span class="event-label">
+            UNE JOURNÉE COMME LES AUTRES
+        </span>
 
+        <h1 class="event-title">
+            Quelque chose attire ton attention
+        </h1>
+
+        <p class="event-text">
+            À ${age} ans, le monde est encore rempli de choses
+            à découvrir. Aujourd'hui, une petite chose pourrait
+            bien changer le cours de ta journée.
+        </p>
+
+        <div class="choices">
+
+            <button
+                class="choice blue"
+                onclick="chooseSecondEvent('watch')">
+
+                <strong>
+                    👀 Observer
+                </strong>
+
+                <span>
+                    Prendre le temps de regarder ce qui se passe.
+                </span>
+
+            </button>
+
+            <button
+                class="choice green"
+                onclick="chooseSecondEvent('try')">
+
+                <strong>
+                    🎯 Essayer
+                </strong>
+
+                <span>
+                    Pourquoi pas ? Ça pourrait être intéressant.
+                </span>
+
+            </button>
+
+            <button
+                class="choice orange"
+                onclick="chooseSecondEvent('ignore')">
+
+                <strong>
+                    🏠 Passer son chemin
+                </strong>
+
+                <span>
+                    Ce n'est probablement pas important.
+                </span>
+
+            </button>
+
+        </div>
+    `;
+}
     return `
         <h2>🌱 Une nouvelle journée</h2>
         <p>
@@ -1316,6 +1378,15 @@ function getNextEvent() {
     const events = [];
 
     const previousEvent = player.currentEvent;
+
+   const age = calculateAge(
+    player.birthDate,
+    player.currentDate
+);
+
+   if (age <= 10) {
+    events.push("childhood");
+}
    
     /*
         Le moteur regarde les caractéristiques
