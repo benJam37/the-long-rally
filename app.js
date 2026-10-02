@@ -1563,14 +1563,16 @@ function chooseSecondEvent(choice) {
 
     let text = "";
 
-    const consequences = resolveEventChoice(
+   const consequences = resolveEventChoice(
     player.currentEvent,
     choice
 );
 
-    Object.keys(consequences).forEach(stat => {
-        player.traits[stat] += consequences[stat];
-    });
+player.lastConsequences = consequences;
+
+Object.keys(consequences).forEach(stat => {
+    player.traits[stat] += consequences[stat];
+});
 
 
     if (choice === "watch") {
