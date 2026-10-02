@@ -1556,7 +1556,10 @@ function chooseFirstEvent(choice) {
     }
 
 
-    player.lastConsequences = consequences[choice] || {};
+    player.eventHistory.push("first");
+
+   player.lastConsequences =
+       consequences[choice] || {};
 
     Object.keys(player.lastConsequences).forEach(stat => {
 
