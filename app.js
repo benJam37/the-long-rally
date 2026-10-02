@@ -1556,7 +1556,10 @@ function chooseFirstEvent(choice) {
     }
 
 
-    player.eventHistory.push("first");
+    player.eventHistory.push({
+    event: "first",
+    choice: choice
+});
 
    player.lastConsequences =
        consequences[choice] || {};
@@ -1671,10 +1674,12 @@ if (
         exactement le même type d'événement.
     */
 
-    const filteredEvents = events.filter(
+   const filteredEvents = events.filter(
     event =>
         event !== player.currentEvent &&
-        !player.eventHistory.includes(event)
+        !player.eventHistory.some(
+            history => history.event === event
+        )
 );
 
    if (filteredEvents.length === 0) {
@@ -1989,7 +1994,10 @@ function getEventChoiceText(event, choice) {
 
 function chooseSecondEvent(choice) {
 
-   player.eventHistory.push(player.currentEvent);
+   player.eventHistory.push({
+    event: player.currentEvent,
+    choice: choice
+});
 
     const consequences = resolveEventChoice(
         player.currentEvent,
