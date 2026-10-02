@@ -1479,9 +1479,10 @@ const debugStats = `
 
                     }).join("")}
 
+                    ${debugStats}
+
                 </aside>
 
-                ${debugStats}
 
                 <!-- COLONNE PRINCIPALE -->
 
