@@ -821,6 +821,8 @@ function createPlayer(
                 randomNumber(0, 10)
         },
 
+       eventHistory: [],
+       
         history: [
 
             {
