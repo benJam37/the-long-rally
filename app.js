@@ -1448,31 +1448,125 @@ return randomItem(weightedEvents);
 /* =========================================================
    DEUXIÈME ÉVÉNEMENT
 ========================================================= */
-function resolveEventChoice(choice) {
+function resolveEventChoice(event, choice) {
 
-    const consequences = {
-        watch: {
-            curiosity: 5,
-            badmintonInterest: 3
-        },
+    if (event === "activity") {
 
-        try: {
-            initiative: 5,
-            badmintonInterest: 8
-        },
+        const consequences = {
+            watch: {
+                curiosity: 5,
+                badmintonInterest: 3
+            },
 
-        ignore: {
-            badmintonInterest: -2
-        }
-    };
+            try: {
+                initiative: 5,
+                badmintonInterest: 8
+            },
 
-    return consequences[choice] || {};
+            ignore: {
+                badmintonInterest: -2
+            }
+        };
+
+        return consequences[choice] || {};
+    }
+
+
+    if (event === "curiosity") {
+
+        const consequences = {
+            watch: {
+                curiosity: 3
+            },
+
+            try: {
+                curiosity: 5,
+                initiative: 3
+            },
+
+            ignore: {
+                curiosity: -1
+            }
+        };
+
+        return consequences[choice] || {};
+    }
+
+
+    if (event === "badminton") {
+
+        const consequences = {
+            watch: {
+                badmintonInterest: 3,
+                curiosity: 2
+            },
+
+            try: {
+                badmintonInterest: 6,
+                initiative: 2
+            },
+
+            ignore: {
+                badmintonInterest: -2
+            }
+        };
+
+        return consequences[choice] || {};
+    }
+
+
+    if (event === "initiative") {
+
+        const consequences = {
+            watch: {
+                curiosity: 2
+            },
+
+            try: {
+                initiative: 6,
+                motivation: 2
+            },
+
+            ignore: {
+                initiative: -2
+            }
+        };
+
+        return consequences[choice] || {};
+    }
+
+
+    if (event === "childhood") {
+
+        const consequences = {
+            watch: {
+                curiosity: 3
+            },
+
+            try: {
+                initiative: 3,
+                curiosity: 2
+            },
+
+            ignore: {
+                motivation: 1
+            }
+        };
+
+        return consequences[choice] || {};
+    }
+
+
+    return {};
 }
 function chooseSecondEvent(choice) {
 
     let text = "";
 
-    const consequences = resolveEventChoice(choice);
+    const consequences = resolveEventChoice(
+    player.currentEvent,
+    choice
+);
 
     Object.keys(consequences).forEach(stat => {
         player.traits[stat] += consequences[stat];
