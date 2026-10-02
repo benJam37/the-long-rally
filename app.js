@@ -1036,6 +1036,64 @@ if (player.currentEvent === "activity") {
             </div>
         `;
     }
+
+   if (player.currentEvent === "consequence") {
+
+    const consequenceEntries =
+        Object.entries(player.lastConsequences || {});
+
+    const labels = {
+        curiosity: "🧠 Curiosité",
+        initiative: "⚡ Initiative",
+        badmintonInterest: "🏸 Intérêt badminton",
+        motivation: "💪 Motivation"
+    };
+
+    return `
+        <span class="event-label">
+            CONSÉQUENCE
+        </span>
+
+        <h1 class="event-title">
+            Quelque chose a changé
+        </h1>
+
+        <p class="event-text">
+            ${player.history[player.history.length - 1]?.text || ""}
+        </p>
+
+        <div class="consequences">
+
+            ${consequenceEntries.map(([stat, value]) => `
+                <div class="consequence-item">
+                    <span>
+                        ${labels[stat] || stat}
+                    </span>
+
+                    <strong>
+                        ${value > 0 ? "+" : ""}${value}
+                    </strong>
+                </div>
+            `).join("")}
+
+        </div>
+
+        <div class="choices">
+
+            <button
+                class="choice green"
+                onclick="continueAfterConsequences()">
+
+                <strong>
+                    Continuer
+                </strong>
+
+            </button>
+
+        </div>
+    `;
+}
+   
 if (player.currentEvent === "childhood") {
     return `
         <span class="event-label">
@@ -1559,6 +1617,14 @@ function resolveEventChoice(event, choice) {
 
     return {};
 }
+
+function continueAfterConsequences() {
+
+    player.currentEvent = player.pendingNextEvent;
+
+    showGame();
+}
+
 function chooseSecondEvent(choice) {
 
     let text = "";
@@ -1603,7 +1669,8 @@ Object.keys(consequences).forEach(stat => {
 
     const nextEvent = getNextEvent();
 
-    player.currentEvent = nextEvent;
+     player.pendingNextEvent = nextEvent;
+     player.currentEvent = "consequence";
 
 
     const date =
