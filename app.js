@@ -1316,8 +1316,8 @@ function getNextEvent() {
     const events = [];
 
     /*
-        Pour l'instant, on teste simplement
-        les conditions du personnage.
+        Le moteur regarde les caractéristiques
+        actuelles du personnage.
     */
 
     if (player.traits.badmintonInterest >= 5) {
@@ -1333,15 +1333,19 @@ function getNextEvent() {
     }
 
     /*
-        Si plusieurs événements sont possibles,
-        le moteur en choisit un.
+        Évite de proposer deux fois de suite
+        exactement le même type d'événement.
     */
 
-    if (events.length === 0) {
+    const filteredEvents = events.filter(
+        event => event !== player.currentEvent
+    );
+
+    if (filteredEvents.length === 0) {
         return "neutral";
     }
 
-    return randomItem(events);
+    return randomItem(filteredEvents);
 }
 
 /* =========================================================
