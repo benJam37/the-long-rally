@@ -851,31 +851,75 @@ function createPlayer(
    ÉCRAN DE JEU
 ========================================================= */
 function getCurrentEventContent(age) {
-    if (player.currentEvent === "first") {
-        return `
-            <h2>🏸 Une nouvelle vie commence</h2>
-            <p>
-                Tu as ${age} ans. Pour l'instant, le badminton n'est encore qu'une activité parmi d'autres.
-                Mais quelque chose pourrait commencer à changer...
-            </p>
-        `;
-    }
+   if (player.currentEvent === "first") {
+    return `
+        <span class="event-label">
+            PREMIÈRE JOURNÉE
+        </span>
 
-    if (player.currentEvent === "activity") {
-        return `
-            <h2>🏸 Une activité après l'école</h2>
-            <p>
-                Après l'école, une nouvelle possibilité se présente à toi.
-                Tu peux observer, essayer ou simplement rentrer chez toi.
-            </p>
+        <h1 class="event-title">
+            Une nouvelle vie commence
+        </h1>
 
-            <div class="choices">
-                <button onclick="chooseSecondEvent('watch')">👀 Observer</button>
-                <button onclick="chooseSecondEvent('try')">🎯 Essayer</button>
-                <button onclick="chooseSecondEvent('ignore')">🏠 Rentrer</button>
-            </div>
-        `;
-    }
+        <p class="event-text">
+            ${player.firstName} a ${age} ans.
+
+            À ${player.city}, la rentrée vient de commencer.
+
+            ${player.family.description}
+
+            Pour l'instant, le badminton n'est encore qu'une possibilité parmi tant d'autres.
+        </p>
+
+        <div class="choices">
+
+            <button
+                class="choice blue"
+                onclick="chooseFirstEvent('explorer')">
+
+                <strong>
+                    👀 Observer autour de moi
+                </strong>
+
+                <span>
+                    Prendre le temps de découvrir ce nouvel environnement.
+                </span>
+
+            </button>
+
+
+            <button
+                class="choice green"
+                onclick="chooseFirstEvent('agir')">
+
+                <strong>
+                    🚀 Me lancer
+                </strong>
+
+                <span>
+                    J'ai envie de voir ce que cette nouvelle vie me réserve.
+                </span>
+
+            </button>
+
+
+            <button
+                class="choice orange"
+                onclick="chooseFirstEvent('calme')">
+
+                <strong>
+                    😌 Rester tranquille
+                </strong>
+
+                <span>
+                    Pas besoin de se précipiter. Chaque chose en son temps.
+                </span>
+
+            </button>
+
+        </div>
+    `;
+}
 
     if (player.currentEvent === "badminton") {
         return `
