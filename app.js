@@ -1373,6 +1373,20 @@ function chooseFirstEvent(choice) {
 
     let text = "";
 
+    const consequences = {
+        explorer: {
+            curiosity: 4
+        },
+
+        agir: {
+            initiative: 4,
+            curiosity: 2
+        },
+
+        calme: {
+            motivation: 2
+        }
+    };
 
     if (choice === "explorer") {
 
@@ -1399,6 +1413,21 @@ function chooseFirstEvent(choice) {
     }
 
 
+    player.lastConsequences = consequences[choice] || {};
+
+    Object.keys(player.lastConsequences).forEach(stat => {
+
+        if (player.traits[stat] !== undefined) {
+            player.traits[stat] += player.lastConsequences[stat];
+        }
+
+        if (player.hidden[stat] !== undefined) {
+            player.hidden[stat] += player.lastConsequences[stat];
+        }
+
+    });
+
+
     const date =
         new Date(
             player.currentDate + "T12:00:00"
@@ -1411,8 +1440,7 @@ function chooseFirstEvent(choice) {
     player.currentDate =
         date.toISOString().split("T")[0];
 
-    player.currentEvent = "activity";
-   
+
     player.history.push({
 
         date:
@@ -1423,9 +1451,13 @@ function chooseFirstEvent(choice) {
     });
 
 
+    player.pendingNextEvent = "activity";
+
+    player.currentEvent = "consequence";
+
+
     showGame();
 }
-
 /* =========================================================
    MOTEUR D'ÉVÉNEMENTS
 ========================================================= */
@@ -1444,21 +1476,46 @@ function getNextEvent() {
    if (age <= 10) {
     events.push("childhood");
 }
-   
-    /*
-        Le moteur regarde les caractéristiques
-        actuelles du personnage.
-    */
 
-   if (previousEvent !== "badminton" && player.traits.badmintonInterest >= 5) {
+
+/*
+    Le moteur commence à tenir compte
+    de la personnalité du personnage.
+*/
+
+if (
+    previousEvent !== "badminton" &&
+    player.traits.badmintonInterest >= 5
+) {
     events.push("badminton");
 }
 
-if (previousEvent !== "curiosity" && player.traits.curiosity >= 55) {
+
+if (
+    previousEvent !== "curiosity" &&
+    player.traits.curiosity >= 55
+) {
     events.push("curiosity");
 }
 
-if (previousEvent !== "initiative" && player.traits.initiative >= 55) {
+
+if (
+    previousEvent !== "initiative" &&
+    player.traits.initiative >= 55
+) {
+    events.push("initiative");
+}
+
+
+/*
+    La motivation peut également
+    favoriser les événements d'action.
+*/
+
+if (
+    player.hidden.motivation >= 65 &&
+    previousEvent !== "initiative"
+) {
     events.push("initiative");
 }
 
@@ -1636,34 +1693,129 @@ function chooseSecondEvent(choice) {
 player.lastConsequences = consequences;
 
 Object.keys(consequences).forEach(stat => {
-    player.traits[stat] += consequences[stat];
+
+    if (player.traits[stat] !== undefined) {
+        player.traits[stat] += consequences[stat];
+    }
+
+    if (player.hidden[stat] !== undefined) {
+        player.hidden[stat] += consequences[stat];
+    }
+
 });
 
 
-    if (choice === "watch") {
+    if (player.currentEvent === "activity") {
 
+    if (choice === "watch") {
         text =
             `Tu t'approches du gymnase et regardes quelques échanges. ` +
             `Le volant fuse d'un côté à l'autre. ` +
             `Tu ne sais pas encore si ce sport est fait pour toi, mais quelque chose t'intrigue.`;
     }
 
-
     if (choice === "try") {
-
         text =
             `Tu entres dans le gymnase et prends une raquette. ` +
             `Le premier contact avec le volant est... particulier. ` +
             `Mais après quelques minutes, tu commences à comprendre pourquoi certains enfants aiment ça.`;
     }
 
-
     if (choice === "ignore") {
-
         text =
             `Tu décides de rentrer à la maison. ` +
             `Le badminton attendra. Il y aura sûrement d'autres occasions.`;
     }
+}
+
+
+if (player.currentEvent === "badminton") {
+
+    if (choice === "watch") {
+        text =
+            `Tu restes quelques minutes de plus à observer les joueurs. ` +
+            `Certains échanges sont rapides, d'autres beaucoup plus longs. ` +
+            `Tu commences à te demander ce qu'il faudrait pour réussir à jouer comme eux.`;
+    }
+
+    if (choice === "try") {
+        text =
+            `Tu prends une raquette et décides d'essayer quelques échanges. ` +
+            `Tes premiers coups sont loin d'être parfaits, mais tu as envie de recommencer.`;
+    }
+
+    if (choice === "ignore") {
+        text =
+            `Tu décides de passer à autre chose. ` +
+            `Le badminton est intéressant, mais pour l'instant tu as d'autres choses en tête.`;
+    }
+}
+
+
+if (player.currentEvent === "curiosity") {
+
+    if (choice === "watch") {
+        text =
+            `Tu prends le temps d'observer ce qui se passe autour de toi. ` +
+            `Un détail attire particulièrement ton attention et te donne envie d'en savoir plus.`;
+    }
+
+    if (choice === "try") {
+        text =
+            `Tu décides de chercher par toi-même. ` +
+            `Tu ne sais pas encore où cela va te mener, mais comprendre les choses par toi-même te plaît déjà.`;
+    }
+
+    if (choice === "ignore") {
+        text =
+            `Tu laisses cette idée de côté. ` +
+            `Peut-être qu'elle te reviendra plus tard.`;
+    }
+}
+
+
+if (player.currentEvent === "initiative") {
+
+    if (choice === "watch") {
+        text =
+            `Tu préfères commencer par observer avant d'agir. ` +
+            `Tu regardes attentivement la situation et essaies de comprendre ce qui pourrait être fait.`;
+    }
+
+    if (choice === "try") {
+        text =
+            `Tu décides de te lancer sans attendre que quelqu'un le fasse à ta place. ` +
+            `Tu ne sais pas exactement comment les choses vont se passer, mais au moins tu essaies.`;
+    }
+
+    if (choice === "ignore") {
+        text =
+            `Finalement, tu laisses passer l'occasion. ` +
+            `Tu n'as pas toujours besoin d'agir immédiatement.`;
+    }
+}
+
+
+if (player.currentEvent === "childhood") {
+
+    if (choice === "watch") {
+        text =
+            `Tu prends le temps d'observer ce qui se passe autour de toi. ` +
+            `Une petite chose retient ton attention et rend cette journée un peu différente.`;
+    }
+
+    if (choice === "try") {
+        text =
+            `Tu décides d'essayer quelque chose de nouveau. ` +
+            `Tu ne sais pas encore si cela te plaira, mais tu as envie de découvrir ce qui va se passer.`;
+    }
+
+    if (choice === "ignore") {
+        text =
+            `Tu continues tranquillement ta journée. ` +
+            `Cette petite curiosité passera peut-être... ou reviendra plus tard.`;
+    }
+}
 
 
     const nextEvent = getNextEvent();
