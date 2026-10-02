@@ -923,6 +923,33 @@ function getCurrentEventContent(age) {
     `;
 }
 if (player.currentEvent === "activity") {
+
+    let activityText = "";
+
+    if (player.traits.badmintonInterest >= 12) {
+
+        activityText =
+            `Depuis quelques jours, le badminton revient régulièrement dans tes pensées. ` +
+            `Après l'école, tu remarques une activité sportive près de chez toi. ` +
+            `À travers la porte du gymnase, tu entends des échanges de volant. ` +
+            `Cette fois, tu as vraiment envie de savoir ce qui s'y passe.`;
+
+    } else if (player.traits.badmintonInterest >= 6) {
+
+        activityText =
+            `Depuis quelques jours, tu commences à prendre tes marques. ` +
+            `Après l'école, une activité sportive proposée près de chez toi attire ton attention. ` +
+            `À travers la porte du gymnase, tu entends des échanges de volant.`;
+
+    } else {
+
+        activityText =
+            `Depuis quelques jours, tu commences à prendre tes marques. ` +
+            `Après l'école, une activité sportive proposée près de chez toi attire ton attention. ` +
+            `Tu entends des échanges de volant à travers la porte du gymnase, ` +
+            `mais tu ne sais pas encore si tu as envie d'aller voir.`;
+    }
+
     return `
         <span class="event-label">
             QUELQUES JOURS PLUS TARD
@@ -933,14 +960,7 @@ if (player.currentEvent === "activity") {
         </h1>
 
         <p class="event-text">
-            Depuis quelques jours,
-            tu commences à prendre tes marques.
-
-            Après l'école, une activité sportive
-            proposée près de chez toi attire ton attention.
-
-            À travers la porte du gymnase,
-            tu entends des échanges de volant.
+            ${activityText}
         </p>
 
         <div class="choices">
