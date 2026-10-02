@@ -1305,8 +1305,8 @@ function chooseSecondEvent(choice) {
 
     if (choice === "watch") {
 
-      player.traits.curiosity += 5;
-      player.traits.badmintonInterest += 3;
+        player.traits.curiosity += 5;
+        player.traits.badmintonInterest += 3;
 
         text =
             `${player.firstName} s'approche du gymnase et regarde quelques échanges. ` +
@@ -1317,9 +1317,9 @@ function chooseSecondEvent(choice) {
 
     if (choice === "try") {
 
-      player.traits.initiative += 5;
-      player.traits.badmintonInterest += 8;
-       
+        player.traits.initiative += 5;
+        player.traits.badmintonInterest += 8;
+
         text =
             `${player.firstName} entre dans le gymnase et prend une raquette. ` +
             `Le premier contact avec le volant est... particulier. ` +
@@ -1329,12 +1329,15 @@ function chooseSecondEvent(choice) {
 
     if (choice === "ignore") {
 
-       player.traits.badmintonInterest -= 2;
+        player.traits.badmintonInterest -= 2;
 
         text =
             `${player.firstName} décide de rentrer à la maison. ` +
             `Le badminton attendra. Il y aura sûrement d'autres occasions.`;
     }
+
+
+    const nextEvent = getNextEvent();
 
 
     const date =
@@ -1356,7 +1359,8 @@ function chooseSecondEvent(choice) {
             formatDate(player.currentDate),
 
         text:
-            text
+            text +
+            ` Le moteur considère maintenant que l'événement suivant pourrait être : ${nextEvent}.`
     });
 
 
