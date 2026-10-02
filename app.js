@@ -1348,7 +1348,30 @@ if (previousEvent !== "initiative" && player.traits.initiative >= 55) {
         return "neutral";
     }
 
-    return randomItem(filteredEvents);
+    const weightedEvents = [];
+
+filteredEvents.forEach(event => {
+
+    let weight = 1;
+
+    if (event === "badminton") {
+        weight += player.traits.badmintonInterest;
+    }
+
+    if (event === "curiosity") {
+        weight += player.traits.curiosity;
+    }
+
+    if (event === "initiative") {
+        weight += player.traits.initiative;
+    }
+
+    for (let i = 0; i < weight; i++) {
+        weightedEvents.push(event);
+    }
+});
+
+return randomItem(weightedEvents);
 }
 
 /* =========================================================
