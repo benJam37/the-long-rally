@@ -850,6 +850,94 @@ function createPlayer(
 /* =========================================================
    ÉCRAN DE JEU
 ========================================================= */
+function getCurrentEventContent(age) {
+    if (player.currentEvent === "first") {
+        return `
+            <h2>🏸 Une nouvelle vie commence</h2>
+            <p>
+                Tu as ${age} ans. Pour l'instant, le badminton n'est encore qu'une activité parmi d'autres.
+                Mais quelque chose pourrait commencer à changer...
+            </p>
+        `;
+    }
+
+    if (player.currentEvent === "activity") {
+        return `
+            <h2>🏸 Une activité après l'école</h2>
+            <p>
+                Après l'école, une nouvelle possibilité se présente à toi.
+                Tu peux observer, essayer ou simplement rentrer chez toi.
+            </p>
+
+            <div class="choices">
+                <button onclick="chooseSecondEvent('watch')">👀 Observer</button>
+                <button onclick="chooseSecondEvent('try')">🎯 Essayer</button>
+                <button onclick="chooseSecondEvent('ignore')">🏠 Rentrer</button>
+            </div>
+        `;
+    }
+
+    if (player.currentEvent === "badminton") {
+        return `
+            <h2>🏸 Le badminton attire ton attention</h2>
+            <p>
+                Quelque chose dans ce sport commence à attirer ton regard.
+                Tu ne sais pas encore pourquoi, mais tu as envie d'en voir davantage.
+            </p>
+
+            <div class="choices">
+                <button onclick="chooseSecondEvent('watch')">👀 Regarder encore</button>
+                <button onclick="chooseSecondEvent('try')">🏸 Essayer</button>
+                <button onclick="chooseSecondEvent('ignore')">🚶 Passer à autre chose</button>
+            </div>
+        `;
+    }
+
+    if (player.currentEvent === "curiosity") {
+        return `
+            <h2>🔎 Une curiosité grandissante</h2>
+            <p>
+                Une nouvelle idée te traverse l'esprit.
+                Tu as envie de comprendre comment les choses fonctionnent.
+            </p>
+
+            <div class="choices">
+                <button onclick="chooseSecondEvent('watch')">👀 Observer</button>
+                <button onclick="chooseSecondEvent('try')">🎯 Essayer</button>
+                <button onclick="chooseSecondEvent('ignore')">🏠 Passer à autre chose</button>
+            </div>
+        `;
+    }
+
+    if (player.currentEvent === "initiative") {
+        return `
+            <h2>⚡ Une envie d'agir</h2>
+            <p>
+                Aujourd'hui, tu as envie de faire quelque chose par toi-même.
+                Reste à savoir quoi...
+            </p>
+
+            <div class="choices">
+                <button onclick="chooseSecondEvent('try')">🎯 Se lancer</button>
+                <button onclick="chooseSecondEvent('watch')">👀 Observer d'abord</button>
+                <button onclick="chooseSecondEvent('ignore')">🏠 Ne rien faire</button>
+            </div>
+        `;
+    }
+
+    return `
+        <h2>🌱 Une nouvelle journée</h2>
+        <p>
+            La vie continue. Quelque chose finira bien par attirer ton attention.
+        </p>
+
+        <div class="choices">
+            <button onclick="chooseSecondEvent('watch')">👀 Observer</button>
+            <button onclick="chooseSecondEvent('try')">🎯 Agir</button>
+            <button onclick="chooseSecondEvent('ignore')">🏠 Continuer sa journée</button>
+        </div>
+    `;
+}
 
 function showGame() {
 
@@ -1245,7 +1333,8 @@ function chooseFirstEvent(choice) {
     player.currentDate =
         date.toISOString().split("T")[0];
 
-
+    player.currentEvent = "activity";
+   
     player.history.push({
 
         date:
@@ -1341,6 +1430,7 @@ function chooseSecondEvent(choice) {
 
     const nextEvent = getNextEvent();
 
+   player.currentEvent = nextEvent;
 
     const date =
         new Date(
