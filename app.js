@@ -989,52 +989,193 @@ if (player.currentEvent === "activity") {
     `;
 }
     if (player.currentEvent === "badminton") {
-        return `
-            <h2>🏸 Le badminton attire ton attention</h2>
-            <p>
-                Quelque chose dans ce sport commence à attirer ton regard.
-                Tu ne sais pas encore pourquoi, mais tu as envie d'en voir davantage.
-            </p>
+    return `
+        <span class="event-label">
+            UNE NOUVELLE CURIOSITÉ
+        </span>
 
-            <div class="choices">
-                <button onclick="chooseSecondEvent('watch')">👀 Regarder encore</button>
-                <button onclick="chooseSecondEvent('try')">🏸 Essayer</button>
-                <button onclick="chooseSecondEvent('ignore')">🚶 Passer à autre chose</button>
-            </div>
-        `;
-    }
+        <h1 class="event-title">
+            🏸 Le badminton attire ton attention
+        </h1>
+
+        <p class="event-text">
+            Quelque chose dans ce sport commence à attirer ton regard.
+            Tu ne sais pas encore pourquoi, mais tu as envie d'en voir davantage.
+        </p>
+
+        <div class="choices">
+
+            <button
+                class="choice blue"
+                onclick="chooseSecondEvent('watch')">
+
+                <strong>
+                    👀 Observer les joueurs
+                </strong>
+
+                <span>
+                    Comprendre comment ils jouent avant de te lancer.
+                </span>
+
+            </button>
+
+            <button
+                class="choice green"
+                onclick="chooseSecondEvent('try')">
+
+                <strong>
+                    🏸 Prendre une raquette
+                </strong>
+
+                <span>
+                    Voir ce que ça donne quand tu essaies toi-même.
+                </span>
+
+            </button>
+
+            <button
+                class="choice orange"
+                onclick="chooseSecondEvent('ignore')">
+
+                <strong>
+                    🚶 Passer à autre chose
+                </strong>
+
+                <span>
+                    Ce sport est intéressant, mais tu as d'autres choses en tête.
+                </span>
+
+            </button>
+
+        </div>
+    `;
+}
 
     if (player.currentEvent === "curiosity") {
-        return `
-            <h2>🔎 Une curiosité grandissante</h2>
-            <p>
-                Une nouvelle idée te traverse l'esprit.
-                Tu as envie de comprendre comment les choses fonctionnent.
-            </p>
+    return `
+        <span class="event-label">
+            UNE QUESTION EN TÊTE
+        </span>
 
-            <div class="choices">
-                <button onclick="chooseSecondEvent('watch')">👀 Observer</button>
-                <button onclick="chooseSecondEvent('try')">🎯 Essayer</button>
-                <button onclick="chooseSecondEvent('ignore')">🏠 Passer à autre chose</button>
-            </div>
-        `;
-    }
+        <h1 class="event-title">
+            🔎 Une curiosité grandissante
+        </h1>
 
-    if (player.currentEvent === "initiative") {
-        return `
-            <h2>⚡ Une envie d'agir</h2>
-            <p>
-                Aujourd'hui, tu as envie de faire quelque chose par toi-même.
-                Reste à savoir quoi...
-            </p>
+        <p class="event-text">
+            Une nouvelle idée te traverse l'esprit.
+            Tu as envie de comprendre comment les choses fonctionnent.
+        </p>
 
-            <div class="choices">
-                <button onclick="chooseSecondEvent('try')">🎯 Se lancer</button>
-                <button onclick="chooseSecondEvent('watch')">👀 Observer d'abord</button>
-                <button onclick="chooseSecondEvent('ignore')">🏠 Ne rien faire</button>
-            </div>
-        `;
-    }
+        <div class="choices">
+
+            <button
+                class="choice blue"
+                onclick="chooseSecondEvent('watch')">
+
+                <strong>
+                    🔍 Chercher à comprendre
+                </strong>
+
+                <span>
+                    Observer et essayer de trouver une réponse.
+                </span>
+
+            </button>
+
+            <button
+                class="choice green"
+                onclick="chooseSecondEvent('try')">
+
+                <strong>
+                    🧪 Expérimenter
+                </strong>
+
+                <span>
+                    Essayer par toi-même pour voir ce qui se passe.
+                </span>
+
+            </button>
+
+            <button
+                class="choice orange"
+                onclick="chooseSecondEvent('ignore')">
+
+                <strong>
+                    🤷 Laisser tomber
+                </strong>
+
+                <span>
+                    Tout n'a pas besoin d'être compris immédiatement.
+                </span>
+
+            </button>
+
+        </div>
+    `;
+}
+
+  if (player.currentEvent === "initiative") {
+    return `
+        <span class="event-label">
+            UNE ENVIE D'AGIR
+        </span>
+
+        <h1 class="event-title">
+            ⚡ Une envie d'agir
+        </h1>
+
+        <p class="event-text">
+            Aujourd'hui, tu as envie de faire quelque chose par toi-même.
+            Reste à savoir quoi...
+        </p>
+
+        <div class="choices">
+
+            <button
+                class="choice blue"
+                onclick="chooseSecondEvent('watch')">
+
+                <strong>
+                    👀 Réfléchir avant d'agir
+                </strong>
+
+                <span>
+                    Prendre un moment pour observer la situation.
+                </span>
+
+            </button>
+
+            <button
+                class="choice green"
+                onclick="chooseSecondEvent('try')">
+
+                <strong>
+                    🚀 Se lancer
+                </strong>
+
+                <span>
+                    Tu n'as pas toutes les réponses, mais tu essaies quand même.
+                </span>
+
+            </button>
+
+            <button
+                class="choice orange"
+                onclick="chooseSecondEvent('ignore')">
+
+                <strong>
+                    😌 Laisser passer
+                </strong>
+
+                <span>
+                    Cette fois, tu préfères ne rien faire.
+                </span>
+
+            </button>
+
+        </div>
+    `;
+}
 
    if (player.currentEvent === "consequence") {
 
