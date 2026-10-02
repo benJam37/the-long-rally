@@ -756,6 +756,8 @@ function createPlayer(
         orientation:
             orientation,
 
+       currentEvent:
+          "first",
 
         school: {
 
