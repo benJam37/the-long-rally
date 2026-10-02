@@ -920,7 +920,75 @@ function getCurrentEventContent(age) {
         </div>
     `;
 }
+if (player.currentEvent === "activity") {
+    return `
+        <span class="event-label">
+            QUELQUES JOURS PLUS TARD
+        </span>
 
+        <h1 class="event-title">
+            Une activité attire ton attention
+        </h1>
+
+        <p class="event-text">
+            Depuis quelques jours,
+            ${player.firstName}
+            commence à prendre ses marques.
+
+            Après l'école, une activité sportive
+            proposée près de chez toi attire ton attention.
+
+            À travers la porte du gymnase,
+            tu entends des échanges de volant.
+        </p>
+
+        <div class="choices">
+
+            <button
+                class="choice blue"
+                onclick="chooseSecondEvent('watch')">
+
+                <strong>
+                    🏸 Aller voir
+                </strong>
+
+                <span>
+                    Juste pour regarder ce qui se passe.
+                </span>
+
+            </button>
+
+            <button
+                class="choice green"
+                onclick="chooseSecondEvent('try')">
+
+                <strong>
+                    🎯 Essayer
+                </strong>
+
+                <span>
+                    Pourquoi pas ? Ça a l'air amusant.
+                </span>
+
+            </button>
+
+            <button
+                class="choice orange"
+                onclick="chooseSecondEvent('ignore')">
+
+                <strong>
+                    🏠 Rentrer à la maison
+                </strong>
+
+                <span>
+                    Ce n'est peut-être pas pour moi.
+                </span>
+
+            </button>
+
+        </div>
+    `;
+}
     if (player.currentEvent === "badminton") {
         return `
             <h2>🏸 Le badminton attire ton attention</h2>
