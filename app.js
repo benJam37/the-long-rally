@@ -1241,7 +1241,7 @@ if (player.currentEvent === "childhood") {
         </span>
 
         <h1 class="event-title">
-            Quelque chose attire ton attention
+            🌱 Quelque chose attire ton attention
         </h1>
 
         <p class="event-text">
@@ -1257,11 +1257,11 @@ if (player.currentEvent === "childhood") {
                 onclick="chooseSecondEvent('watch')">
 
                 <strong>
-                    👀 Observer
+                    👀 Prendre le temps d'observer
                 </strong>
 
                 <span>
-                    Prendre le temps de regarder ce qui se passe.
+                    Tu regardes attentivement ce qui se passe autour de toi.
                 </span>
 
             </button>
@@ -1271,11 +1271,11 @@ if (player.currentEvent === "childhood") {
                 onclick="chooseSecondEvent('try')">
 
                 <strong>
-                    🎯 Essayer
+                    🎯 Tenter quelque chose
                 </strong>
 
                 <span>
-                    Pourquoi pas ? Ça pourrait être intéressant.
+                    Tu décides de voir ce qui se passe si tu essaies.
                 </span>
 
             </button>
@@ -1285,11 +1285,11 @@ if (player.currentEvent === "childhood") {
                 onclick="chooseSecondEvent('ignore')">
 
                 <strong>
-                    🏠 Passer son chemin
+                    🚶 Continuer ta journée
                 </strong>
 
                 <span>
-                    Ce n'est probablement pas important.
+                    Ce n'est peut-être pas si important après tout.
                 </span>
 
             </button>
@@ -1708,6 +1708,7 @@ function resolveEventChoice(event, choice) {
     if (event === "activity") {
 
         const consequences = {
+
             watch: {
                 curiosity: 5,
                 badmintonInterest: 3
@@ -1721,27 +1722,7 @@ function resolveEventChoice(event, choice) {
             ignore: {
                 badmintonInterest: -2
             }
-        };
 
-        return consequences[choice] || {};
-    }
-
-
-    if (event === "curiosity") {
-
-        const consequences = {
-            watch: {
-                curiosity: 3
-            },
-
-            try: {
-                curiosity: 5,
-                initiative: 3
-            },
-
-            ignore: {
-                curiosity: -1
-            }
         };
 
         return consequences[choice] || {};
@@ -1751,9 +1732,10 @@ function resolveEventChoice(event, choice) {
     if (event === "badminton") {
 
         const consequences = {
+
             watch: {
-                badmintonInterest: 3,
-                curiosity: 2
+                curiosity: 3,
+                badmintonInterest: 2
             },
 
             try: {
@@ -1764,6 +1746,30 @@ function resolveEventChoice(event, choice) {
             ignore: {
                 badmintonInterest: -2
             }
+
+        };
+
+        return consequences[choice] || {};
+    }
+
+
+    if (event === "curiosity") {
+
+        const consequences = {
+
+            watch: {
+                curiosity: 4
+            },
+
+            try: {
+                curiosity: 5,
+                initiative: 3
+            },
+
+            ignore: {
+                curiosity: -2
+            }
+
         };
 
         return consequences[choice] || {};
@@ -1773,6 +1779,7 @@ function resolveEventChoice(event, choice) {
     if (event === "initiative") {
 
         const consequences = {
+
             watch: {
                 curiosity: 2
             },
@@ -1785,6 +1792,7 @@ function resolveEventChoice(event, choice) {
             ignore: {
                 initiative: -2
             }
+
         };
 
         return consequences[choice] || {};
@@ -1794,6 +1802,7 @@ function resolveEventChoice(event, choice) {
     if (event === "childhood") {
 
         const consequences = {
+
             watch: {
                 curiosity: 3
             },
@@ -1806,6 +1815,7 @@ function resolveEventChoice(event, choice) {
             ignore: {
                 motivation: 1
             }
+
         };
 
         return consequences[choice] || {};
