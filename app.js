@@ -1672,12 +1672,24 @@ if (
     */
 
     const filteredEvents = events.filter(
-        event => event !== player.currentEvent
-    );
+    event =>
+        event !== player.currentEvent &&
+        !player.eventHistory.includes(event)
+);
 
-    if (filteredEvents.length === 0) {
-        return "neutral";
+   if (filteredEvents.length === 0) {
+
+    const repeatableEvents =
+        events.filter(
+            event => event !== player.currentEvent
+        );
+
+    if (repeatableEvents.length > 0) {
+        return randomItem(repeatableEvents);
     }
+
+    return "neutral";
+}
 
     const weightedEvents = [];
 
@@ -1976,6 +1988,8 @@ function getEventChoiceText(event, choice) {
 }
 
 function chooseSecondEvent(choice) {
+
+   player.eventHistory.push(player.currentEvent);
 
     const consequences = resolveEventChoice(
         player.currentEvent,
