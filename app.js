@@ -1448,16 +1448,38 @@ return randomItem(weightedEvents);
 /* =========================================================
    DEUXIÈME ÉVÉNEMENT
 ========================================================= */
+function resolveEventChoice(choice) {
 
+    const consequences = {
+        watch: {
+            curiosity: 5,
+            badmintonInterest: 3
+        },
+
+        try: {
+            initiative: 5,
+            badmintonInterest: 8
+        },
+
+        ignore: {
+            badmintonInterest: -2
+        }
+    };
+
+    return consequences[choice] || {};
+}
 function chooseSecondEvent(choice) {
 
     let text = "";
 
+    const consequences = resolveEventChoice(choice);
+
+    Object.keys(consequences).forEach(stat => {
+        player.traits[stat] += consequences[stat];
+    });
+
 
     if (choice === "watch") {
-
-        player.traits.curiosity += 5;
-        player.traits.badmintonInterest += 3;
 
         text =
             `${player.firstName} s'approche du gymnase et regarde quelques échanges. ` +
@@ -1468,9 +1490,6 @@ function chooseSecondEvent(choice) {
 
     if (choice === "try") {
 
-        player.traits.initiative += 5;
-        player.traits.badmintonInterest += 8;
-
         text =
             `${player.firstName} entre dans le gymnase et prend une raquette. ` +
             `Le premier contact avec le volant est... particulier. ` +
@@ -1480,8 +1499,6 @@ function chooseSecondEvent(choice) {
 
     if (choice === "ignore") {
 
-        player.traits.badmintonInterest -= 2;
-
         text =
             `${player.firstName} décide de rentrer à la maison. ` +
             `Le badminton attendra. Il y aura sûrement d'autres occasions.`;
@@ -1490,7 +1507,8 @@ function chooseSecondEvent(choice) {
 
     const nextEvent = getNextEvent();
 
-   player.currentEvent = nextEvent;
+    player.currentEvent = nextEvent;
+
 
     const date =
         new Date(
@@ -1501,22 +1519,23 @@ function chooseSecondEvent(choice) {
         date.getDate() + 2
     );
 
+
     player.currentDate =
         date.toISOString().split("T")[0];
-   
-   player.history.push({
-   
-       date:
-           formatDate(player.currentDate),
-   
-       text:
-           text
 
-});
+
+    player.history.push({
+
+        date:
+            formatDate(player.currentDate),
+
+        text:
+            text
+    });
+
 
     showGame();
 }
-
 
 /* =========================================================
    LANCEMENT
