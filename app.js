@@ -862,9 +862,9 @@ function getCurrentEventContent(age) {
         </h1>
 
         <p class="event-text">
-            ${player.firstName} a ${age} ans.
+            Tu as ${age} ans.
 
-            À ${player.city}, la rentrée vient de commencer.
+            À ${player.city}, ta rentrée vient de commencer.
 
             ${player.family.description}
 
@@ -932,8 +932,7 @@ if (player.currentEvent === "activity") {
 
         <p class="event-text">
             Depuis quelques jours,
-            ${player.firstName}
-            commence à prendre ses marques.
+            tu commences à prendre tes marques.
 
             Après l'école, une activité sportive
             proposée près de chez toi attire ton attention.
@@ -1378,7 +1377,7 @@ function chooseFirstEvent(choice) {
     if (choice === "explorer") {
 
         text =
-            `${player.firstName} prend le temps d'observer ce qui l'entoure. ` +
+            `Tu prends le temps d'observer ce qui t'entoure. ` +
             `La rentrée est encore récente et tout semble nouveau.`;
     }
 
@@ -1386,8 +1385,8 @@ function chooseFirstEvent(choice) {
     if (choice === "agir") {
 
         text =
-            `${player.firstName} a envie de découvrir quelque chose. ` +
-            `Après l'école, une affiche attire son attention : plusieurs activités ` +
+            `Tu as envie de découvrir quelque chose. ` +
+            `Après l'école, une affiche attire ton attention : plusieurs activités ` +
             `sportives sont proposées dans le quartier.`;
     }
 
@@ -1395,8 +1394,8 @@ function chooseFirstEvent(choice) {
     if (choice === "calme") {
 
         text =
-            `${player.firstName} préfère prendre son temps. ` +
-            `Après l'école, il rentre tranquillement à la maison.`;
+            `Tu préfères prendre ton temps. ` +
+            `Après l'école, tu rentres tranquillement à la maison.`;
     }
 
 
@@ -1644,7 +1643,7 @@ Object.keys(consequences).forEach(stat => {
     if (choice === "watch") {
 
         text =
-            `${player.firstName} s'approche du gymnase et regarde quelques échanges. ` +
+            `Tu t'approches du gymnase et regardes quelques échanges. ` +
             `Le volant fuse d'un côté à l'autre. ` +
             `Tu ne sais pas encore si ce sport est fait pour toi, mais quelque chose t'intrigue.`;
     }
@@ -1653,7 +1652,7 @@ Object.keys(consequences).forEach(stat => {
     if (choice === "try") {
 
         text =
-            `${player.firstName} entre dans le gymnase et prend une raquette. ` +
+            `Tu entres dans le gymnase et prends une raquette. ` +
             `Le premier contact avec le volant est... particulier. ` +
             `Mais après quelques minutes, tu commences à comprendre pourquoi certains enfants aiment ça.`;
     }
@@ -1662,7 +1661,7 @@ Object.keys(consequences).forEach(stat => {
     if (choice === "ignore") {
 
         text =
-            `${player.firstName} décide de rentrer à la maison. ` +
+            `Tu décides de rentrer à la maison. ` +
             `Le badminton attendra. Il y aura sûrement d'autres occasions.`;
     }
 
