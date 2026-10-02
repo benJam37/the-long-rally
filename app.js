@@ -1290,18 +1290,16 @@ function chooseSecondEvent(choice) {
 
     player.currentDate =
         date.toISOString().split("T")[0];
+   
+   player.history.push({
+   
+       date:
+           formatDate(player.currentDate),
+   
+       text:
+           text
 
-
-    player.history.push({
-
-        date:
-            formatDate(player.currentDate),
-
-        text:
-            text +
-            ` Le moteur considère maintenant que l'événement suivant pourrait être : ${nextEvent}.`
-    });
-
+});
 
     showGame();
 }
