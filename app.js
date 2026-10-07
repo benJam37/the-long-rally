@@ -966,6 +966,7 @@ if (player.currentEvent === "activity") {
             `mais tu ne sais pas encore si tu as envie d'aller voir.`;
     }
 
+
     return `
         <span class="event-label">
             QUELQUES JOURS PLUS TARD
@@ -986,39 +987,56 @@ if (player.currentEvent === "activity") {
                 onclick="chooseSecondEvent('watch')">
 
                 <strong>
-                    🏸 Aller voir
+                    👀 Observer depuis la porte
                 </strong>
 
                 <span>
-                    Juste pour regarder ce qui se passe.
+                    Regarder quelques minutes avant de décider quoi faire.
                 </span>
 
             </button>
+
 
             <button
                 class="choice green"
-                onclick="chooseSecondEvent('try')">
+                onclick="chooseSecondEvent('approach')">
 
                 <strong>
-                    🎯 Essayer
+                    🚪 Entrer dans le gymnase
                 </strong>
 
                 <span>
-                    Pourquoi pas ? Ça a l'air amusant.
+                    Aller voir de plus près ce qui se passe.
                 </span>
 
             </button>
 
+
             <button
                 class="choice orange"
-                onclick="chooseSecondEvent('ignore')">
+                onclick="chooseSecondEvent('ask')">
 
                 <strong>
-                    🏠 Rentrer à la maison
+                    🗣️ Demander ce qu'ils font
                 </strong>
 
                 <span>
-                    Ce n'est peut-être pas pour moi.
+                    Comprendre cette activité avant de te faire une idée.
+                </span>
+
+            </button>
+
+
+            <button
+                class="choice blue"
+                onclick="chooseSecondEvent('try')">
+
+                <strong>
+                    🏸 Demander à essayer
+                </strong>
+
+                <span>
+                    Tant qu'à être là, autant découvrir directement.
                 </span>
 
             </button>
@@ -1805,27 +1823,31 @@ function resolveEventChoice(event, choice) {
 
     if (event === "activity") {
 
-        const consequences = {
+    const consequences = {
 
-            watch: {
-                curiosity: 5,
-                badmintonInterest: 3
-            },
+        watch: {
+            curiosity: 4
+        },
 
-            try: {
-                initiative: 5,
-                badmintonInterest: 8
-            },
+        approach: {
+            initiative: 3,
+            badmintonInterest: 2
+        },
 
-            ignore: {
-                badmintonInterest: -2
-            }
+        ask: {
+            curiosity: 3,
+            initiative: 2
+        },
 
-        };
+        try: {
+            badmintonInterest: 5,
+            initiative: 2
+        }
 
-        return consequences[choice] || {};
-    }
+    };
 
+    return consequences[choice] || {};
+}
 
     if (event === "badminton") {
 
@@ -1934,32 +1956,37 @@ function getEventChoiceText(event, choice) {
 
     if (event === "activity") {
 
-        if (choice === "watch") {
-            return (
-                `Tu t'approches du gymnase et regardes quelques échanges. ` +
-                `Le volant fuse d'un côté à l'autre. ` +
-                `Tu ne sais pas encore si ce sport est fait pour toi, ` +
-                `mais quelque chose t'intrigue.`
-            );
-        }
-
-        if (choice === "try") {
-            return (
-                `Tu entres dans le gymnase et prends une raquette. ` +
-                `Le premier contact avec le volant est... particulier. ` +
-                `Mais après quelques minutes, tu commences à comprendre ` +
-                `pourquoi certains enfants aiment ça.`
-            );
-        }
-
-        if (choice === "ignore") {
-            return (
-                `Tu décides de rentrer à la maison. ` +
-                `Le badminton attendra. Il y aura sûrement d'autres occasions.`
-            );
-        }
+    if (choice === "watch") {
+        return (
+            `Tu restes quelques minutes près de la porte. ` +
+            `Tu observes les échanges et essaies de comprendre ce qui rend ce sport intéressant.`
+        );
     }
 
+
+    if (choice === "approach") {
+        return (
+            `Tu pousses la porte du gymnase et t'approches du groupe. ` +
+            `Quelques personnes remarquent ta présence et tu découvres l'ambiance du club.`
+        );
+    }
+
+
+    if (choice === "ask") {
+        return (
+            `Tu t'adresses à quelqu'un pour savoir ce qui se passe. ` +
+            `Tu découvres qu'il s'agit d'une séance de badminton et commences à poser quelques questions.`
+        );
+    }
+
+
+    if (choice === "try") {
+        return (
+            `Tu demandes si tu peux essayer. ` +
+            `On te tend une raquette et tu découvres rapidement que frapper un volant est moins simple qu'il n'y paraît.`
+        );
+    }
+}
 
     if (event === "badminton") {
 
