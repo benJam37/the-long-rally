@@ -1171,6 +1171,7 @@ if (player.currentEvent === "activity") {
 }
 
   if (player.currentEvent === "initiative") {
+
     return `
         <span class="event-label">
             UNE ENVIE D'AGIR
@@ -1182,24 +1183,26 @@ if (player.currentEvent === "activity") {
 
         <p class="event-text">
             Aujourd'hui, tu as envie de faire quelque chose par toi-même.
-            Reste à savoir quoi...
+            Une idée te traverse l'esprit, mais tu ne sais pas encore
+            vraiment par où commencer.
         </p>
 
         <div class="choices">
 
             <button
                 class="choice blue"
-                onclick="chooseSecondEvent('watch')">
+                onclick="chooseSecondEvent('think')">
 
                 <strong>
-                    👀 Réfléchir avant d'agir
+                    💭 Chercher une idée
                 </strong>
 
                 <span>
-                    Prendre un moment pour observer la situation.
+                    Prendre le temps de réfléchir à ce que tu pourrais faire.
                 </span>
 
             </button>
+
 
             <button
                 class="choice green"
@@ -1210,21 +1213,37 @@ if (player.currentEvent === "activity") {
                 </strong>
 
                 <span>
-                    Tu n'as pas toutes les réponses, mais tu essaies quand même.
+                    Commencer quelque chose, même sans savoir exactement où ça va mener.
                 </span>
 
             </button>
 
+
             <button
                 class="choice orange"
-                onclick="chooseSecondEvent('ignore')">
+                onclick="chooseSecondEvent('ask')">
 
                 <strong>
-                    😌 Laisser passer
+                    🗣️ Demander conseil
                 </strong>
 
                 <span>
-                    Cette fois, tu préfères ne rien faire.
+                    En parler à quelqu'un pour avoir une autre idée ou un coup de main.
+                </span>
+
+            </button>
+
+
+            <button
+                class="choice blue"
+                onclick="chooseSecondEvent('help')">
+
+                <strong>
+                    🤝 Donner un coup de main
+                </strong>
+
+                <span>
+                    Plutôt que de chercher quoi faire, commencer par aider quelqu'un.
                 </span>
 
             </button>
@@ -1232,7 +1251,6 @@ if (player.currentEvent === "activity") {
         </div>
     `;
 }
-
    if (player.currentEvent === "consequence") {
 
     const consequenceEntries =
@@ -1896,27 +1914,33 @@ function resolveEventChoice(event, choice) {
     }
 
 
-    if (event === "initiative") {
+if (event === "initiative") {
 
-        const consequences = {
+    const consequences = {
 
-            watch: {
-                curiosity: 2
-            },
+        think: {
+            curiosity: 2
+        },
 
-            try: {
-                initiative: 6,
-                motivation: 2
-            },
+        try: {
+            initiative: 5,
+            motivation: 2
+        },
 
-            ignore: {
-                initiative: -2
-            }
+        ask: {
+            curiosity: 2,
+            initiative: 2
+        },
 
-        };
+        help: {
+            initiative: 3,
+            motivation: 2
+        }
 
-        return consequences[choice] || {};
-    }
+    };
+
+    return consequences[choice] || {};
+}
 
 
     if (event === "childhood") {
@@ -2042,29 +2066,41 @@ function getEventChoiceText(event, choice) {
 
     if (event === "initiative") {
 
-        if (choice === "watch") {
-            return (
-                `Tu préfères commencer par observer avant d'agir. ` +
-                `Tu regardes attentivement la situation et essaies de comprendre ce qui pourrait être fait.`
-            );
-        }
-
-        if (choice === "try") {
-            return (
-                `Tu décides de te lancer sans attendre que quelqu'un le fasse à ta place. ` +
-                `Tu ne sais pas exactement comment les choses vont se passer, ` +
-                `mais au moins tu essaies.`
-            );
-        }
-
-        if (choice === "ignore") {
-            return (
-                `Finalement, tu laisses passer l'occasion. ` +
-                `Tu n'as pas toujours besoin d'agir immédiatement.`
-            );
-        }
+    if (choice === "think") {
+        return (
+            `Tu prends quelques minutes pour réfléchir. ` +
+            `Plusieurs idées te viennent à l'esprit et tu commences à te demander ` +
+            `laquelle pourrait vraiment te plaire.`
+        );
     }
 
+
+    if (choice === "try") {
+        return (
+            `Tu décides de te lancer sans attendre d'avoir toutes les réponses. ` +
+            `Tu ne sais pas exactement comment les choses vont se passer, ` +
+            `mais au moins, quelque chose commence.`
+        );
+    }
+
+
+    if (choice === "ask") {
+        return (
+            `Tu vas chercher quelqu'un à qui en parler. ` +
+            `La discussion te donne une autre manière de voir les choses ` +
+            `et fait naître une nouvelle idée.`
+        );
+    }
+
+
+    if (choice === "help") {
+        return (
+            `Tu remarques que quelqu'un a besoin d'un coup de main. ` +
+            `Tu décides de l'aider plutôt que de chercher quelque chose pour toi. ` +
+            `Finalement, ça te donne envie de faire d'autres choses.`
+        );
+    }
+}
 
     if (event === "childhood") {
 
