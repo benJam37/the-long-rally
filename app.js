@@ -938,7 +938,7 @@ function getCurrentEventContent(age) {
             </div>
         `;
     }
-if (player.currentEvent === "activity") {
+    if (player.currentEvent === "activity") {
 
     let activityText = "";
 
@@ -982,194 +982,85 @@ if (player.currentEvent === "activity") {
 
         <div class="choices">
 
-            <button
-                class="choice blue"
-                onclick="chooseSecondEvent('watch')">
-
-                <strong>
-                    👀 Observer depuis la porte
-                </strong>
-
-                <span>
-                    Regarder quelques minutes avant de décider quoi faire.
-                </span>
-
+            <button class="choice blue" onclick="chooseSecondEvent('watch')">
+                <strong>👀 Observer depuis la porte</strong>
+                <span>Regarder quelques minutes avant de décider quoi faire.</span>
             </button>
 
-
-            <button
-                class="choice green"
-                onclick="chooseSecondEvent('approach')">
-
-                <strong>
-                    🚪 Entrer dans le gymnase
-                </strong>
-
-                <span>
-                    Aller voir de plus près ce qui se passe.
-                </span>
-
+            <button class="choice green" onclick="chooseSecondEvent('approach')">
+                <strong>🚪 Entrer dans le gymnase</strong>
+                <span>Aller voir de plus près ce qui se passe.</span>
             </button>
 
-
-            <button
-                class="choice orange"
-                onclick="chooseSecondEvent('ask')">
-
-                <strong>
-                    🗣️ Demander ce qu'ils font
-                </strong>
-
-                <span>
-                    Comprendre cette activité avant de te faire une idée.
-                </span>
-
+            <button class="choice orange" onclick="chooseSecondEvent('ask')">
+                <strong>🗣️ Demander ce qu'ils font</strong>
+                <span>Comprendre cette activité avant de te faire une idée.</span>
             </button>
 
-
-            <button
-                class="choice blue"
-                onclick="chooseSecondEvent('try')">
-
-                <strong>
-                    🏸 Demander à essayer
-                </strong>
-
-                <span>
-                    Tant qu'à être là, autant découvrir directement.
-                </span>
-
+            <button class="choice blue" onclick="chooseSecondEvent('try')">
+                <strong>🏸 Demander à essayer</strong>
+                <span>Tant qu'à être là, autant découvrir directement.</span>
             </button>
 
         </div>
     `;
 }
     if (player.currentEvent === "badminton") {
-    return `
-        <span class="event-label">
-            UNE NOUVELLE CURIOSITÉ
-        </span>
-
-        <h1 class="event-title">
-            🏸 Le badminton attire ton attention
-        </h1>
-
-        <p class="event-text">
-            Quelque chose dans ce sport commence à attirer ton regard.
-            Tu ne sais pas encore pourquoi, mais tu as envie d'en voir davantage.
-        </p>
-
-        <div class="choices">
-
-            <button
-                class="choice blue"
-                onclick="chooseSecondEvent('watch')">
-
-                <strong>
-                    👀 Observer les joueurs
-                </strong>
-
-                <span>
-                    Comprendre comment ils jouent avant de te lancer.
-                </span>
-
-            </button>
-
-            <button
-                class="choice green"
-                onclick="chooseSecondEvent('try')">
-
-                <strong>
-                    🏸 Prendre une raquette
-                </strong>
-
-                <span>
-                    Voir ce que ça donne quand tu essaies toi-même.
-                </span>
-
-            </button>
-
-            <button
-                class="choice orange"
-                onclick="chooseSecondEvent('ignore')">
-
-                <strong>
-                    🚶 Passer à autre chose
-                </strong>
-
-                <span>
-                    Ce sport est intéressant, mais tu as d'autres choses en tête.
-                </span>
-
-            </button>
-
-        </div>
-    `;
-}
-
+        return `
+            <span class="event-label">UNE NOUVELLE CURIOSITÉ</span>
+            <h1 class="event-title">🏸 Le badminton attire ton attention</h1>
+            <p class="event-text">
+                Quelque chose dans ce sport commence à attirer ton regard.
+                Tu ne sais pas encore pourquoi, mais tu as envie d'en voir davantage.
+            </p>
+            <div class="choices">
+                <button class="choice blue" onclick="chooseSecondEvent('watch')">
+                    <strong>👀 Observer les joueurs</strong>
+                    <span>Comprendre comment ils jouent avant de te lancer.</span>
+                </button>
+                <button class="choice green" onclick="chooseSecondEvent('try')">
+                    <strong>🏸 Prendre une raquette</strong>
+                    <span>Voir ce que ça donne quand tu essaies toi-même.</span>
+                </button>
+                <button class="choice orange" onclick="chooseSecondEvent('ask')">
+                    <strong>🗣️ Poser des questions</strong>
+                    <span>Comprendre ce qui plaît aux autres dans ce sport.</span>
+                </button>
+                <button class="choice blue" onclick="chooseSecondEvent('talk')">
+                    <strong>🤝 Aller parler à un joueur</strong>
+                    <span>Faire connaissance avec quelqu'un qui pratique déjà.</span>
+                </button>
+            </div>
+        `;
+    }
     if (player.currentEvent === "curiosity") {
-    return `
-        <span class="event-label">
-            UNE QUESTION EN TÊTE
-        </span>
-
-        <h1 class="event-title">
-            🔎 Une curiosité grandissante
-        </h1>
-
-        <p class="event-text">
-            Une nouvelle idée te traverse l'esprit.
-            Tu as envie de comprendre comment les choses fonctionnent.
-        </p>
-
-        <div class="choices">
-
-            <button
-                class="choice blue"
-                onclick="chooseSecondEvent('watch')">
-
-                <strong>
-                    🔍 Chercher à comprendre
-                </strong>
-
-                <span>
-                    Observer et essayer de trouver une réponse.
-                </span>
-
-            </button>
-
-            <button
-                class="choice green"
-                onclick="chooseSecondEvent('try')">
-
-                <strong>
-                    🧪 Expérimenter
-                </strong>
-
-                <span>
-                    Essayer par toi-même pour voir ce qui se passe.
-                </span>
-
-            </button>
-
-            <button
-                class="choice orange"
-                onclick="chooseSecondEvent('ignore')">
-
-                <strong>
-                    🤷 Laisser tomber
-                </strong>
-
-                <span>
-                    Tout n'a pas besoin d'être compris immédiatement.
-                </span>
-
-            </button>
-
-        </div>
-    `;
-}
-
+        return `
+            <span class="event-label">UNE QUESTION EN TÊTE</span>
+            <h1 class="event-title">🔎 Une curiosité grandissante</h1>
+            <p class="event-text">
+                Une nouvelle idée te traverse l'esprit.
+                Tu as envie de comprendre comment les choses fonctionnent.
+            </p>
+            <div class="choices">
+                <button class="choice blue" onclick="chooseSecondEvent('watch')">
+                    <strong>🔍 Chercher à comprendre</strong>
+                    <span>Observer et essayer de trouver une réponse.</span>
+                </button>
+                <button class="choice green" onclick="chooseSecondEvent('try')">
+                    <strong>🧪 Expérimenter</strong>
+                    <span>Essayer par toi-même pour voir ce qui se passe.</span>
+                </button>
+                <button class="choice orange" onclick="chooseSecondEvent('ask')">
+                    <strong>🗣️ Demander à quelqu'un</strong>
+                    <span>Trouver quelqu'un qui pourrait t'aider à comprendre.</span>
+                </button>
+                <button class="choice blue" onclick="chooseSecondEvent('leave')">
+                    <strong>🌱 Laisser l'idée mûrir</strong>
+                    <span>Garder cette question dans un coin de ta tête pour plus tard.</span>
+                </button>
+            </div>
+        `;
+    }
   if (player.currentEvent === "initiative") {
 
     return `
@@ -1310,77 +1201,41 @@ if (player.currentEvent === "activity") {
    
 if (player.currentEvent === "childhood") {
     return `
-        <span class="event-label">
-            UNE JOURNÉE COMME LES AUTRES
-        </span>
-
-        <h1 class="event-title">
-            🌱 Quelque chose attire ton attention
-        </h1>
-
+        <span class="event-label">UNE JOURNÉE COMME LES AUTRES</span>
+        <h1 class="event-title">🌱 Quelque chose attire ton attention</h1>
         <p class="event-text">
-            À ${age} ans, le monde est encore rempli de choses
-            à découvrir. Aujourd'hui, une petite chose pourrait
-            bien changer le cours de ta journée.
+            À ${age} ans, le monde est encore rempli de choses à découvrir.
+            Aujourd'hui, une petite chose pourrait bien changer le cours de ta journée.
         </p>
-
         <div class="choices">
-
-            <button
-                class="choice blue"
-                onclick="chooseSecondEvent('watch')">
-
-                <strong>
-                    👀 Prendre le temps d'observer
-                </strong>
-
-                <span>
-                    Tu regardes attentivement ce qui se passe autour de toi.
-                </span>
-
+            <button class="choice blue" onclick="chooseSecondEvent('watch')">
+                <strong>👀 Prendre le temps d'observer</strong>
+                <span>Tu regardes attentivement ce qui se passe autour de toi.</span>
             </button>
-
-            <button
-                class="choice green"
-                onclick="chooseSecondEvent('try')">
-
-                <strong>
-                    🎯 Tenter quelque chose
-                </strong>
-
-                <span>
-                    Tu décides de voir ce qui se passe si tu essaies.
-                </span>
-
+            <button class="choice green" onclick="chooseSecondEvent('try')">
+                <strong>🎯 Tenter quelque chose</strong>
+                <span>Tu décides de voir ce qui se passe si tu essaies.</span>
             </button>
-
-            <button
-                class="choice orange"
-                onclick="chooseSecondEvent('ignore')">
-
-                <strong>
-                    🚶 Continuer ta journée
-                </strong>
-
-                <span>
-                    Ce n'est peut-être pas si important après tout.
-                </span>
-
+            <button class="choice orange" onclick="chooseSecondEvent('ask')">
+                <strong>🗣️ En parler à quelqu'un</strong>
+                <span>Demander ce que les autres en pensent avant de décider.</span>
             </button>
-
+            <button class="choice blue" onclick="chooseSecondEvent('follow')">
+                <strong>🧭 Suivre ton instinct</strong>
+                <span>Faire ce qui te semble naturel sur le moment.</span>
+            </button>
         </div>
     `;
 }
     return `
-        <h2>🌱 Une nouvelle journée</h2>
-        <p>
-            La vie continue. Quelque chose finira bien par attirer ton attention.
-        </p>
-
+        <span class="event-label">UNE NOUVELLE JOURNÉE</span>
+        <h1 class="event-title">🌱 Une journée comme les autres</h1>
+        <p class="event-text">La vie continue. Quelque chose finira bien par attirer ton attention.</p>
         <div class="choices">
-            <button onclick="chooseSecondEvent('watch')">👀 Observer</button>
-            <button onclick="chooseSecondEvent('try')">🎯 Agir</button>
-            <button onclick="chooseSecondEvent('ignore')">🏠 Continuer sa journée</button>
+            <button class="choice blue" onclick="chooseSecondEvent('watch')"><strong>👀 Observer</strong><span>Prendre le temps de regarder ce qui se passe.</span></button>
+            <button class="choice green" onclick="chooseSecondEvent('try')"><strong>🎯 Essayer</strong><span>Voir ce qui se passe en te lançant.</span></button>
+            <button class="choice orange" onclick="chooseSecondEvent('ask')"><strong>🗣️ Demander</strong><span>En parler à quelqu'un pour avoir un autre point de vue.</span></button>
+            <button class="choice blue" onclick="chooseSecondEvent('follow')"><strong>🧭 Suivre ton instinct</strong><span>Faire ce qui te semble naturel sur le moment.</span></button>
         </div>
     `;
 }
@@ -1726,247 +1581,86 @@ function chooseFirstEvent(choice) {
 function getNextEvent() {
 
     const events = [];
-
     const previousEvent = player.currentEvent;
+    const age = calculateAge(player.birthDate, player.currentDate);
 
-   const age = calculateAge(
-    player.birthDate,
-    player.currentDate
-);
+    if (age <= 10) events.push("childhood");
+    if (previousEvent !== "badminton" && player.traits.badmintonInterest >= 5) events.push("badminton");
+    if (previousEvent !== "curiosity" && player.traits.curiosity >= 55) events.push("curiosity");
+    if (previousEvent !== "initiative" && player.traits.initiative >= 55) events.push("initiative");
+    if (player.hidden.motivation >= 65 && previousEvent !== "initiative") events.push("initiative");
 
-   if (age <= 10) {
-    events.push("childhood");
-}
+    const filteredEvents = events.filter(
+        event => event !== player.currentEvent &&
+        !player.eventHistory.some(history => history.event === event)
+    );
 
-
-/*
-    Le moteur commence à tenir compte
-    de la personnalité du personnage.
-*/
-
-if (
-    previousEvent !== "badminton" &&
-    player.traits.badmintonInterest >= 5
-) {
-    events.push("badminton");
-}
-
-
-if (
-    previousEvent !== "curiosity" &&
-    player.traits.curiosity >= 55
-) {
-    events.push("curiosity");
-}
-
-
-if (
-    previousEvent !== "initiative" &&
-    player.traits.initiative >= 55
-) {
-    events.push("initiative");
-}
-
-
-/*
-    La motivation peut également
-    favoriser les événements d'action.
-*/
-
-if (
-    player.hidden.motivation >= 65 &&
-    previousEvent !== "initiative"
-) {
-    events.push("initiative");
-}
-
-
-    /*
-        Évite de proposer deux fois de suite
-        exactement le même type d'événement.
-    */
-
-   const filteredEvents = events.filter(
-    event =>
-        event !== player.currentEvent &&
-        !player.eventHistory.some(
-            history => history.event === event
-        )
-);
-
-   if (filteredEvents.length === 0) {
-
-    const repeatableEvents =
-        events.filter(
-            event => event !== player.currentEvent
-        );
-
-    if (repeatableEvents.length > 0) {
-        return randomItem(repeatableEvents);
+    if (filteredEvents.length === 0) {
+        const repeatableEvents = events.filter(event => event !== player.currentEvent);
+        if (repeatableEvents.length > 0) return randomItem(repeatableEvents);
+        return "neutral";
     }
-
-    return "neutral";
-}
 
     const weightedEvents = [];
+    filteredEvents.forEach(event => {
+        let weight = 1;
+        if (event === "badminton") weight += player.traits.badmintonInterest;
+        if (event === "curiosity") weight += player.traits.curiosity;
+        if (event === "initiative") weight += player.traits.initiative;
+        for (let i = 0; i < weight; i++) weightedEvents.push(event);
+    });
 
-filteredEvents.forEach(event => {
-
-    let weight = 1;
-
-    if (event === "badminton") {
-        weight += player.traits.badmintonInterest;
-    }
-
-    if (event === "curiosity") {
-        weight += player.traits.curiosity;
-    }
-
-    if (event === "initiative") {
-        weight += player.traits.initiative;
-    }
-
-    for (let i = 0; i < weight; i++) {
-        weightedEvents.push(event);
-    }
-});
-
-return randomItem(weightedEvents);
+    return randomItem(weightedEvents);
 }
 
-/* =========================================================
-   DEUXIÈME ÉVÉNEMENT
-========================================================= */
 function resolveEventChoice(event, choice) {
 
-    if (event === "activity") {
-
     const consequences = {
 
-        watch: {
-            curiosity: 4
+        activity: {
+            watch: { curiosity: 4 },
+            approach: { initiative: 3, badmintonInterest: 2 },
+            ask: { curiosity: 3, initiative: 2 },
+            try: { badmintonInterest: 5, initiative: 2 }
         },
 
-        approach: {
-            initiative: 3,
-            badmintonInterest: 2
+        badminton: {
+            watch: { curiosity: 3, badmintonInterest: 2 },
+            try: { badmintonInterest: 6, initiative: 2 },
+            ask: { curiosity: 2, badmintonInterest: 2 },
+            talk: { initiative: 2, badmintonInterest: 3 }
         },
 
-        ask: {
-            curiosity: 3,
-            initiative: 2
+        curiosity: {
+            watch: { curiosity: 4 },
+            try: { curiosity: 5, initiative: 3 },
+            ask: { curiosity: 2, initiative: 2 },
+            leave: { motivation: 1 }
         },
 
-        try: {
-            badmintonInterest: 5,
-            initiative: 2
+        initiative: {
+            think: { curiosity: 2 },
+            try: { initiative: 5, motivation: 2 },
+            ask: { curiosity: 2, initiative: 2 },
+            help: { initiative: 3, motivation: 2 }
+        },
+
+        childhood: {
+            watch: { curiosity: 3 },
+            try: { initiative: 3, curiosity: 2 },
+            ask: { curiosity: 2, initiative: 1 },
+            follow: { motivation: 2, initiative: 1 }
+        },
+
+        neutral: {
+            watch: { curiosity: 2 },
+            try: { initiative: 2 },
+            ask: { curiosity: 1, initiative: 1 },
+            follow: { motivation: 1 }
         }
-
     };
 
-    return consequences[choice] || {};
-}
-
-    if (event === "badminton") {
-
-        const consequences = {
-
-            watch: {
-                curiosity: 3,
-                badmintonInterest: 2
-            },
-
-            try: {
-                badmintonInterest: 6,
-                initiative: 2
-            },
-
-            ignore: {
-                badmintonInterest: -2
-            }
-
-        };
-
-        return consequences[choice] || {};
-    }
-
-
-    if (event === "curiosity") {
-
-        const consequences = {
-
-            watch: {
-                curiosity: 4
-            },
-
-            try: {
-                curiosity: 5,
-                initiative: 3
-            },
-
-            ignore: {
-                curiosity: -2
-            }
-
-        };
-
-        return consequences[choice] || {};
-    }
-
-
-if (event === "initiative") {
-
-    const consequences = {
-
-        think: {
-            curiosity: 2
-        },
-
-        try: {
-            initiative: 5,
-            motivation: 2
-        },
-
-        ask: {
-            curiosity: 2,
-            initiative: 2
-        },
-
-        help: {
-            initiative: 3,
-            motivation: 2
-        }
-
-    };
-
-    return consequences[choice] || {};
-}
-
-
-    if (event === "childhood") {
-
-        const consequences = {
-
-            watch: {
-                curiosity: 3
-            },
-
-            try: {
-                initiative: 3,
-                curiosity: 2
-            },
-
-            ignore: {
-                motivation: 1
-            }
-
-        };
-
-        return consequences[choice] || {};
-    }
-
-
-    return {};
+    return consequences[event]?.[choice] || {};
 }
 
 function continueAfterConsequences() {
@@ -1978,157 +1672,46 @@ function continueAfterConsequences() {
 
 function getEventChoiceText(event, choice) {
 
-    if (event === "activity") {
-
-    if (choice === "watch") {
-        return (
-            `Tu restes quelques minutes près de la porte. ` +
-            `Tu observes les échanges et essaies de comprendre ce qui rend ce sport intéressant.`
-        );
-    }
-
-
-    if (choice === "approach") {
-        return (
-            `Tu pousses la porte du gymnase et t'approches du groupe. ` +
-            `Quelques personnes remarquent ta présence et tu découvres l'ambiance du club.`
-        );
-    }
-
-
-    if (choice === "ask") {
-        return (
-            `Tu t'adresses à quelqu'un pour savoir ce qui se passe. ` +
-            `Tu découvres qu'il s'agit d'une séance de badminton et commences à poser quelques questions.`
-        );
-    }
-
-
-    if (choice === "try") {
-        return (
-            `Tu demandes si tu peux essayer. ` +
-            `On te tend une raquette et tu découvres rapidement que frapper un volant est moins simple qu'il n'y paraît.`
-        );
-    }
-}
-
-    if (event === "badminton") {
-
-        if (choice === "watch") {
-            return (
-                `Tu restes quelques minutes de plus à observer les joueurs. ` +
-                `Certains échanges sont rapides, d'autres beaucoup plus longs. ` +
-                `Tu commences à te demander ce qu'il faudrait pour réussir à jouer comme eux.`
-            );
+    const texts = {
+        activity: {
+            watch: `Tu restes quelques minutes près de la porte. Tu observes les échanges et essaies de comprendre ce qui rend ce sport intéressant.`,
+            approach: `Tu pousses la porte du gymnase et t'approches du groupe. Quelques personnes remarquent ta présence et tu découvres l'ambiance du club.`,
+            ask: `Tu t'adresses à quelqu'un pour savoir ce qui se passe. Tu découvres qu'il s'agit d'une séance de badminton et commences à poser quelques questions.`,
+            try: `Tu demandes si tu peux essayer. On te tend une raquette et tu découvres rapidement que frapper un volant est moins simple qu'il n'y paraît.`
+        },
+        badminton: {
+            watch: `Tu restes quelques minutes de plus à observer les joueurs. Certains échanges sont rapides, d'autres beaucoup plus longs. Tu commences à te demander ce qu'il faudrait pour réussir à jouer comme eux.`,
+            try: `Tu prends une raquette et décides d'essayer quelques échanges. Tes premiers coups sont loin d'être parfaits, mais tu as envie de recommencer.`,
+            ask: `Tu poses quelques questions sur le badminton. Tu découvres que derrière les échanges que tu regardais se cache tout un monde que tu ne connaissais pas encore.`,
+            talk: `Tu vas parler à un joueur après un échange. La discussion est simple, mais tu découvres quelqu'un qui semble vraiment aimer ce sport.`
+        },
+        curiosity: {
+            watch: `Tu prends le temps d'observer ce qui se passe autour de toi. Un détail attire particulièrement ton attention et te donne envie d'en savoir plus.`,
+            try: `Tu décides de chercher par toi-même. Tu ne sais pas encore où cela va te mener, mais comprendre les choses par toi-même te plaît déjà.`,
+            ask: `Tu poses la question à quelqu'un. La réponse ne règle pas tout, mais elle ouvre encore quelques nouvelles questions.`,
+            leave: `Tu gardes cette question dans un coin de ta tête. Tu n'as pas besoin de tout comprendre aujourd'hui.`
+        },
+        initiative: {
+            think: `Tu prends quelques minutes pour réfléchir. Plusieurs idées te viennent à l'esprit et tu commences à te demander laquelle pourrait vraiment te plaire.`,
+            try: `Tu décides de te lancer sans attendre d'avoir toutes les réponses. Tu ne sais pas exactement comment les choses vont se passer, mais au moins, quelque chose commence.`,
+            ask: `Tu vas chercher quelqu'un à qui en parler. La discussion te donne une autre manière de voir les choses et fait naître une nouvelle idée.`,
+            help: `Tu remarques que quelqu'un a besoin d'un coup de main. Tu décides de l'aider plutôt que de chercher quelque chose pour toi. Finalement, ça te donne envie de faire d'autres choses.`
+        },
+        childhood: {
+            watch: `Tu prends le temps d'observer ce qui se passe autour de toi. Une petite chose retient ton attention et rend cette journée un peu différente.`,
+            try: `Tu décides d'essayer quelque chose de nouveau. Tu ne sais pas encore si cela te plaira, mais tu as envie de découvrir ce qui va se passer.`,
+            ask: `Tu en parles à quelqu'un autour de toi. La discussion t'aide à voir cette petite situation sous un autre angle.`,
+            follow: `Tu suis simplement ton instinct. Ce n'est peut-être pas la décision la plus réfléchie, mais elle te semble naturelle sur le moment.`
+        },
+        neutral: {
+            watch: `Tu prends le temps de regarder ce qui se passe autour de toi.`,
+            try: `Tu décides d'essayer quelque chose et vois où cela te mène.`,
+            ask: `Tu en parles à quelqu'un et découvres un autre point de vue.`,
+            follow: `Tu suis ton instinct et continues tranquillement ta journée.`
         }
+    };
 
-        if (choice === "try") {
-            return (
-                `Tu prends une raquette et décides d'essayer quelques échanges. ` +
-                `Tes premiers coups sont loin d'être parfaits, mais tu as envie de recommencer.`
-            );
-        }
-
-        if (choice === "ignore") {
-            return (
-                `Tu décides de passer à autre chose. ` +
-                `Le badminton est intéressant, mais pour l'instant tu as d'autres choses en tête.`
-            );
-        }
-    }
-
-
-    if (event === "curiosity") {
-
-        if (choice === "watch") {
-            return (
-                `Tu prends le temps d'observer ce qui se passe autour de toi. ` +
-                `Un détail attire particulièrement ton attention et te donne envie d'en savoir plus.`
-            );
-        }
-
-        if (choice === "try") {
-            return (
-                `Tu décides de chercher par toi-même. ` +
-                `Tu ne sais pas encore où cela va te mener, ` +
-                `mais comprendre les choses par toi-même te plaît déjà.`
-            );
-        }
-
-        if (choice === "ignore") {
-            return (
-                `Tu laisses cette idée de côté. ` +
-                `Peut-être qu'elle te reviendra plus tard.`
-            );
-        }
-    }
-
-
-    if (event === "initiative") {
-
-    if (choice === "think") {
-        return (
-            `Tu prends quelques minutes pour réfléchir. ` +
-            `Plusieurs idées te viennent à l'esprit et tu commences à te demander ` +
-            `laquelle pourrait vraiment te plaire.`
-        );
-    }
-
-
-    if (choice === "try") {
-        return (
-            `Tu décides de te lancer sans attendre d'avoir toutes les réponses. ` +
-            `Tu ne sais pas exactement comment les choses vont se passer, ` +
-            `mais au moins, quelque chose commence.`
-        );
-    }
-
-
-    if (choice === "ask") {
-        return (
-            `Tu vas chercher quelqu'un à qui en parler. ` +
-            `La discussion te donne une autre manière de voir les choses ` +
-            `et fait naître une nouvelle idée.`
-        );
-    }
-
-
-    if (choice === "help") {
-        return (
-            `Tu remarques que quelqu'un a besoin d'un coup de main. ` +
-            `Tu décides de l'aider plutôt que de chercher quelque chose pour toi. ` +
-            `Finalement, ça te donne envie de faire d'autres choses.`
-        );
-    }
-}
-
-    if (event === "childhood") {
-
-        if (choice === "watch") {
-            return (
-                `Tu prends le temps d'observer ce qui se passe autour de toi. ` +
-                `Une petite chose retient ton attention et rend cette journée un peu différente.`
-            );
-        }
-
-        if (choice === "try") {
-            return (
-                `Tu décides d'essayer quelque chose de nouveau. ` +
-                `Tu ne sais pas encore si cela te plaira, ` +
-                `mais tu as envie de découvrir ce qui va se passer.`
-            );
-        }
-
-        if (choice === "ignore") {
-            return (
-                `Tu continues tranquillement ta journée. ` +
-                `Cette petite curiosité passera peut-être... ou reviendra plus tard.`
-            );
-        }
-    }
-
-
-    return "Tu continues ta journée.";
+    return texts[event]?.[choice] || "Tu continues ta journée.";
 }
 
 function chooseSecondEvent(choice) {
