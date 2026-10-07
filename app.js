@@ -853,75 +853,91 @@ function createPlayer(
    ÉCRAN DE JEU
 ========================================================= */
 function getCurrentEventContent(age) {
-   if (player.currentEvent === "first") {
-    return `
-        <span class="event-label">
-            PREMIÈRE JOURNÉE
-        </span>
 
-        <h1 class="event-title">
-            Une nouvelle vie commence
-        </h1>
+    if (player.currentEvent === "first") {
+        return `
+            <span class="event-label">
+                PREMIÈRE JOURNÉE
+            </span>
 
-        <p class="event-text">
-            Tu as ${age} ans.
+            <h1 class="event-title">
+                Une nouvelle vie commence
+            </h1>
 
-            À ${player.city}, ta rentrée vient de commencer.
+            <p class="event-text">
+                Tu as ${age} ans.
 
-            ${player.family.description}
+                À ${player.city}, ta rentrée vient de commencer.
 
-            Pour l'instant, le badminton n'est encore qu'une possibilité parmi tant d'autres.
-        </p>
+                ${player.family.description}
 
-        <div class="choices">
+                Pour l'instant, le badminton n'est encore qu'une possibilité parmi tant d'autres.
+            </p>
 
-            <button
-                class="choice blue"
-                onclick="chooseFirstEvent('explorer')">
+            <div class="choices">
 
-                <strong>
-                    👀 Observer autour de moi
-                </strong>
+                <button
+                    class="choice blue"
+                    onclick="chooseFirstEvent('explorer')">
 
-                <span>
-                    Prendre le temps de découvrir ce nouvel environnement.
-                </span>
+                    <strong>
+                        👀 Observer autour de moi
+                    </strong>
 
-            </button>
+                    <span>
+                        Prendre le temps de découvrir ce nouvel environnement.
+                    </span>
 
-
-            <button
-                class="choice green"
-                onclick="chooseFirstEvent('agir')">
-
-                <strong>
-                    🚀 Me lancer
-                </strong>
-
-                <span>
-                    J'ai envie de voir ce que cette nouvelle vie me réserve.
-                </span>
-
-            </button>
+                </button>
 
 
-            <button
-                class="choice orange"
-                onclick="chooseFirstEvent('calme')">
+                <button
+                    class="choice green"
+                    onclick="chooseFirstEvent('agir')">
 
-                <strong>
-                    😌 Rester tranquille
-                </strong>
+                    <strong>
+                        🤝 Aller vers les autres
+                    </strong>
 
-                <span>
-                    Pas besoin de se précipiter. Chaque chose en son temps.
-                </span>
+                    <span>
+                        Faire le premier pas et voir qui je vais rencontrer.
+                    </span>
 
-            </button>
+                </button>
 
-        </div>
-    `;
-}
+
+                <button
+                    class="choice orange"
+                    onclick="chooseFirstEvent('activite')">
+
+                    <strong>
+                        🔎 Chercher quelque chose à faire
+                    </strong>
+
+                    <span>
+                        Regarder ce qui existe autour de moi.
+                    </span>
+
+                </button>
+
+
+                <button
+                    class="choice blue"
+                    onclick="chooseFirstEvent('calme')">
+
+                    <strong>
+                        😌 Prendre mes marques tranquillement
+                    </strong>
+
+                    <span>
+                        Profiter de cette nouvelle vie sans chercher à tout découvrir tout de suite.
+                    </span>
+
+                </button>
+
+            </div>
+        `;
+    }
 if (player.currentEvent === "activity") {
 
     let activityText = "";
@@ -1554,6 +1570,7 @@ function chooseFirstEvent(choice) {
     let text = "";
 
     const consequences = {
+
         explorer: {
             curiosity: 4
         },
@@ -1563,10 +1580,17 @@ function chooseFirstEvent(choice) {
             curiosity: 2
         },
 
+        activite: {
+            curiosity: 3,
+            badmintonInterest: 2
+        },
+
         calme: {
             motivation: 2
         }
+
     };
+
 
     if (choice === "explorer") {
 
@@ -1580,8 +1604,17 @@ function chooseFirstEvent(choice) {
 
         text =
             `Tu as envie de découvrir quelque chose. ` +
-            `Après l'école, une affiche attire ton attention : plusieurs activités ` +
-            `sportives sont proposées dans le quartier.`;
+            `Tu fais le premier pas et commences à regarder ` +
+            `les personnes qui t'entourent.`;
+    }
+
+
+    if (choice === "activite") {
+
+        text =
+            `Tu te demandes ce qu'il serait possible de faire ` +
+            `après l'école. ` +
+            `Tu commences à regarder les activités proposées autour de toi.`;
     }
 
 
@@ -1594,21 +1627,25 @@ function chooseFirstEvent(choice) {
 
 
     player.eventHistory.push({
-    event: "first",
-    choice: choice
-});
+        event: "first",
+        choice: choice
+    });
 
-   player.lastConsequences =
-       consequences[choice] || {};
+
+    player.lastConsequences =
+        consequences[choice] || {};
+
 
     Object.keys(player.lastConsequences).forEach(stat => {
 
         if (player.traits[stat] !== undefined) {
-            player.traits[stat] += player.lastConsequences[stat];
+            player.traits[stat] +=
+                player.lastConsequences[stat];
         }
 
         if (player.hidden[stat] !== undefined) {
-            player.hidden[stat] += player.lastConsequences[stat];
+            player.hidden[stat] +=
+                player.lastConsequences[stat];
         }
 
     });
@@ -1619,9 +1656,11 @@ function chooseFirstEvent(choice) {
             player.currentDate + "T12:00:00"
         );
 
+
     date.setDate(
         date.getDate() + 3
     );
+
 
     player.currentDate =
         date.toISOString().split("T")[0];
