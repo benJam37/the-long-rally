@@ -1826,6 +1826,49 @@ function showGame() {
    PREMIER ÉVÉNEMENT
 ========================================================= */
 
+
+/* =========================================================
+   ANNÉE SCOLAIRE
+   La rentrée est déclenchée par le calendrier, jamais par l'âge seul.
+========================================================= */
+function updateSchoolYear(previousDateString, newDateString) {
+    if (!player || !player.school || !previousDateString || !newDateString) return;
+
+    const previousDate = new Date(previousDateString + "T12:00:00");
+    const newDate = new Date(newDateString + "T12:00:00");
+    if (newDate <= previousDate) return;
+
+    const schoolLevels = ["CP", "CE1", "CE2", "CM1", "CM2", "6e", "5e", "4e", "3e", "Seconde", "Première", "Terminale"];
+    let currentLevelIndex = schoolLevels.indexOf(player.school.level);
+
+    // Parcourt chaque 1er septembre traversé par le saut de calendrier.
+    for (let year = previousDate.getFullYear(); year <= newDate.getFullYear(); year++) {
+        const rentrée = new Date(year, 8, 1, 12, 0, 0);
+        if (rentrée > previousDate && rentrée <= newDate) {
+            if (currentLevelIndex >= 0 && currentLevelIndex < schoolLevels.length - 1) {
+                currentLevelIndex++;
+                player.school.level = schoolLevels[currentLevelIndex];
+            }
+
+            const levelText = player.school.level;
+            player.history.push({
+                date: formatDate(rentrée.toISOString().split("T")[0]),
+                text: `C'est la rentrée ! Tu entres en ${levelText}. Une nouvelle année scolaire commence, avec de nouveaux repères et de nouvelles rencontres possibles.`
+            });
+
+            if (Array.isArray(player.memories)) {
+                player.memories.push({
+                    event: "school_year",
+                    choice: "rentrée",
+                    date: rentrée.toISOString().split("T")[0],
+                    text: `Rentrée scolaire en ${levelText}.`
+                });
+            }
+        }
+    }
+}
+
+
 function chooseFirstEvent(choice) {
 
     let text = "";
@@ -1912,6 +1955,7 @@ function chooseFirstEvent(choice) {
     });
 
 
+    const previousDate = player.currentDate;
     const date =
         new Date(
             player.currentDate + "T12:00:00"
@@ -1926,6 +1970,7 @@ function chooseFirstEvent(choice) {
     player.currentDate =
         date.toISOString().split("T")[0];
 
+    updateSchoolYear(previousDate, player.currentDate);
     recordMemory("first", choice, text);
 
     player.history.push({
@@ -2206,6 +2251,7 @@ function chooseSecondEvent(choice) {
     player.currentEvent = "consequence";
 
 
+    const previousDate = player.currentDate;
     const date =
         new Date(
             player.currentDate + "T12:00:00"
@@ -2219,6 +2265,7 @@ function chooseSecondEvent(choice) {
     player.currentDate =
         date.toISOString().split("T")[0];
 
+    updateSchoolYear(previousDate, player.currentDate);
     recordMemory(eventName, choice, text);
 
     player.history.push({
