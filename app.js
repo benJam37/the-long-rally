@@ -822,9 +822,6 @@ function createPlayer(
         },
 
        eventHistory: [],
-
-        // Souvenirs durables qui pourront influencer les événements futurs.
-        memories: [],
        
         history: [
 
@@ -1456,30 +1453,6 @@ function showGame() {
 
 
 /* =========================================================
-   MÉMOIRES DU PERSONNAGE
-========================================================= */
-
-function recordMemory(event, choice, text) {
-
-    // On ne transforme pas chaque petite décision en souvenir durable.
-    // Pour le prototype, on conserve les premières expériences marquantes.
-    const memorableEvents = ["first", "activity", "badminton"];
-
-    if (!memorableEvents.includes(event)) {
-        return;
-    }
-
-    player.memories.push({
-        type: "experience",
-        event: event,
-        choice: choice,
-        date: player.currentDate,
-        text: text
-    });
-}
-
-
-/* =========================================================
    PREMIER ÉVÉNEMENT
 ========================================================= */
 
@@ -1549,7 +1522,6 @@ function chooseFirstEvent(choice) {
         choice: choice
     });
 
-    recordMemory("first", choice, text);
 
     player.lastConsequences =
         consequences[choice] || {};
@@ -1629,12 +1601,43 @@ function getNextEvent() {
         return "neutral";
     }
 
+    // Les souvenirs influencent discrètement les occasions qui se présentent.
+    // Ils ne garantissent jamais un événement : ils en modifient seulement la probabilité.
+    const memories = Array.isArray(player.memories) ? player.memories : [];
+
+    const badmintonMemories = memories.filter(memory =>
+        (memory.event === "first" && memory.choice === "activite") ||
+        (memory.event === "activity" && ["approach", "try"].includes(memory.choice)) ||
+        (memory.event === "badminton" && ["try", "talk"].includes(memory.choice))
+    ).length;
+
+    const curiosityMemories = memories.filter(memory =>
+        ["watch", "ask", "explorer"].includes(memory.choice)
+    ).length;
+
+    const initiativeMemories = memories.filter(memory =>
+        ["agir", "try", "help", "approach"].includes(memory.choice)
+    ).length;
+
     const weightedEvents = [];
     filteredEvents.forEach(event => {
         let weight = 1;
-        if (event === "badminton") weight += player.traits.badmintonInterest;
-        if (event === "curiosity") weight += player.traits.curiosity;
-        if (event === "initiative") weight += player.traits.initiative;
+
+        if (event === "badminton") {
+            weight += player.traits.badmintonInterest;
+            weight += badmintonMemories * 4;
+        }
+
+        if (event === "curiosity") {
+            weight += player.traits.curiosity;
+            weight += curiosityMemories * 2;
+        }
+
+        if (event === "initiative") {
+            weight += player.traits.initiative;
+            weight += initiativeMemories * 2;
+        }
+
         for (let i = 0; i < weight; i++) weightedEvents.push(event);
     });
 
@@ -1744,12 +1747,10 @@ function getEventChoiceText(event, choice) {
 
 function chooseSecondEvent(choice) {
 
-    const chosenEvent = player.currentEvent;
-
-    player.eventHistory.push({
-        event: chosenEvent,
-        choice: choice
-    });
+   player.eventHistory.push({
+    event: player.currentEvent,
+    choice: choice
+});
 
     const consequences = resolveEventChoice(
         player.currentEvent,
@@ -1774,11 +1775,10 @@ function chooseSecondEvent(choice) {
 
     const text =
         getEventChoiceText(
-            chosenEvent,
+            player.currentEvent,
             choice
         );
 
-    recordMemory(chosenEvent, choice, text);
 
     const nextEvent = getNextEvent();
 
