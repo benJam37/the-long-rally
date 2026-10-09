@@ -1064,7 +1064,11 @@ function createPlayer(
             orientation,
 
        currentEvent:
-          "first",
+          "monthly",
+
+        // Le calendrier mensuel est généré une seule fois par mois.
+        monthlySchedule: null,
+        monthlyNumber: 0,
 
         school: {
 
@@ -1732,215 +1736,240 @@ if (player.currentEvent === "childhood") {
     `;
 }
 
-function showGame() {
+function getMonthLabel(dateString) {
+    const date = new Date(dateString + "T12:00:00");
+    return date.toLocaleDateString("fr-FR", { month: "long", year: "numeric" });
+}
 
-    const age =
-        calculateAge(
-            player.birthDate,
-            player.currentDate
-        );
+function generateMonthlySchedule() {
+    const current = new Date(player.currentDate + "T12:00:00");
+    const year = current.getFullYear();
+    const month = current.getMonth();
+    const lastDay = new Date(year, month + 1, 0).getDate();
+    const firstDay = current.getDate();
+    const availableDays = [];
 
-    const debugStats = `
-        <div style="
-            margin-top:20px;
-            padding:12px;
-            background:#fff3cd;
-            border:1px solid #ffe69c;
-            border-radius:10px;
-            font-size:13px;
-        ">
-            <strong>🧪 MODE DEBUG</strong><br>
-            🧠 Curiosité : ${player.traits.curiosity}<br>
-            ⚡ Initiative : ${player.traits.initiative}<br>
-            🏸 Intérêt badminton : ${player.traits.badmintonInterest}<br>
-            💪 Motivation : ${player.hidden.motivation}
-        </div>
-    `;
+    for (let day = firstDay; day <= lastDay; day++) availableDays.push(day);
+    // Mélange les dates pour répartir les activités dans le mois.
+    for (let i = availableDays.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [availableDays[i], availableDays[j]] = [availableDays[j], availableDays[i]];
+    }
+
+    const age = calculateAge(player.birthDate, player.currentDate);
+    const trainingNames = age <= 10
+        ? [
+            ["Contrôle du volant", "Apprendre à viser et à doser ses frappes.", "racketControl"],
+            ["Déplacements de base", "Bouger, retrouver son équilibre et se replacer.", "movement"],
+            ["Faire durer l'échange", "Chercher la régularité plutôt que la puissance.", "consistency"],
+            ["Défi raquette-volant", "Apprendre en jouant à un petit défi.", "coordination"]
+          ]
+        : age <= 13
+        ? [
+            ["Précision des frappes", "Trouver des trajectoires plus régulières.", "racketControl"],
+            ["Déplacements et replacement", "Se déplacer efficacement entre deux frappes.", "movement"],
+            ["Jouer près du filet", "Travailler la précision et le toucher.", "consistency"],
+            ["Petit match d'entraînement", "Observer le jeu et prendre quelques décisions.", "tactics"]
+          ]
+        : [
+            ["Technique individuelle", "Consolider un coup de son choix.", "racketControl"],
+            ["Vitesse et replacement", "Enchaîner les déplacements avec précision.", "movement"],
+            ["Construction du point", "Préparer le coup suivant et varier le jeu.", "tactics"],
+            ["Séance de régularité", "Garder de la qualité dans les échanges.", "consistency"]
+          ];
+
+    const activities = [];
+    let dayIndex = 0;
+    const pickDate = () => {
+        const day = availableDays.length ? availableDays[dayIndex++ % availableDays.length] : firstDay;
+        return `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+    };
+
+    trainingNames.forEach((training, index) => {
+        activities.push({
+            id: `training-${player.monthlyNumber}-${index}`,
+            category: "badminton",
+            icon: "🏸",
+            date: pickDate(),
+            title: `Entraînement au club : ${training[0]}`,
+            description: training[1],
+            skill: training[2],
+            done: false,
+            outcome: ""
+        });
+    });
+
+    const schoolActivities = [
+        { title: "Un devoir à préparer", description: "Prendre un peu de temps pour avancer dans le travail scolaire.", actionLabel: "Je m'y mets", effect: "study" },
+        { title: "Un moment en classe", description: "Une occasion de participer, de poser une question ou d'observer.", actionLabel: "Je participe", effect: "class" }
+    ];
+    schoolActivities.forEach((item, index) => activities.push({
+        id: `school-${player.monthlyNumber}-${index}`, category: "school", icon: "🎒", date: pickDate(),
+        title: item.title, description: item.description, actionLabel: item.actionLabel, effect: item.effect, done: false, outcome: ""
+    }));
+
+    const personalActivities = [
+        { title: "Une sortie en famille", description: "La famille propose de partager un moment ensemble.", actionLabel: "J'y participe", effect: "family" },
+        { title: "Un ami propose de se retrouver", description: "Un moment pour discuter, jouer ou simplement passer du temps ensemble.", actionLabel: "J'accepte", effect: "friend" }
+    ];
+    personalActivities.forEach((item, index) => activities.push({
+        id: `personal-${player.monthlyNumber}-${index}`, category: "personal", icon: "❤️", date: pickDate(),
+        title: item.title, description: item.description, actionLabel: item.actionLabel, effect: item.effect, done: false, outcome: ""
+    }));
+
+    activities.sort((a, b) => a.date.localeCompare(b.date));
+    player.monthlySchedule = { year, month, activities, createdFor: `${year}-${String(month + 1).padStart(2, "0")}` };
+}
+
+function handleMonthlyActivity(activityId, action) {
+    if (!player || !player.monthlySchedule) return;
+    const activity = player.monthlySchedule.activities.find(item => item.id === activityId);
+    if (!activity || activity.done) return;
+
+    activity.done = true;
+    const attended = action !== "skip";
+    const dateText = formatDate(activity.date);
+    let result = "";
+
+    if (activity.category === "badminton") {
+        if (attended) {
+            player.badminton.skills[activity.skill] = (player.badminton.skills[activity.skill] || 0) + 1;
+            player.badminton.trainingSessions = (player.badminton.trainingSessions || 0) + 1;
+            player.badminton.experience = player.badminton.trainingSessions === 1 ? "Première séance" : `${player.badminton.trainingSessions} séances`;
+            player.hidden.motivation = Math.min(100, (player.hidden.motivation || 0) + 1);
+            result = `Tu participes à la séance. Progression en ${({ coordination: "coordination", racketControl: "contrôle de raquette", movement: "déplacements", consistency: "régularité", tactics: "tactique" })[activity.skill] || activity.skill} : +1.`;
+        } else {
+            result = "Tu ne vas pas à l'entraînement cette fois. Tu disposes de temps pour autre chose.";
+        }
+    } else if (activity.effect === "study") {
+        if (attended) { player.traits.curiosity += 1; result = "Tu avances dans ton travail et comprends un peu mieux ce qui te résistait."; }
+        else { result = "Tu repousses le devoir à plus tard. Il faudra penser à t'y remettre."; }
+    } else if (activity.effect === "class") {
+        if (attended) { player.traits.initiative += 1; result = "Tu prends part à la vie de la classe et gagnes un peu d'assurance."; }
+        else { result = "Tu restes plutôt en retrait aujourd'hui."; }
+    } else if (activity.effect === "family") {
+        if (attended) { player.hidden.motivation += 1; result = "Vous passez un bon moment ensemble. Ça fait du bien de se retrouver."; }
+        else { result = "Tu déclines la sortie. La famille fera autre chose cette fois."; }
+    } else if (activity.effect === "friend") {
+        if (attended) { player.traits.initiative += 1; result = "Vous passez du temps ensemble et renforcez votre complicité."; }
+        else { result = "Tu déclines l'invitation. Une autre occasion se présentera peut-être."; }
+    }
+
+    activity.outcome = result;
+    player.history.push({ date: dateText, text: result });
+    if (Array.isArray(player.memories) && attended) {
+        player.memories.push({ event: activity.category, choice: action, date: activity.date, text: result });
+    }
+    showGame();
+}
+
+function finishMonth() {
+    if (!player || !player.monthlySchedule) return;
+    const remaining = player.monthlySchedule.activities.filter(activity => !activity.done).length;
+    if (remaining > 0) return;
+
+    const previousDate = player.currentDate;
+    const current = new Date(player.currentDate + "T12:00:00");
+    const nextMonth = new Date(current.getFullYear(), current.getMonth() + 1, 1, 12, 0, 0);
+    player.currentDate = `${nextMonth.getFullYear()}-${String(nextMonth.getMonth() + 1).padStart(2, "0")}-01`;
+    player.monthlyNumber += 1;
+    updateSchoolYear(previousDate, player.currentDate);
+    player.history.push({
+        date: formatDate(player.currentDate),
+        text: `Un nouveau mois commence. Tu fais le point sur ce que tu as vécu et de nouvelles activités t'attendent.`
+    });
+    player.monthlySchedule = null;
+    generateMonthlySchedule();
+    showGame();
+}
+
+function showMonthlyCalendar() {
+    if (!player.monthlySchedule) generateMonthlySchedule();
+    const age = calculateAge(player.birthDate, player.currentDate);
+    const schedule = player.monthlySchedule;
+    const activities = schedule.activities;
+    const completed = activities.filter(activity => activity.done).length;
+    const remaining = activities.length - completed;
+    const groups = [
+        { id: "badminton", title: "🏸 Badminton", subtitle: "Les séances et la progression sportive" },
+        { id: "school", title: "🎒 École", subtitle: "Le quotidien scolaire" },
+        { id: "personal", title: "❤️ Famille et amis", subtitle: "Les moments qui comptent en dehors du terrain" }
+    ];
+
+    const activityCards = groups.map(group => {
+        const items = activities.filter(activity => activity.category === group.id);
+        return `
+            <section class="month-group" style="margin-bottom:22px;">
+                <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:10px;">
+                    <div><h2 style="margin:0 0 4px;font-size:20px;">${group.title}</h2><div style="font-size:13px;color:#64748b;">${group.subtitle}</div></div>
+                    <span style="font-size:12px;color:#64748b;white-space:nowrap;">${items.filter(item => item.done).length}/${items.length} traitées</span>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:10px;">
+                    ${items.map(activity => `
+                        <article style="border:1px solid ${activity.done ? '#cbd5e1' : '#dbe3ee'};border-radius:14px;padding:14px;background:${activity.done ? '#f8fafc' : '#ffffff'};opacity:${activity.done ? '0.88' : '1'};">
+                            <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:8px;">
+                                <span style="font-size:12px;color:#2563eb;font-weight:600;">${new Date(activity.date + 'T12:00:00').toLocaleDateString('fr-FR',{day:'numeric',month:'long'})}</span>
+                                <span style="font-size:11px;border-radius:20px;padding:4px 8px;background:${activity.done ? '#dcfce7' : '#eff6ff'};color:${activity.done ? '#166534' : '#1d4ed8'};">${activity.done ? 'Traitée' : 'À décider'}</span>
+                            </div>
+                            <h3 style="font-size:16px;margin:0 0 6px;">${activity.title}</h3>
+                            <p style="font-size:13px;line-height:1.45;color:#475569;margin:0 0 12px;">${activity.description}</p>
+                            ${activity.done ? `<div style="font-size:13px;line-height:1.5;color:#334155;">${activity.outcome}</div>` : `
+                                <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                                    <button class="choice blue" style="flex:1;min-width:115px;padding:10px;" onclick="handleMonthlyActivity('${activity.id}','attend')"><strong>${activity.actionLabel || (activity.category === 'badminton' ? 'Je vais à la séance' : 'Je participe')}</strong></button>
+                                    <button class="choice" style="flex:1;min-width:95px;padding:10px;" onclick="handleMonthlyActivity('${activity.id}','skip')"><strong>${activity.category === 'badminton' ? 'Je n’y vais pas' : 'Je décline'}</strong></button>
+                                </div>
+                            `}
+                        </article>
+                    `).join('')}
+                </div>
+            </section>
+        `;
+    }).join('');
 
     app.innerHTML = `
-
         <div class="game">
-
             <div class="game-header">
-
-                <div class="game-logo">
-                    The Long Rally
-                </div>
-
-                <div class="game-date">
-
-                    <strong>
-                        ${formatDate(player.currentDate)}
-                    </strong>
-
-                    <span>
-                        Saison 1 · Âge : ${age} ans
-                    </span>
-
-                </div>
-
+                <div class="game-logo">The Long Rally</div>
+                <div class="game-date"><strong>${formatDate(player.currentDate)}</strong><span>Âge : ${age} ans · ${player.school.level}</span></div>
             </div>
-
-
-            <div class="game-content">
-
-
-                <!-- PROFIL -->
-
-                <aside class="profile-card">
-
-                    <div class="avatar">
-                        🧒
+            <div style="max-width:1180px;margin:0 auto;padding:22px 20px 36px;">
+                <div style="background:linear-gradient(120deg,#17365d,#24558a);color:white;border-radius:18px;padding:22px;margin-bottom:20px;">
+                    <div style="font-size:12px;letter-spacing:1px;text-transform:uppercase;opacity:.8;">Ton programme</div>
+                    <h1 style="font-size:clamp(26px,4vw,36px);margin:6px 0 8px;text-transform:capitalize;">${getMonthLabel(player.currentDate)}</h1>
+                    <p style="margin:0 0 16px;line-height:1.5;max-width:680px;opacity:.92;">Un mois à vivre, des activités à choisir et parfois des imprévus. Tu décides comment répartir ton temps.</p>
+                    <div style="display:flex;flex-wrap:wrap;gap:9px;">
+                        <span style="background:#ffffff20;border-radius:20px;padding:7px 11px;font-size:13px;">🏸 ${activities.filter(a => a.category === 'badminton').length} entraînements prévus</span>
+                        <span style="background:#ffffff20;border-radius:20px;padding:7px 11px;font-size:13px;">📋 ${completed}/${activities.length} activités traitées</span>
                     </div>
-
-
-                    <h2 class="profile-name">
-                        ${player.firstName}
-                    </h2>
-
-
-                    <div class="profile-age">
-                        ${age} ans
-                    </div>
-
-
-                    <div class="profile-item">
-
-                        <strong>
-                            📍 ${player.city}
-                        </strong>
-
-                        <span>
-                            France
-                        </span>
-
-                    </div>
-
-
-                    <div class="profile-item">
-
-                        <strong>
-                            🏫 ${player.school.name}
-                        </strong>
-
-                        <span>
-                            ${player.school.level}
-                        </span>
-
-                    </div>
-
-
-                    <div class="profile-item">
-
-                        <strong>
-                            🏸 ${player.badminton.club.name}
-                        </strong>
-
-                        <span>
-                            ${player.badminton.club.reputation}
-                        </span>
-
-                    </div>
-
-
-                    ${player.family.members.map(member => {
-
-                        let icon = "👤";
-
-                        if (member.role === "Mère") {
-                            icon = "👩";
-                        }
-
-                        if (member.role === "Père") {
-                            icon = "👨";
-                        }
-
-                        if (member.role === "Frère / sœur") {
-                            icon = "🧒";
-                        }
-
-                        return `
-
-                            <div class="profile-item">
-
-                                <strong>
-                                    ${icon} ${member.role}
-                                </strong>
-
-                                <span>
-                                    ${member.name}
-                                </span>
-
-                            </div>
-
-                        `;
-
-                    }).join("")}
-
-
-                    ${debugStats}
-
-                </aside>
-
-
-                <!-- COLONNE PRINCIPALE -->
-
-                <main class="main-column">
-
-
-                    <div class="event-card">
-
-                        <div class="event-image">
-                            🏸
+                </div>
+                <div style="display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:20px;align-items:start;">
+                    <main style="min-width:0;">
+                        ${activityCards}
+                        <div style="display:flex;justify-content:flex-end;margin-top:22px;">
+                            <button class="menu-button primary" onclick="finishMonth()" ${remaining > 0 ? 'disabled style="opacity:.45;cursor:not-allowed;"' : ''}>
+                                <span class="menu-icon">📅</span><span class="menu-title">Mois suivant</span><span class="menu-subtitle">${remaining > 0 ? `Traite encore ${remaining} activité${remaining > 1 ? 's' : ''} pour clôturer le mois` : 'Clôturer le mois et continuer'}</span>
+                            </button>
                         </div>
-
-
-                        <div class="event-content">
-
-                            ${getCurrentEventContent(age)}
-
+                    </main>
+                    <aside style="background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:16px;">
+                        <div style="font-size:12px;color:#64748b;text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;">Ton personnage</div>
+                        <h2 style="margin:0 0 12px;font-size:21px;">🧒 ${player.firstName}</h2>
+                        <div style="font-size:13px;line-height:1.8;color:#334155;">
+                            <div>📍 ${player.city}</div><div>🏫 ${player.school.name}</div><div>📚 ${player.school.level}</div><div>🏸 ${player.badminton.club.name}</div>
+                            <div>🎯 Séances réalisées : ${player.badminton.trainingSessions || 0}</div>
                         </div>
-
-                    </div>
-
-
-                    <!-- HISTORIQUE -->
-
-                    <div class="history-card">
-
-                        <div class="history-title">
-                            Ce qui s'est passé récemment
-                        </div>
-
-
-                        ${player.history
-                            .slice()
-                            .reverse()
-                            .map(item => `
-
-                                <div class="history-item">
-
-                                    <div class="history-date">
-                                        ${item.date}
-                                    </div>
-
-                                    <div class="history-text">
-                                        ${item.text}
-                                    </div>
-
-                                </div>
-
-                            `)
-                            .join("")}
-
-                    </div>
-
-                </main>
-
+                        <hr style="border:0;border-top:1px solid #e2e8f0;margin:16px 0;"/>
+                        <div style="font-size:12px;color:#64748b;text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px;">Derniers souvenirs</div>
+                        ${player.history.slice(-4).reverse().map(item => `<div style="font-size:12px;line-height:1.45;margin-bottom:10px;"><div style="color:#2563eb;margin-bottom:2px;">${item.date}</div>${item.text}</div>`).join('')}
+                    </aside>
+                </div>
             </div>
-
         </div>
     `;
+}
+
+function showGame() {
+    showMonthlyCalendar();
 }
 
 
