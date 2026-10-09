@@ -1821,45 +1821,82 @@ function generateMonthlySchedule() {
     player.monthlySchedule = { year, month, activities, createdFor: `${year}-${String(month + 1).padStart(2, "0")}` };
 }
 
+function getMonthlyActivityStory(activity) {
+    if (activity.category === "badminton") {
+        const stories = {
+            racketControl: "Le coach installe plusieurs cibles au sol. Le volant ne va pas toujours là où tu veux, et un autre joueur réussit un joli coup juste à côté. Le coach te propose de choisir comment aborder l'exercice.",
+            movement: "Aujourd'hui, le coach a préparé un petit parcours. Il faut bouger, retrouver son équilibre et revenir au centre du terrain. Tu peux essayer sérieusement, demander un conseil ou transformer ça en défi.",
+            consistency: "Le coach veut voir combien de frappes vous pouvez enchaîner sans faire tomber le volant. Certains échanges s'arrêtent très vite, d'autres deviennent de vrais petits rallyes.",
+            coordination: "Une boîte de volants est posée au bord du terrain. Le défi paraît facile jusqu'à ce qu'il faille lancer le volant, le rattraper avec la raquette ou viser une zone précise. Plusieurs joueurs veulent essayer.",
+            tactics: "Pendant un petit match, tu remarques que ton adversaire revient toujours au même endroit. Le coach te demande de réfléchir à ce que tu pourrais essayer au prochain échange."
+        };
+        return stories[activity.skill] || "Le coach a préparé un exercice adapté au groupe. À toi de choisir comment tu veux l'aborder.";
+    }
+    if (activity.effect === "study") return "Le devoir est posé sur la table. Tu sais que tu pourrais t'y mettre maintenant, mais certaines questions te semblent compliquées. Tu peux essayer seul, demander un coup de main ou remettre ça à plus tard.";
+    if (activity.effect === "class") return "En classe, le professeur pose une question et laisse quelques secondes de silence. Tu as peut-être une idée, mais tu n'es pas certain de la réponse. C'est l'occasion de décider comment participer.";
+    if (activity.effect === "family") return "La famille a prévu un moment ensemble. Tu avais aussi d'autres idées pour cette journée. Tu peux profiter de la sortie, proposer un compromis ou expliquer que tu préfères faire autre chose.";
+    if (activity.effect === "friend") return "Un ami te propose de vous retrouver. Vous pourriez jouer, discuter ou inventer une activité. Tu peux accepter, proposer une autre idée ou décliner pour cette fois.";
+    return activity.description;
+}
+
+function getMonthlyActivityChoices(activity) {
+    if (activity.category === "badminton") return [
+        { id: "follow_coach", label: "🎯 Suivre l'exercice du coach", detail: "Tu te concentres sur le geste prévu.", outcome: "Tu suis les conseils du coach et travailles le geste du jour.", skill: activity.skill, motivation: 1 },
+        { id: "ask_coach", label: "🗣️ Demander un conseil", detail: "Tu veux comprendre comment mieux réussir.", outcome: "Le coach te donne un conseil que tu peux réutiliser lors des prochaines séances.", skill: activity.skill, curiosity: 1 },
+        { id: "make_game", label: "🎮 En faire un petit défi", detail: "Tu transformes l'exercice en jeu et tu essaies plusieurs fois.", outcome: "Le défi te donne envie de recommencer. Tu progresses en t'amusant.", skill: "coordination", motivation: 2 },
+        { id: "skip", label: "🌿 Ne pas participer aujourd'hui", detail: "Tu prends un peu de recul, même si tu rates la séance.", outcome: "Tu ne participes pas à l'entraînement. Une séance de moins pour progresser, mais tu disposes de temps pour autre chose.", skip: true }
+    ];
+    if (activity.effect === "study") return [
+        { id: "study_alone", label: "✏️ Essayer seul", detail: "Tu commences par les questions que tu comprends.", outcome: "Tu avances à ton rythme et tu comprends un peu mieux ce qui te résistait.", curiosity: 1 },
+        { id: "ask_help", label: "🙋 Demander de l'aide", detail: "Tu demandes à quelqu'un de t'expliquer ce qui bloque.", outcome: "Avec une explication, le devoir devient plus abordable. Tu apprends aussi à demander de l'aide.", curiosity: 1, initiative: 1 },
+        { id: "study_later", label: "🕒 Remettre à plus tard", detail: "Tu préfères faire autre chose pour le moment.", outcome: "Tu repousses le devoir. Il faudra trouver un autre moment pour t'y remettre.", skip: true }
+    ];
+    if (activity.effect === "class") return [
+        { id: "answer", label: "✋ Proposer ta réponse", detail: "Tu acceptes de te lancer, même sans être totalement sûr.", outcome: "Tu prends part à la discussion. Même quand tout n'est pas exact, tu apprends en essayant.", initiative: 2 },
+        { id: "ask_question", label: "❓ Poser une question", detail: "Tu demandes une précision avant de répondre.", outcome: "Ta question aide à éclaircir le sujet et montre que tu cherches à comprendre.", curiosity: 2 },
+        { id: "listen", label: "👀 Écouter les autres", detail: "Tu attends d'entendre les réponses de tes camarades.", outcome: "Tu écoutes les idées des autres et compares leurs réponses à la tienne.", curiosity: 1 },
+        { id: "quiet", label: "🤐 Rester en retrait", detail: "Tu préfères ne pas intervenir cette fois.", outcome: "Tu ne prends pas la parole aujourd'hui. Tu pourras participer une prochaine fois.", skip: true }
+    ];
+    if (activity.effect === "family") return [
+        { id: "family_go", label: "❤️ Profiter de la sortie", detail: "Tu joues le jeu et passes du temps avec ta famille.", outcome: "Vous partagez un bon moment et repartez avec un souvenir commun.", motivation: 2 },
+        { id: "family_compromise", label: "🤝 Proposer un compromis", detail: "Tu suggères une activité qui ferait plaisir à tout le monde.", outcome: "Vous trouvez une idée qui convient à davantage de monde. Tu as participé à organiser la journée.", initiative: 1, motivation: 1 },
+        { id: "family_skip", label: "🏠 Décliner cette fois", detail: "Tu expliques que tu préfères garder du temps pour toi.", outcome: "Tu déclines la sortie. La famille fait son activité et tu gardes du temps libre.", skip: true }
+    ];
+    if (activity.effect === "friend") return [
+        { id: "friend_accept", label: "🧑‍🤝‍🧑 Accepter l'invitation", detail: "Vous décidez de vous retrouver.", outcome: "Vous passez du temps ensemble et renforcez votre complicité.", initiative: 1, motivation: 1 },
+        { id: "friend_idea", label: "💡 Proposer une autre activité", detail: "Tu as une idée que vous pourriez essayer ensemble.", outcome: "Ton idée donne une direction à votre rencontre et vous découvrez une nouvelle façon de vous amuser.", initiative: 2, curiosity: 1 },
+        { id: "friend_skip", label: "💬 Décliner gentiment", detail: "Tu expliques que tu n'es pas disponible cette fois.", outcome: "Tu déclines l'invitation. Une autre occasion de vous retrouver se présentera peut-être.", skip: true }
+    ];
+    return [{ id: "accept", label: "Continuer", detail: "Tu fais ton choix.", outcome: "Tu poursuis ta journée." }];
+}
+
 function handleMonthlyActivity(activityId, action) {
     if (!player || !player.monthlySchedule) return;
     const activity = player.monthlySchedule.activities.find(item => item.id === activityId);
     if (!activity || activity.done) return;
-
+    if (action === "open") {
+        player.monthlySchedule.activeActivityId = player.monthlySchedule.activeActivityId === activityId ? null : activityId;
+        showGame();
+        return;
+    }
+    const choice = getMonthlyActivityChoices(activity).find(item => item.id === action);
+    if (!choice) return;
     activity.done = true;
-    const attended = action !== "skip";
-    const dateText = formatDate(activity.date);
-    let result = "";
-
-    if (activity.category === "badminton") {
-        if (attended) {
-            player.badminton.skills[activity.skill] = (player.badminton.skills[activity.skill] || 0) + 1;
-            player.badminton.trainingSessions = (player.badminton.trainingSessions || 0) + 1;
-            player.badminton.experience = player.badminton.trainingSessions === 1 ? "Première séance" : `${player.badminton.trainingSessions} séances`;
-            player.hidden.motivation = Math.min(100, (player.hidden.motivation || 0) + 1);
-            result = `Tu participes à la séance. Progression en ${({ coordination: "coordination", racketControl: "contrôle de raquette", movement: "déplacements", consistency: "régularité", tactics: "tactique" })[activity.skill] || activity.skill} : +1.`;
-        } else {
-            result = "Tu ne vas pas à l'entraînement cette fois. Tu disposes de temps pour autre chose.";
-        }
-    } else if (activity.effect === "study") {
-        if (attended) { player.traits.curiosity += 1; result = "Tu avances dans ton travail et comprends un peu mieux ce qui te résistait."; }
-        else { result = "Tu repousses le devoir à plus tard. Il faudra penser à t'y remettre."; }
-    } else if (activity.effect === "class") {
-        if (attended) { player.traits.initiative += 1; result = "Tu prends part à la vie de la classe et gagnes un peu d'assurance."; }
-        else { result = "Tu restes plutôt en retrait aujourd'hui."; }
-    } else if (activity.effect === "family") {
-        if (attended) { player.hidden.motivation += 1; result = "Vous passez un bon moment ensemble. Ça fait du bien de se retrouver."; }
-        else { result = "Tu déclines la sortie. La famille fera autre chose cette fois."; }
-    } else if (activity.effect === "friend") {
-        if (attended) { player.traits.initiative += 1; result = "Vous passez du temps ensemble et renforcez votre complicité."; }
-        else { result = "Tu déclines l'invitation. Une autre occasion se présentera peut-être."; }
+    activity.selectedChoice = choice.label;
+    const result = choice.outcome;
+    if (activity.category === "badminton" && !choice.skip) {
+        const skill = choice.skill || activity.skill;
+        player.badminton.skills[skill] = (player.badminton.skills[skill] || 0) + 1;
+        player.badminton.trainingSessions = (player.badminton.trainingSessions || 0) + 1;
+        player.badminton.experience = player.badminton.trainingSessions === 1 ? "Première séance" : `${player.badminton.trainingSessions} séances`;
     }
-
-    activity.outcome = result;
-    player.history.push({ date: dateText, text: result });
-    if (Array.isArray(player.memories) && attended) {
-        player.memories.push({ event: activity.category, choice: action, date: activity.date, text: result });
-    }
+    if (choice.curiosity) player.traits.curiosity = (player.traits.curiosity || 0) + choice.curiosity;
+    if (choice.initiative) player.traits.initiative = (player.traits.initiative || 0) + choice.initiative;
+    if (choice.motivation) player.hidden.motivation = Math.min(100, (player.hidden.motivation || 0) + choice.motivation);
+    activity.outcome = `${choice.label} : ${result}`;
+    player.history.push({ date: formatDate(activity.date), text: activity.outcome });
+    if (Array.isArray(player.memories) && !choice.skip) player.memories.push({ event: activity.category, choice: action, date: activity.date, text: activity.outcome });
+    player.monthlySchedule.activeActivityId = null;
     showGame();
 }
 
@@ -1913,11 +1950,17 @@ function showMonthlyCalendar() {
                             </div>
                             <h3 style="font-size:16px;margin:0 0 6px;">${activity.title}</h3>
                             <p style="font-size:13px;line-height:1.45;color:#475569;margin:0 0 12px;">${activity.description}</p>
-                            ${activity.done ? `<div style="font-size:13px;line-height:1.5;color:#334155;">${activity.outcome}</div>` : `
-                                <div style="display:flex;flex-wrap:wrap;gap:8px;">
-                                    <button class="choice blue" style="flex:1;min-width:115px;padding:10px;" onclick="handleMonthlyActivity('${activity.id}','attend')"><strong>${activity.actionLabel || (activity.category === 'badminton' ? 'Je vais à la séance' : 'Je participe')}</strong></button>
-                                    <button class="choice" style="flex:1;min-width:95px;padding:10px;" onclick="handleMonthlyActivity('${activity.id}','skip')"><strong>${activity.category === 'badminton' ? 'Je n’y vais pas' : 'Je décline'}</strong></button>
-                                </div>
+                            ${activity.done ? `<div style="font-size:13px;line-height:1.5;color:#334155;"><strong>${activity.selectedChoice || 'Ton choix'}</strong><div style="margin-top:5px;">${activity.outcome}</div></div>` : `
+                                ${player.monthlySchedule.activeActivityId === activity.id ? `
+                                    <div style="background:#f8fafc;border-radius:12px;padding:13px;margin-top:10px;">
+                                        <p style="font-size:14px;line-height:1.65;color:#1e293b;margin:0 0 12px;">${getMonthlyActivityStory(activity)}</p>
+                                        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:8px;">
+                                            ${getMonthlyActivityChoices(activity).map(choice => `
+                                                <button class="choice ${choice.skip ? '' : 'blue'}" style="text-align:left;padding:11px;" onclick="handleMonthlyActivity('${activity.id}','${choice.id}')"><strong>${choice.label}</strong><span style="display:block;font-size:12px;font-weight:400;margin-top:5px;line-height:1.45;">${choice.detail}</span></button>
+                                            `).join('')}
+                                        </div>
+                                    </div>
+                                ` : `<button class="choice blue" style="width:100%;padding:11px;" onclick="handleMonthlyActivity('${activity.id}','open')"><strong>📖 Lire l'événement et faire un choix</strong></button>`}
                             `}
                         </article>
                     `).join('')}
