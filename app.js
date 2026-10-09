@@ -2136,6 +2136,33 @@ function getEventChoiceText(event, choice) {
     return texts[event]?.[choice] || "Tu continues ta journée.";
 }
 
+function getDaysUntilNextEvent(eventName) {
+    // Le temps saute davantage entre les événements ordinaires,
+    // tout en gardant un rythme plus serré autour du badminton.
+    if (eventName === "first") return 3;
+
+    if (["badminton", "activity", "first_club_visit", "shuttle_miss",
+         "racket_choice", "club_name", "mini_tournament",
+         "club_encouragement", "club_late", "club_first_loss"].includes(eventName)) {
+        return Math.floor(Math.random() * 5) + 3; // 3 à 7 jours
+    }
+
+    if (["school_friend", "small_argument", "sibling_competition",
+         "class_project", "school_responsibility", "school_trip",
+         "first_sleepover", "birthday_plan", "family_weekend"].includes(eventName)) {
+        return Math.floor(Math.random() * 15) + 7; // 7 à 21 jours
+    }
+
+    if (["homework", "playground_game", "forgotten_snack", "new_hobby",
+         "rainy_day", "lost_pencil", "new_neighbour", "fair_day",
+         "rainy_walk", "class_mistake"].includes(eventName)) {
+        return Math.floor(Math.random() * 8) + 4; // 4 à 11 jours
+    }
+
+    return Math.floor(Math.random() * 7) + 3; // 3 à 9 jours par défaut
+}
+
+
 function chooseSecondEvent(choice) {
 
     const eventName = player.currentEvent;
@@ -2185,7 +2212,7 @@ function chooseSecondEvent(choice) {
         );
 
     date.setDate(
-        date.getDate() + 2
+        date.getDate() + getDaysUntilNextEvent(eventName)
     );
 
 
