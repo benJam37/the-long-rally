@@ -822,6 +822,9 @@ function createPlayer(
         },
 
        eventHistory: [],
+
+        // Souvenirs conservés au fil de la vie.
+        memories: [],
        
         history: [
 
@@ -957,23 +960,36 @@ function getCurrentEventContent(age) {
 
     let activityText = "";
 
-    if (player.traits.badmintonInterest >= 12) {
+    const firstMemory = player.memories?.find(memory => memory.event === "first");
 
+    if (firstMemory?.choice === "activite") {
+        activityText =
+            `Depuis la rentrée, tu regardes ce qui existe autour de toi pour occuper tes après-midis. ` +
+            `Aujourd'hui, une activité sportive attire ton attention. ` +
+            `À travers la porte du gymnase, tu entends des échanges de volant. ` +
+            `C'est exactement le genre de découverte que tu cherchais.`;
+    } else if (firstMemory?.choice === "agir") {
+        activityText =
+            `Depuis la rentrée, tu commences à prendre tes marques et à aller vers les autres. ` +
+            `Après l'école, tu remarques un groupe qui se retrouve dans un gymnase. ` +
+            `Les échanges de volant attirent ton attention, et tu te demandes si tu pourrais te joindre à eux.`;
+    } else if (firstMemory?.choice === "explorer") {
+        activityText =
+            `Depuis la rentrée, tu prends le temps d'observer ton nouvel environnement. ` +
+            `Sur le chemin du retour, tu remarques un gymnase que tu n'avais pas vraiment regardé jusque-là. ` +
+            `À travers la porte, des échanges de volant piquent ta curiosité.`;
+    } else if (firstMemory?.choice === "calme") {
+        activityText =
+            `Depuis la rentrée, tu prends tes marques à ton rythme. ` +
+            `Aujourd'hui, en passant devant un gymnase, tu entends des échanges de volant. ` +
+            `Tu n'étais pas spécialement à la recherche d'une activité, mais tu peux toujours regarder.`;
+    } else if (player.traits.badmintonInterest >= 12) {
         activityText =
             `Depuis quelques jours, le badminton revient régulièrement dans tes pensées. ` +
             `Après l'école, tu remarques une activité sportive près de chez toi. ` +
             `À travers la porte du gymnase, tu entends des échanges de volant. ` +
             `Cette fois, tu as vraiment envie de savoir ce qui s'y passe.`;
-
-    } else if (player.traits.badmintonInterest >= 6) {
-
-        activityText =
-            `Depuis quelques jours, tu commences à prendre tes marques. ` +
-            `Après l'école, une activité sportive proposée près de chez toi attire ton attention. ` +
-            `À travers la porte du gymnase, tu entends des échanges de volant.`;
-
     } else {
-
         activityText =
             `Depuis quelques jours, tu commences à prendre tes marques. ` +
             `Après l'école, une activité sportive proposée près de chez toi attire ton attention. ` +
@@ -1021,12 +1037,24 @@ function getCurrentEventContent(age) {
     `;
 }
     if (player.currentEvent === "badminton") {
+        const activityMemory = player.memories?.find(memory => memory.event === "activity");
+        let badmintonText = `Quelque chose dans ce sport commence à attirer ton regard. Tu ne sais pas encore pourquoi, mais tu as envie d'en voir davantage.`;
+
+        if (activityMemory?.choice === "try") {
+            badmintonText = `Tu repenses à la raquette qu'on t'a tendue et à ce premier volant qui n'est pas allé tout à fait où tu voulais. L'expérience était courte, mais l'envie de recommencer est restée.`;
+        } else if (activityMemory?.choice === "approach") {
+            badmintonText = `Tu as déjà osé pousser la porte du gymnase. L'ambiance du club t'est un peu moins étrangère, et tu te surprends à repenser aux joueurs et à leurs échanges.`;
+        } else if (activityMemory?.choice === "ask") {
+            badmintonText = `Tu sais maintenant que cette activité s'appelle le badminton. Les quelques réponses obtenues n'ont fait qu'ajouter de nouvelles questions, et le sport t'intrigue encore.`;
+        } else if (activityMemory?.choice === "watch") {
+            badmintonText = `Tu as déjà observé les joueurs depuis la porte. Certains gestes t'ont marqué, et tu aimerais comprendre ce qui se joue derrière ces échanges rapides.`;
+        }
+
         return `
             <span class="event-label">UNE NOUVELLE CURIOSITÉ</span>
             <h1 class="event-title">🏸 Le badminton attire ton attention</h1>
             <p class="event-text">
-                Quelque chose dans ce sport commence à attirer ton regard.
-                Tu ne sais pas encore pourquoi, mais tu as envie d'en voir davantage.
+                ${badmintonText}
             </p>
             <div class="choices">
                 <button class="choice blue" onclick="chooseSecondEvent('watch')">
