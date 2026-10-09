@@ -822,6 +822,9 @@ function createPlayer(
         },
 
        eventHistory: [],
+
+        // Souvenirs durables qui pourront influencer les événements futurs.
+        memories: [],
        
         history: [
 
@@ -1453,6 +1456,30 @@ function showGame() {
 
 
 /* =========================================================
+   MÉMOIRES DU PERSONNAGE
+========================================================= */
+
+function recordMemory(event, choice, text) {
+
+    // On ne transforme pas chaque petite décision en souvenir durable.
+    // Pour le prototype, on conserve les premières expériences marquantes.
+    const memorableEvents = ["first", "activity", "badminton"];
+
+    if (!memorableEvents.includes(event)) {
+        return;
+    }
+
+    player.memories.push({
+        type: "experience",
+        event: event,
+        choice: choice,
+        date: player.currentDate,
+        text: text
+    });
+}
+
+
+/* =========================================================
    PREMIER ÉVÉNEMENT
 ========================================================= */
 
@@ -1522,6 +1549,7 @@ function chooseFirstEvent(choice) {
         choice: choice
     });
 
+    recordMemory("first", choice, text);
 
     player.lastConsequences =
         consequences[choice] || {};
@@ -1716,10 +1744,12 @@ function getEventChoiceText(event, choice) {
 
 function chooseSecondEvent(choice) {
 
-   player.eventHistory.push({
-    event: player.currentEvent,
-    choice: choice
-});
+    const chosenEvent = player.currentEvent;
+
+    player.eventHistory.push({
+        event: chosenEvent,
+        choice: choice
+    });
 
     const consequences = resolveEventChoice(
         player.currentEvent,
@@ -1744,10 +1774,11 @@ function chooseSecondEvent(choice) {
 
     const text =
         getEventChoiceText(
-            player.currentEvent,
+            chosenEvent,
             choice
         );
 
+    recordMemory(chosenEvent, choice, text);
 
     const nextEvent = getNextEvent();
 
