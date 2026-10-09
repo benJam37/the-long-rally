@@ -1089,7 +1089,18 @@ function createPlayer(
                 "Aucune expérience",
 
             club:
-                club
+                club,
+
+            trainingSessions: 0,
+
+            skills: {
+                coordination: 0,
+                racketControl: 0,
+                movement: 0,
+                consistency: 0,
+                tactics: 0,
+                power: 0
+            }
         },
 
 
@@ -1177,7 +1188,118 @@ function recordMemory(event, choice, text) {
 }
 
 
+function getTrainingChoices(age) {
+    const sessions = player.badminton.trainingSessions || 0;
+    const beginner = age <= 10 || sessions < 8;
+
+    if (beginner) {
+        return {
+            control: {
+                label: "🎯 Contrôler le volant",
+                description: "Apprendre à viser et à doser ses frappes.",
+                result: "Tu répètes des frappes simples. Le volant ne va pas toujours où tu veux, mais tu commences à mieux le sentir.",
+                skill: "racketControl"
+            },
+            movement: {
+                label: "👣 Bouger vers le volant",
+                description: "Travailler l'équilibre et les déplacements de base.",
+                result: "Tu enchaînes de petits déplacements et apprends à retrouver ton équilibre avant de frapper.",
+                skill: "movement"
+            },
+            rally: {
+                label: "🏸 Faire durer l'échange",
+                description: "Chercher la régularité plutôt que la puissance.",
+                result: "Tu essaies de renvoyer le volant plusieurs fois de suite. Chaque échange un peu plus long devient une petite victoire.",
+                skill: "consistency"
+            },
+            game: {
+                label: "🎲 Jouer à un défi raquette-volant",
+                description: "Apprendre en jouant à un petit défi.",
+                result: "Le défi transforme l'exercice en jeu. Tu recommences plusieurs fois et tu prends confiance avec la raquette.",
+                skill: "coordination"
+            }
+        };
+    }
+
+    if (age <= 13 || sessions < 25) {
+        return {
+            clear: {
+                label: "🎯 Travailler les frappes de fond de court",
+                description: "Apprendre à envoyer le volant avec longueur.",
+                result: "Tu travailles la longueur de tes frappes et commences à mieux comprendre comment te placer sous le volant.",
+                skill: "racketControl"
+            },
+            footwork: {
+                label: "👣 Enchaîner déplacement et frappe",
+                description: "Rejoindre le volant puis se replacer.",
+                result: "Tu enchaînes les déplacements et les frappes. Le replacement demande encore de l'attention, mais devient plus naturel.",
+                skill: "movement"
+            },
+            net: {
+                label: "🪶 Découvrir le jeu au filet",
+                description: "Travailler le toucher et la précision.",
+                result: "Tu apprends à doser tes gestes près du filet. Quelques volants restent trop hauts, mais tu affines ton toucher.",
+                skill: "coordination"
+            },
+            match: {
+                label: "🏆 Faire un match d'entraînement",
+                description: "Mettre en pratique les coups appris.",
+                result: "Le match te montre ce qui fonctionne en situation réelle et ce que tu dois encore travailler.",
+                skill: "tactics"
+            }
+        };
+    }
+
+    return {
+        technique: {
+            label: "🎯 Perfectionner un coup",
+            description: "Répéter un geste technique avec précision.",
+            result: "Tu répètes le geste en cherchant davantage de précision et de régularité.",
+            skill: "racketControl"
+        },
+        movement: {
+            label: "⚡ Travailler les déplacements",
+            description: "Gagner en vitesse et en replacement.",
+            result: "Tu enchaînes les déplacements à intensité progressive et travailles ton replacement après chaque frappe.",
+            skill: "movement"
+        },
+        tactics: {
+            label: "🧠 Travailler la construction du point",
+            description: "Déplacer l'adversaire et préparer la frappe suivante.",
+            result: "Tu apprends à construire l'échange plutôt qu'à renvoyer le volant sans intention.",
+            skill: "tactics"
+        },
+        match: {
+            label: "🏆 Jouer un match d'entraînement",
+            description: "Tester tes acquis face à un adversaire.",
+            result: "Le match met tes acquis à l'épreuve. Tu repères une force à exploiter et un axe de travail pour la prochaine séance.",
+            skill: "consistency"
+        }
+    };
+}
+
+
 function getCurrentEventContent(age) {
+
+    if (player.currentEvent === "training") {
+        const choices = getTrainingChoices(age);
+        const choicesHtml = Object.entries(choices).map(([choiceId, choice], index) => {
+            const colors = ["blue", "green", "orange", "blue"];
+            return `
+                <button class="choice ${colors[index % colors.length]}" onclick="chooseSecondEvent('${choiceId}')">
+                    <strong>${choice.label}</strong>
+                    <span>${choice.description}</span>
+                </button>
+            `;
+        }).join("");
+
+        return `
+            <span class="event-label">SÉANCE DE BADMINTON</span>
+            <h1 class="event-title">🏸 À l'entraînement</h1>
+            <p class="event-text">La séance commence. Tu as ${age} ans et tu as participé à ${player.badminton.trainingSessions || 0} séance(s). Que veux-tu travailler aujourd'hui ?</p>
+            <div class="choices">${choicesHtml}</div>
+        `;
+    }
 
     const catalogEvent = EVENT_CATALOG[player.currentEvent];
     if (catalogEvent) {
@@ -2002,6 +2124,7 @@ function getNextEvent() {
 
     if (age <= 10) events.push("childhood");
     if (previousEvent !== "badminton" && player.traits.badmintonInterest >= 5) events.push("badminton");
+    if (player.traits.badmintonInterest >= 5 && previousEvent !== "training") events.push("training");
     if (previousEvent !== "curiosity" && player.traits.curiosity >= 55) events.push("curiosity");
     if (previousEvent !== "initiative" && player.traits.initiative >= 55) events.push("initiative");
     if (player.hidden.motivation >= 65 && previousEvent !== "initiative") events.push("initiative");
@@ -2012,9 +2135,11 @@ function getNextEvent() {
         }
     });
 
+    const repeatableEventIds = ["training", "badminton", "childhood"];
     const filteredEvents = events.filter(
         event => event !== player.currentEvent &&
-        !player.eventHistory.some(history => history.event === event)
+        (repeatableEventIds.includes(event) ||
+         !player.eventHistory.some(history => history.event === event))
     );
 
     if (filteredEvents.length === 0) {
@@ -2065,6 +2190,9 @@ function getNextEvent() {
         if (EVENT_CATALOG[event]) {
             weight += (EVENT_CATALOG[event].weight || 1) * 8;
         }
+        if (event === "training") {
+            weight += 18 + Math.min(player.badminton.trainingSessions || 0, 12);
+        }
 
         for (let i = 0; i < weight; i++) weightedEvents.push(event);
     });
@@ -2073,6 +2201,10 @@ function getNextEvent() {
 }
 
 function resolveEventChoice(event, choice) {
+
+    if (event === "training") {
+        return { motivation: 1, badmintonInterest: 1 };
+    }
 
     if (EVENT_CATALOG[event]?.choices?.[choice]) {
         return EVENT_CATALOG[event].choices[choice].consequences || {};
@@ -2135,6 +2267,20 @@ function continueAfterConsequences() {
 
 function getEventChoiceText(event, choice) {
 
+    if (event === "training") {
+        const age = calculateAge(player.birthDate, player.currentDate);
+        const selected = getTrainingChoices(age)[choice];
+        if (selected) {
+            return `${selected.result} Progression en ${({
+                coordination: "coordination",
+                racketControl: "contrôle de raquette",
+                movement: "déplacements",
+                consistency: "régularité",
+                tactics: "tactique"
+            })[selected.skill] || selected.skill} : +1.`;
+        }
+    }
+
     if (EVENT_CATALOG[event]?.choices?.[choice]) {
         return EVENT_CATALOG[event].choices[choice].result;
     }
@@ -2186,6 +2332,10 @@ function getDaysUntilNextEvent(eventName) {
     // tout en gardant un rythme plus serré autour du badminton.
     if (eventName === "first") return 3;
 
+    if (eventName === "training") {
+        return Math.floor(Math.random() * 3) + 2; // 2 à 4 jours
+    }
+
     if (["badminton", "activity", "first_club_visit", "shuttle_miss",
          "racket_choice", "club_name", "mini_tournament",
          "club_encouragement", "club_late", "club_first_loss"].includes(eventName)) {
@@ -2224,6 +2374,22 @@ function chooseSecondEvent(choice) {
 
     player.lastConsequences = consequences;
 
+    if (eventName === "training") {
+        const choices = getTrainingChoices(calculateAge(player.birthDate, player.currentDate));
+        const selectedTraining = choices[choice];
+
+        if (selectedTraining) {
+            const skill = selectedTraining.skill;
+            player.badminton.skills[skill] = (player.badminton.skills[skill] || 0) + 1;
+            player.badminton.trainingSessions = (player.badminton.trainingSessions || 0) + 1;
+            player.badminton.experience = "Quelques séances";
+            player.lastTrainingResult = {
+                skill: skill,
+                value: player.badminton.skills[skill],
+                sessions: player.badminton.trainingSessions
+            };
+        }
+    }
 
     Object.keys(consequences).forEach(stat => {
 
