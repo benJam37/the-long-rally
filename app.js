@@ -852,6 +852,21 @@ function createPlayer(
 /* =========================================================
    ÉCRAN DE JEU
 ========================================================= */
+function recordMemory(event, choice, text) {
+    if (!player || !Array.isArray(player.memories)) return;
+
+    const memorableEvents = ["first", "activity", "badminton", "curiosity", "initiative", "childhood"];
+    if (!memorableEvents.includes(event)) return;
+
+    player.memories.push({
+        event: event,
+        choice: choice,
+        date: player.currentDate,
+        text: text
+    });
+}
+
+
 function getCurrentEventContent(age) {
 
     if (player.currentEvent === "first") {
@@ -1556,6 +1571,7 @@ function chooseFirstEvent(choice) {
     player.currentDate =
         date.toISOString().split("T")[0];
 
+    recordMemory("first", choice, text);
 
     player.history.push({
 
@@ -1747,13 +1763,15 @@ function getEventChoiceText(event, choice) {
 
 function chooseSecondEvent(choice) {
 
-   player.eventHistory.push({
-    event: player.currentEvent,
-    choice: choice
-});
+    const eventName = player.currentEvent;
+
+    player.eventHistory.push({
+        event: eventName,
+        choice: choice
+    });
 
     const consequences = resolveEventChoice(
-        player.currentEvent,
+        eventName,
         choice
     );
 
@@ -1799,6 +1817,7 @@ function chooseSecondEvent(choice) {
     player.currentDate =
         date.toISOString().split("T")[0];
 
+    recordMemory(eventName, choice, text);
 
     player.history.push({
 
