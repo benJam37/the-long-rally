@@ -954,3 +954,94 @@ button {
         font-size: 11px;
     }
 }
+
+
+/* =========================================================
+   THE LONG RALLY · PREMIÈRE ÉTAPE VISUELLE : ENTRAÎNEMENT
+========================================================= */
+.month-activity-card {
+    transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+.month-activity-card.activity-is-active {
+    grid-column: 1 / -1;
+    border-color: #60a5fa !important;
+    box-shadow: 0 14px 36px rgba(15, 45, 80, .16);
+    transform: translateY(-2px);
+}
+.month-activity-card.activity-is-active.badminton-activity {
+    overflow: hidden;
+    padding: 0 !important;
+    background: #fff !important;
+}
+.active-activity-scene {
+    margin-top: 10px;
+    border-radius: 13px;
+    padding: 16px;
+    background: #f8fafc;
+}
+.training-scene {
+    position: relative;
+    overflow: hidden;
+    margin: 0;
+    padding: 0 18px 18px;
+    background: linear-gradient(180deg, #dceefa 0%, #f2f8fc 49%, #e9f2f4 50%, #c4e2d2 100%);
+    border-radius: 0;
+}
+.training-scene-art {
+    height: 185px;
+    margin: 0 -18px 0;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(180deg, #c6e5f4 0%, #eaf5fa 62%, #b6d9c9 62%, #8fc2a8 100%);
+}
+.training-scene-art::before {
+    content: "";
+    position: absolute;
+    left: 7%; right: 7%; top: 15px; bottom: 10px;
+    border: 3px solid rgba(255,255,255,.78);
+    border-bottom-width: 5px;
+    transform: perspective(260px) rotateX(9deg);
+    box-shadow: inset 0 -45px 0 rgba(35, 118, 91, .10);
+}
+.training-scene-art::after {
+    content: "";
+    position: absolute;
+    left: 50%; top: 15px; bottom: 10px;
+    border-left: 2px solid rgba(255,255,255,.65);
+}
+.training-net {
+    position: absolute; z-index: 2; left: 5%; right: 5%; top: 58%;
+    border-top: 3px solid #fff;
+    filter: drop-shadow(0 2px 1px rgba(20,50,60,.25));
+}
+.training-net::before, .training-net::after {
+    content: ""; position: absolute; top: -30px; height: 30px; width: 3px; background: #f8fafc;
+}
+.training-net::before { left: 0; } .training-net::after { right: 0; }
+.training-shuttle {
+    position: absolute; z-index: 3; left: 57%; top: 23%; font-size: 36px;
+    transform: rotate(-25deg); filter: drop-shadow(0 4px 3px rgba(0,0,0,.16));
+}
+.training-racket {
+    position: absolute; z-index: 3; left: 23%; top: 30%; font-size: 48px;
+    transform: rotate(-25deg); filter: drop-shadow(0 4px 3px rgba(0,0,0,.16));
+}
+.training-scene-caption {
+    display: flex; flex-direction: column; gap: 4px; padding: 15px 0 12px; color: #16324b;
+}
+.training-scene-caption span { font-size: 10px; letter-spacing: .16em; font-weight: 800; color: #246b61; }
+.training-scene-caption strong { font-size: clamp(21px, 3vw, 29px); line-height: 1.2; }
+.active-activity-story { max-width: 780px; font-size: 15px !important; }
+.training-scene .active-activity-choices { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+.training-scene .choice {
+    min-height: 94px; padding: 14px !important; border-radius: 12px;
+    border-color: rgba(37, 99, 235, .18); background: rgba(255,255,255,.94);
+}
+.training-scene .choice strong { display: block; line-height: 1.35; }
+.training-scene .choice span { display: block; line-height: 1.45; }
+.training-scene .choice:hover { border-color: #60a5fa; background: #fff; }
+@media (max-width: 620px) {
+    .training-scene-art { height: 145px; }
+    .training-scene .active-activity-choices { grid-template-columns: 1fr !important; }
+    .month-activity-card.activity-is-active { grid-column: 1 / -1; }
+}
