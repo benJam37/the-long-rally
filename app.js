@@ -1943,7 +1943,7 @@ function showMonthlyCalendar() {
                 </div>
                 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:10px;">
                     ${items.map(activity => `
-                        <article style="border:1px solid ${activity.done ? '#cbd5e1' : '#dbe3ee'};border-radius:14px;padding:14px;background:${activity.done ? '#f8fafc' : '#ffffff'};opacity:${activity.done ? '0.88' : '1'};">
+                        <article class="month-activity-card ${activity.category === 'badminton' ? 'badminton-activity' : ''} ${player.monthlySchedule.activeActivityId === activity.id && !activity.done ? 'activity-is-active' : ''} ${activity.done ? 'activity-is-done' : ''}" style="border:1px solid ${activity.done ? '#cbd5e1' : '#dbe3ee'};border-radius:14px;padding:14px;background:${activity.done ? '#f8fafc' : '#ffffff'};opacity:${activity.done ? '0.88' : '1'};">
                             <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:8px;">
                                 <span style="font-size:12px;color:#2563eb;font-weight:600;">${new Date(activity.date + 'T12:00:00').toLocaleDateString('fr-FR',{day:'numeric',month:'long'})}</span>
                                 <span style="font-size:11px;border-radius:20px;padding:4px 8px;background:${activity.done ? '#dcfce7' : '#eff6ff'};color:${activity.done ? '#166534' : '#1d4ed8'};">${activity.done ? 'Traitée' : 'À décider'}</span>
@@ -1952,9 +1952,10 @@ function showMonthlyCalendar() {
                             <p style="font-size:13px;line-height:1.45;color:#475569;margin:0 0 12px;">${activity.description}</p>
                             ${activity.done ? `<div style="font-size:13px;line-height:1.5;color:#334155;"><strong>${activity.selectedChoice || 'Ton choix'}</strong><div style="margin-top:5px;">${activity.outcome}</div></div>` : `
                                 ${player.monthlySchedule.activeActivityId === activity.id ? `
-                                    <div style="background:#f8fafc;border-radius:12px;padding:13px;margin-top:10px;">
-                                        <p style="font-size:14px;line-height:1.65;color:#1e293b;margin:0 0 12px;">${getMonthlyActivityStory(activity)}</p>
-                                        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:8px;">
+                                    <div class="active-activity-scene ${activity.category === 'badminton' ? 'training-scene' : ''}">
+                                        ${activity.category === 'badminton' ? `<div class="training-scene-art" aria-hidden="true"><span class="training-net"></span><span class="training-shuttle">🏸</span><span class="training-racket">🎾</span></div><div class="training-scene-caption"><span>À TOI DE JOUER</span><strong>La séance commence</strong></div>` : ''}
+                                        <p class="active-activity-story" style="font-size:14px;line-height:1.65;color:#1e293b;margin:0 0 12px;">${getMonthlyActivityStory(activity)}</p>
+                                        <div class="active-activity-choices" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:8px;">
                                             ${getMonthlyActivityChoices(activity).map(choice => `
                                                 <button class="choice ${choice.skip ? '' : 'blue'}" style="text-align:left;padding:11px;" onclick="handleMonthlyActivity('${activity.id}','${choice.id}')"><strong>${choice.label}</strong><span style="display:block;font-size:12px;font-weight:400;margin-top:5px;line-height:1.45;">${choice.detail}</span></button>
                                             `).join('')}
